@@ -1,0 +1,50 @@
+chain:
+  id: celo
+  httpRpcUrl: https://celo-mainnet.infura.io/v3/5bdd203e176f4f8aa142d1ac628ed2fb
+
+addresses:
+  cUSD: '0x0'
+  cEUR: '0x0'
+  cBRL: '0x0'
+  SortedOracles: '0x0'
+  OracleMetricsHelper: '0x0'
+
+contracts:
+  - name: SortedOracles
+    methods:
+      - numRates(address)(uint256)
+  - name: OracleMetricsHelper
+    methods:
+      - getDeviation(address)(uint256)
+
+metrics:
+  - name: cUSD_numRates
+    type: gouge
+    source: SortedOracles.numRates
+    args: ['cUSD']
+    frequency: 5 * * * * *
+  - name: cUSD_deviation
+    type: gouge
+    source: OracleMetricsHelper.getDeviation
+    args: ['cUSD']
+    frequency: 5 * * * * *
+  - name: cEUR_numRates
+    type: gouge
+    source: SortedOracles.numRates
+    args: ['cEUR']
+    frequency: 5 * * * * *
+  - name: cEUR_deviation
+    type: gouge
+    source: OracleMetricsHelper.getDeviation
+    args: ['cEUR']
+    frequency: 5 * * * * *
+  - name: cBRL_numRates
+    type: gouge
+    source: SortedOracles.numRates
+    args: ['cEUR']
+    frequency: 5 * * * * *
+  - name: cBRL_deviation
+    type: gouge
+    source: OracleMetricsHelper.getDeviation
+    args: ['cEUR']
+    frequency: 5 * * * * *

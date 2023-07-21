@@ -1,0 +1,35 @@
+chain:
+  id: celo
+  httpRpcUrl: https://celo-mainnet.infura.io/v3/5bdd203e176f4f8aa142d1ac628ed2fb
+
+addresses:
+  cUSD: '0x765de816845861e75a25fca122bb6898b8b1282a'
+  cEUR: '0xd8763cba276a3738e6de85b4b3bf5fded6d6ca73'
+  cBRL: '0xe8537a3d056da446677b9e9d6c5db704eaab4787'
+  SortedOracles: '0xefb84935239dacdecf7c5ba76d8de40b077b7b33'
+  OracleMetricsHelper: '0x0'
+
+contracts:
+  - name: SortedOracles
+    methods:
+      - numRates(address)(uint256)
+  - name: OracleMetricsHelper
+    methods:
+      - getDeviation(address)(uint256)
+
+metrics:
+  - name: cUSD_numRates
+    type: gouge
+    source: SortedOracles.numRates
+    args: ['cUSD']
+    schedule: 0/5 * * * * *
+  - name: cEUR_numRates
+    type: gouge
+    source: SortedOracles.numRates
+    args: ['cEUR']
+    schedule: 0/5 * * * * *
+  - name: cBRL_numRates
+    type: gouge
+    source: SortedOracles.numRates
+    args: ['cEUR']
+    schedule: 0/5 * * * * *
