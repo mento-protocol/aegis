@@ -1,0 +1,2 @@
+runtime: nodejs18
+entrypoint: node dist/main
