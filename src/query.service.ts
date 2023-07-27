@@ -52,19 +52,17 @@ export class QueryService {
       );
     }
 
-    const addresses = this.chains[metric.chain].addresses;
+    const vars = this.chains[metric.chain].vars;
     const client = this.clients[metric.chain];
 
+    const address = this.chains[metric.chain].contracts[metric.source.contract];
     const functionName = metric.source.functionAbi.name;
-    const address = addresses[metric.source.contract];
     const abi = metric.source.functionAbi;
-    const args = metric.args.map((arg, index) => {
-      if (abi.inputs[index].type === 'address') {
-        if (addresses[arg] === undefined) {
-          return arg;
-        }
-        return addresses[arg];
+    const args = metric.args.map((arg) => {
+      if (vars[arg] === undefined) {
+        return arg;
       }
+      return vars[arg];
     });
 
     const timer = this.queryTime.startTimer({
@@ -80,7 +78,7 @@ export class QueryService {
         args,
       });
       timer({ status: 'success' });
-      return data;
+      return metric.parse(data);
     } catch (e) {
       // TODO: Add error handling
       this.logger.error(e);

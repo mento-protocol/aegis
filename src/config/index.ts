@@ -2,7 +2,6 @@ import { readFileSync } from 'fs';
 import * as yaml from 'js-yaml';
 import { join } from 'path';
 import z from 'zod';
-import { isValidCron } from 'cron-validator';
 import { randomUUID } from 'crypto';
 
 import { MetricSource } from './MetricSource';
@@ -15,7 +14,8 @@ export const ChainConfig = z
     id: z.string(),
     label: z.string(),
     httpRpcUrl: z.string(),
-    addresses: z.record(z.string()),
+    contracts: z.record(z.string()),
+    vars: z.record(z.string()),
   })
   .brand('ChainConfig');
 export type ChainConfig = z.infer<typeof ChainConfig>;
@@ -23,28 +23,16 @@ export type ChainConfig = z.infer<typeof ChainConfig>;
 const MetricTemplate = z
   .object({
     source: MetricSource,
-    schedule: z.string(), //.refine((s) => isValidCron(s), {
-    //  message: 'Invalid cron expression',
-    // }),
+    schedule: z.string(),
     type: z.enum([
       // Todo do we need others?
       'gauge',
     ] as const),
     chains: z.literal('all').or(z.array(z.string())),
-    variants: z.record(z.array(z.string())).optional(),
-    args: z.array(z.string()).optional(),
+    variants: z.array(z.array(z.string())).refine((v) => v.length > 0, {
+      message: 'Must have at least one variant',
+    }),
   })
-  .refine(
-    (v) => {
-      return !(
-        (v['variants'] == undefined && v['args'] == undefined) ||
-        (v['variants'] !== undefined && v['args'] !== undefined)
-      );
-    },
-    {
-      message: 'Metric must contain one of `variants` or `args`',
-    },
-  )
   .transform((v) => {
     return {
       ...v,
@@ -71,12 +59,23 @@ export default () => {
 
   config.metrics.forEach((metric) => {
     const { contract } = metric.source;
-    config.chains.forEach((chain) => {
-      if (chain.addresses[contract] === undefined) {
+    const chains = metric.chains === 'all' ? config.chains : metric.chains;
+    chains.forEach((chain) => {
+      if (chain.contracts[contract] === undefined) {
         throw new Error(
-          `Contract ${contract} doesn't have an address declaration for network ${chain.id}`,
+          `Contract ${contract} isn't declared in network ${chain.id}`,
         );
       }
+
+      metric.variants.forEach((variant) => {
+        for (const arg of variant) {
+          if (arg.startsWith('$') && chain.vars[arg.slice(1)] === undefined) {
+            throw new Error(
+              `Variable ${arg} isn't declared in network ${chain.id}`,
+            );
+          }
+        }
+      });
     });
   });
 

@@ -14,7 +14,6 @@ export class Metric {
     public chain: string,
     public chainLabel: string,
     public type: string,
-    public variantName?: string,
   ) {
     /**
      * TODO: Support multiple return values
@@ -23,10 +22,8 @@ export class Metric {
      * This could be expanded to getMetrics_m1 and getMetrics_m2 from a single call.
      */
 
-    if (source.functionAbi.outputs.length > 1) {
-      throw new Error(
-        'Only functions with a single return value are supported',
-      );
+    if (source.functionAbi.outputs.length > 2) {
+      throw new Error('Only functions with 1 or 2 values are supported');
     }
 
     this.labels = this.source.functionAbi.inputs.reduce((acc, input, idx) => {
@@ -59,5 +56,22 @@ export class Metric {
 
   update(value: number) {
     this.underlying.labels(this.labels).set(value);
+  }
+
+  parse(output: any): number {
+    if (this.source.functionAbi.outputs.length === 1) {
+      const parsed = output as bigint;
+      if (parsed > Number.MAX_SAFE_INTEGER) {
+        throw new Error(`Value ${parsed} is too large to be a safe integer`);
+      }
+      return Number(parsed);
+    } else {
+      const [numerator, denominator] = output as [bigint, bigint];
+      const value = (numerator * BigInt(1000)) / denominator;
+      if (value > Number.MAX_SAFE_INTEGER) {
+        throw new Error(`Value ${value} is too large to be a safe integer`);
+      }
+      return Number(value) / 100;
+    }
   }
 }

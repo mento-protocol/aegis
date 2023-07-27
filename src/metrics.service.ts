@@ -21,9 +21,8 @@ export class MetricsService {
     this.chainIds = chains.map((chain) => chain.id);
     const templates = configService.get<MetricTemplate[]>('metrics');
     templates.forEach((template) => {
-      const variants = template.variants || { __default: template.args };
-      this.metrics[template.id] = Object.entries(variants)
-        .map(([variantName, args]) => {
+      this.metrics[template.id] = template.variants
+        .map((args) => {
           return (
             template.chains === 'all' ? this.chainIds : template.chains
           ).map((chain) => {
@@ -33,7 +32,6 @@ export class MetricsService {
               chain,
               chains.find((c) => c.id == chain).label,
               template.type,
-              variantName,
             );
           });
         })

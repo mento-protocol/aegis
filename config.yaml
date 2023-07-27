@@ -18,18 +18,51 @@ chains:
   - id: baklava
     label: baklava
     httpRpcUrl: https://baklava-forno.celo-testnet.org
-    addresses:
+    variables:
       cUSD: '0x62492a644a588fd904270bed06ad52b9abfea1ae'
       cEUR: '0xf9ece301247ad2ce21894941830a2470f4e774ca'
       cBRL: '0x6a0eef2bed4c30dc2cb42fe6c5f01f80f7ef16d1'
       SortedOracles: '0x88a187a876290e9843175027902b9f7f1b092c88'
+      cUSDCELO: '...'
+      USDCUSD: '0x0'
+      CELOUSD: '0x0'
+      CELOEUR:
 
 metrics:
-  - source: SortedOracles.numRates(address token)(uint256)
-    schedule: 0/10 * * * * *
+  - source: SortedOracles.numRates(address rateFeed)(uint256)
+    schedule: 0/5 * * * * *
     type: gauge
     chains: all
     variants:
-      cUSD: ['cUSD']
-      cEUR: ['cEUR']
-      cBRL: ['cBRL']
+      - ['CELOUSD']
+      - ['CELOEUR']
+      - ['CELOBRL']
+      - ['USDCUSD']
+  - source: MetricsHelper.oracleDeviation(address rateFeed)(uint256)
+    schedule: 0/5 * * * * *
+    type: gauge
+    chains: all
+    variants:
+      - ['CELOUSD']
+      - ['CELOEUR']
+      - ['CELOBRL']
+      - ['USDCUSD']
+
+  - source: MetricsHelper.breakerTripped(address rateFeed)(bool)
+    schedule: 0/5 * * * * *
+    type: gauge
+    chains: all
+    variants:
+      - ['CELOUSD']
+      - ['CELOEUR']
+      - ['CELOBRL']
+      - ['USDCUSD']
+
+  - source: TradingLimitsHelper.tradingLimits(bytes32 exchangeId,address asset,uint8 limit)(uint256)
+    schedule: 0/5 * * * * *
+    type: gauge
+    chains: all
+    variants:
+      - ['cUSDCELO', 'cUSD', 1]
+      - ['cUSDCELO', 'cUSD', 2]
+      - ['cUSDCELO', 'cUSD', 4]

@@ -1,0 +1,18 @@
+server:
+  log_level: info
+
+metrics:
+  wal_directory: /etc/agent/data
+  global:
+    scrape_interval: 1m
+    remote_write:
+      - url: GRAFANA_AGENT_ENDPOINT
+        basic_auth:
+          username: GRAFANA_AGENT_USERNAME
+          password: GRAFANA_AGENT_PASSWORD
+  configs:
+    - name: aegis-metrics
+      scrape_configs:
+        - job_name: aegis-metrics
+          static_configs:
+            - targets: ['mento-prod.uc.r.appspot.com']
