@@ -1,7 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
+import "Fixidity/FixidityLib.sol";
+
 interface ISortedOracles {
+  using FixidityLib for int256;
+
   enum MedianRelation {
     Undefined,
     Lesser,
@@ -31,15 +35,20 @@ contract OracleHelper {
     if (rates.length == 0) {
       return (0, 0);
     }
-    uint256 median = rates[rates.length / 2];
-    uint256 sum = 0;
+    int256 _mean;
     for (uint256 i = 0; i < rates.length; i++) {
-      if (median > rates[i]) {
-        sum += median - rates[i];
-      } else {
-        sum += rates[i] - median;
+      mean += int256(rates[i]);
+    }
+    mean = mean.div(rate.length);
+    int256 maxDiff = 0;
+
+    for (uint256 i = 0; i < rates.length; i++) {
+      int256 diff = FixidityLib.abs(rates[i].div(mean) - FixidityLib.fixed1());
+      if (diff > maxDiff) {
+        maxDiff = diff;
       }
     }
-    return (sum / rates.length, 1e24);
+
+    return (maxDiff, FixidityLib.fixed1());
   }
 }

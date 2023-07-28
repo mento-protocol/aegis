@@ -1,6 +1,3 @@
 [submodule "lib/forge-std"]
 	path = lib/forge-std
 	url = https://github.com/foundry-rs/forge-std
-[submodule "lib/Fixidity"]
-	path = lib/Fixidity
-	url = https://github.com/CementDAO/Fixidity
