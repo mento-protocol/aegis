@@ -1,10 +1,16 @@
+global:
+  vars:
+    USDCUSD: '0xa1a8003936862e7a15092a91898d69fa8bce290c'
+    USDCEUR: '0x206b25ea01e188ee243131afde526ba6e131a016'
+    USDCBRL: '0x25f21a1f97607edf6852339fad709728cffb9a9d'
+
 chains:
   - id: celo
     label: celo
     httpRpcUrl: https://forno.celo.org
     contracts:
       SortedOracles: '0xefb84935239dacdecf7c5ba76d8de40b077b7b33'
-      OracleHelper: '0x5B4B6ba128c7BA51d63eD7474A7b17492Fb28476'
+      OracleHelper: '0x555a4D35328462bCadFD9558295F8E0C98FEdea0'
     vars:
       CELOUSD: '0x765de816845861e75a25fca122bb6898b8b1282a'
       CELOEUR: '0xd8763cba276a3738e6de85b4b3bf5fded6d6ca73'
@@ -14,7 +20,7 @@ chains:
     httpRpcUrl: https://alfajores-forno.celo-testnet.org
     contracts:
       SortedOracles: '0xfdd8bd58115ffbf04e47411c1d228ecc45e93075'
-      OracleHelper: '0x5B4B6ba128c7BA51d63eD7474A7b17492Fb28476'
+      OracleHelper: '0xf6D9C84e21b8B50c45013F99dED2637fd2b06f3b'
     vars:
       CELOUSD: '0x874069fa1eb16d44d622f2e0ca25eea172369bc1'
       CELOEUR: '0x10c892a6ec43a53e45d0b916b4b7d383b1b78c0f'
@@ -24,6 +30,7 @@ chains:
     httpRpcUrl: https://baklava-forno.celo-testnet.org
     contracts:
       SortedOracles: '0x88a187a876290e9843175027902b9f7f1b092c88'
+      OracleHelper: '0x02919803dba5D0fFb1AaB036b99E867bD9FB0d85'
     vars:
       CELOUSD: '0x62492a644a588fd904270bed06ad52b9abfea1ae'
       CELOEUR: '0xf9ece301247ad2ce21894941830a2470f4e774ca'
@@ -38,11 +45,17 @@ metrics:
       - ['CELOUSD']
       - ['CELOEUR']
       - ['CELOBRL']
+      - ['USDCUSD']
+      - ['USDCEUR']
+      - ['USDCBRL']
   - source: OracleHelper.deviation(address rateFeed)(uint256,uint256)
     schedule: 0/10 * * * * *
     type: gauge
-    chains: ['celo']
+    chains: all
     variants:
       - ['CELOUSD']
       - ['CELOEUR']
       - ['CELOBRL']
+      - ['USDCUSD']
+      - ['USDCEUR']
+      - ['USDCBRL']

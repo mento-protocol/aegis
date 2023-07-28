@@ -6,7 +6,7 @@ import { createPublicClient, http } from 'viem';
 import { Metric } from './metric';
 import { Histogram } from 'prom-client';
 
-const dummyChain = (chain: ChainConfig): chains.Chain => ({
+const makeChain = (chain: ChainConfig): chains.Chain => ({
   id: 0,
   name: chain.id,
   network: chain.id,
@@ -25,6 +25,7 @@ const dummyChain = (chain: ChainConfig): chains.Chain => ({
 export class QueryService {
   private readonly logger = new Logger(QueryService.name);
   chains: Record<string, ChainConfig> = {};
+  globalVars: Record<string, string>;
   clients: Record<string, any> = {};
   queryTime: Histogram;
 
@@ -33,7 +34,7 @@ export class QueryService {
     chains.forEach((chain) => {
       this.chains[chain.id] = chain;
       this.clients[chain.id] = createPublicClient({
-        chain: chains[chain.id] || dummyChain(chain),
+        chain: chains[chain.id] || makeChain(chain),
         transport: http(chain.httpRpcUrl),
       });
     });

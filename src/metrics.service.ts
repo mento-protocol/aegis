@@ -69,7 +69,9 @@ export class MetricsService {
       // TODO: Add logic for scaling bignumbers
       value = Number(value);
       metric.update(value);
+      this.logger.debug(`${metric.nameWithLabels} = ${value}`);
+    } else {
+      this.logger.warn(`${metric.nameWithLabels} could not be refreshed.`);
     }
-    this.logger.debug(`${metric.nameWithLabels} = ${value}`);
   };
 }

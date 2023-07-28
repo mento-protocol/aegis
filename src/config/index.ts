@@ -9,6 +9,11 @@ import { MetricSource } from './MetricSource';
 const YAML_CONFIG_FILENAME =
   process.env.NODE_ENV == 'production' ? 'config.yaml' : 'config.local.yaml';
 
+export const GlobalConfig = z.object({
+  vars: z.record(z.string()),
+});
+export type GlobalConfig = z.infer<typeof GlobalConfig>;
+
 export const ChainConfig = z
   .object({
     id: z.string(),
@@ -44,6 +49,7 @@ export type MetricTemplate = z.infer<typeof MetricTemplate>;
 
 const Config = z
   .object({
+    global: GlobalConfig,
     chains: z.array(ChainConfig),
     metrics: z.array(MetricTemplate),
   })
@@ -56,6 +62,13 @@ export default () => {
   ) as Record<string, any>;
 
   const config = Config.parse(rawConfig);
+
+  config.chains.forEach((chain) => {
+    chain.vars = {
+      ...(config.global.vars || {}),
+      ...(chain.vars || {}),
+    };
+  });
 
   const allChains = config.chains.map((chain) => chain.id);
 

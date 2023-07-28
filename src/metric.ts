@@ -67,12 +67,17 @@ export class Metric {
       return Number(parsed);
     } else {
       const [numerator, denominator] = output as [bigint, bigint];
-      const scaler = 1e8;
-      const value = (numerator * BigInt(scaler)) / denominator;
-      if (value > Number.MAX_SAFE_INTEGER) {
-        throw new Error(`Value ${value} is too large to be a safe integer`);
+      if (denominator === BigInt(0)) {
+        return 0;
       }
-      return Number(value) / scaler;
+      const precision = 1e9;
+      const value = (numerator * BigInt(precision)) / denominator;
+      if (value > Number.MAX_SAFE_INTEGER) {
+        throw new Error(
+          `Value ${value} is too large to be converted to number`,
+        );
+      }
+      return Number(value) / precision;
     }
   }
 }

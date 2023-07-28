@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-import "Fixidity/FixidityLib.sol";
+import { console } from "forge-std/console.sol";
+import { SD59x18, sd, abs, convert, intoUint256 } from "prb-math/SD59x18.sol";
 
 interface ISortedOracles {
-  using FixidityLib for int256;
 
   enum MedianRelation {
     Undefined,
@@ -35,20 +35,20 @@ contract OracleHelper {
     if (rates.length == 0) {
       return (0, 0);
     }
-    int256 _mean;
+    SD59x18 mean;
     for (uint256 i = 0; i < rates.length; i++) {
-      mean += int256(rates[i]);
+      mean = mean.add(sd(int256(rates[i])));
     }
-    mean = mean.div(rate.length);
-    int256 maxDiff = 0;
+    mean = mean.div(convert(int256(rates.length)));
+    SD59x18 maxDiff = sd(0);
 
     for (uint256 i = 0; i < rates.length; i++) {
-      int256 diff = FixidityLib.abs(rates[i].div(mean) - FixidityLib.fixed1());
-      if (diff > maxDiff) {
+      SD59x18 diff = sd(int256(rates[i])).div(mean).sub(convert(1)).abs();
+      if (diff.gt(maxDiff)) {
         maxDiff = diff;
       }
     }
 
-    return (maxDiff, FixidityLib.fixed1());
+    return (intoUint256(maxDiff), 1e18);
   }
 }
