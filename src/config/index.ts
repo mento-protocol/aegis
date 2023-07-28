@@ -57,25 +57,18 @@ export default () => {
 
   const config = Config.parse(rawConfig);
 
+  const allChains = config.chains.map((chain) => chain.id);
+
   config.metrics.forEach((metric) => {
     const { contract } = metric.source;
-    const chains = metric.chains === 'all' ? config.chains : metric.chains;
-    chains.forEach((chain) => {
+    const chains = metric.chains === 'all' ? allChains : metric.chains;
+    chains.forEach((chainId) => {
+      const chain = config.chains.find((chain) => chain.id === chainId);
       if (chain.contracts[contract] === undefined) {
         throw new Error(
           `Contract ${contract} isn't declared in network ${chain.id}`,
         );
       }
-
-      metric.variants.forEach((variant) => {
-        for (const arg of variant) {
-          if (arg.startsWith('$') && chain.vars[arg.slice(1)] === undefined) {
-            throw new Error(
-              `Variable ${arg} isn't declared in network ${chain.id}`,
-            );
-          }
-        }
-      });
     });
   });
 

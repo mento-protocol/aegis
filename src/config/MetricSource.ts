@@ -36,8 +36,13 @@ export const MetricSource = z
     };
     return { contract, functionAbi, raw: signature };
   })
-  .refine((v) => v.functionAbi.outputs.length == 1, {
-    message: 'Only functions with a single return value currently supported',
-  });
+  .refine(
+    (v) =>
+      v.functionAbi.outputs.length == 1 || v.functionAbi.outputs.length == 2,
+    {
+      message:
+        'Only functions with one or two return values currently supported',
+    },
+  );
 
 export type MetricSource = z.infer<typeof MetricSource>;
