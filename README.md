@@ -5,13 +5,25 @@
 Aegis is a monitoring tool used to expose the result of on-chain view calls as prometheus metrics that get ingested into grafana.
 The ethos of the system is that it should be generic and agnostic when it comes to business logic.
 
-There are three main components to think about when spinning up the system:
+It allows you to turn a configuration like this:
 
-1. The `aegis` service that polls view calls and exposes prometheus metrics based on a `config.yaml` file.
-2. A service that ingests the metrics, this could be:
-   a. A `grafana-agent` instance which pushes the metrics to grafan-cloud.
-   b. A prometheus server which ingests the metrics.
-3. (Optional) Helper smart contracts which do any transformations needed to on-chain data for ingestion by `aegis`.
+```yaml
+source: SortedOracles.numRates(address rateFeed)(uint256)
+schedule: 0/10 * * * * *
+type: gauge
+chains: all
+variants:
+  - ['CELOUSD']
+  - ['CELOEUR']
+  - ['CELOBRL']
+  - ['USDCUSD']
+  - ['USDCEUR']
+  - ['USDCBRL']
+```
+
+Into a dashboard:
+
+![grafana screenshot](./docs/aegis-dashboard.png)
 
 ### Configuration
 
@@ -171,10 +183,13 @@ $ pnpm run test:cov
 
 ## Deployment (Mento labs)
 
-There are two services that make up the app:
+There are three main components you have to think about:
 
-- `aegis`: collects the metrics and exposes them.
-- `grafana-agent`: pushes them to grafana cloud.
+1. The `aegis` service that polls view calls and exposes prometheus metrics based on a `config.yaml` file.
+2. A service that ingests the metrics, this could be:
+   a. A `grafana-agent` instance which pushes the metrics to grafan-cloud.
+   b. A prometheus server which ingests the metrics.
+3. (Optional) Helper smart contracts which do any transformations needed to on-chain data for ingestion by `aegis`.
 
 Deploying `aegis` is done simply by running `gcloud app deploy` with `gcloud` pointing to `mento-prod`.
 For deploying the `grafana-agent` follow the instructions in `grafana-agent/README.md`.
