@@ -70,7 +70,7 @@ export class Metric {
       if (denominator === BigInt(0)) {
         return 0;
       }
-      const precision = 1e9;
+      const precision = 1e6;
       const value = (numerator * BigInt(precision)) / denominator;
       if (value > Number.MAX_SAFE_INTEGER) {
         throw new Error(
