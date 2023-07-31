@@ -1,4 +1,6 @@
-## Description
+## Aegis
+
+> The modern concept of doing something "under someone's aegis" means doing something under the protection of a powerful, knowledgeable, or benevolent source. The word aegis is identified with protection by a strong force with its roots in Greek mythology and adopted by the Romans.
 
 Aegis is a monitoring tool used to expose the result of on-chain view calls as prometheus metrics that get ingested into grafana.
 The ethos of the system is that it should be generic and agnostic when it comes to business logic.
