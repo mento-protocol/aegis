@@ -5,6 +5,7 @@ import { Gauge, register } from 'prom-client';
 export class Metric {
   id: UUID = randomUUID();
   underlying: Gauge;
+  lastUpdated: Gauge;
 
   private labels: Record<string, any> = {};
 
@@ -32,18 +33,9 @@ export class Metric {
     }, {});
     this.labels.chain = chainLabel;
 
-    const metric = register.getSingleMetric(this.name);
-    if (metric) {
-      this.underlying = metric as Gauge<string>;
-    } else {
-      this.underlying = new Gauge({
-        name: this.name,
-        help: `Return value of ${source.raw}`,
-        labelNames: ['chain'].concat(
-          source.functionAbi.inputs.map((input) => input.name),
-        ),
-      });
-    }
+    this.underlying = this.getOrCreateGauge(this.name, `Return value of ${source.raw}`);
+    this.lastUpdated = this.getOrCreateGauge(this.lastUpdatedMetricName, `Last updated timestamp of ${source.raw}`);
+
   }
 
   get name(): string {
@@ -54,8 +46,25 @@ export class Metric {
     return `${this.name}${JSON.stringify(this.labels)}`;
   }
 
+  get lastUpdatedMetricName (): string {
+    return `${this.name}_lastUpdated`;
+  }
+
   update(value: number) {
     this.underlying.labels(this.labels).set(value);
+    this.lastUpdated.labels(this.labels).setToCurrentTime();
+  }
+
+  getOrCreateGauge(metricName: string, helperText: string): Gauge<string> {
+    let metric = register.getSingleMetric(metricName);
+    if (!metric) {
+      metric = new Gauge({
+        name: metricName,
+        help: helperText,
+        labelNames: ['chain', ...this.source.functionAbi.inputs.map(({ name }) => name)],
+      });
+    }
+    return metric as Gauge<string>;
   }
 
   parse(output: any): number {
