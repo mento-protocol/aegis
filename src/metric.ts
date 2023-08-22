@@ -33,9 +33,14 @@ export class Metric {
     }, {});
     this.labels.chain = chainLabel;
 
-    this.underlying = this.getOrCreateGauge(this.name, `Return value of ${source.raw}`);
-    this.lastUpdated = this.getOrCreateGauge(this.lastUpdatedMetricName, `Last updated timestamp of ${source.raw}`);
-
+    this.underlying = this.getOrCreateGauge(
+      this.name,
+      `Return value of ${source.raw}`,
+    );
+    this.lastUpdated = this.getOrCreateGauge(
+      this.lastUpdatedMetricName,
+      `Last updated timestamp of ${source.raw}`,
+    );
   }
 
   get name(): string {
@@ -46,7 +51,7 @@ export class Metric {
     return `${this.name}${JSON.stringify(this.labels)}`;
   }
 
-  get lastUpdatedMetricName (): string {
+  get lastUpdatedMetricName(): string {
     return `${this.name}_lastUpdated`;
   }
 
@@ -61,7 +66,9 @@ export class Metric {
       metric = new Gauge({
         name: metricName,
         help: helperText,
-        labelNames: ['chain', ...this.source.functionAbi.inputs.map(({ name }) => name)],
+        labelNames: ['chain'].concat(
+          this.source.functionAbi.inputs.map((input) => input.name),
+        ),
       });
     }
     return metric as Gauge<string>;
