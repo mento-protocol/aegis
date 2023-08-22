@@ -4,12 +4,14 @@ import { ChainConfig, MetricTemplate } from './config';
 import { QueryService } from './query.service';
 import { UUID } from 'crypto';
 import { Metric } from './metric';
+import { Gauge } from 'prom-client';
 
 @Injectable()
 export class MetricsService {
   private readonly logger = new Logger(MetricsService.name);
   templates: Record<UUID, MetricTemplate> = {};
   metrics: Record<UUID, Metric[]> = {};
+  lastUpdatedAt: Gauge;
   chainIds: Array<string>;
   data: Record<string, any> = {};
 
@@ -37,6 +39,11 @@ export class MetricsService {
         })
         .flat();
       this.templates[template.id] = template;
+    });
+
+    this.lastUpdatedAt = new Gauge({
+      name: 'lastUpdatedAt',
+      help: 'Aegis last updated at timestamp',
     });
   }
 
@@ -69,6 +76,7 @@ export class MetricsService {
       // TODO: Add logic for scaling bignumbers
       value = Number(value);
       metric.update(value);
+      this.lastUpdatedAt.setToCurrentTime();
       this.logger.debug(`${metric.nameWithLabels} = ${value}`);
     } else {
       this.logger.warn(`${metric.nameWithLabels} could not be refreshed.`);
