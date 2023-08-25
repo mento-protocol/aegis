@@ -83,10 +83,12 @@ metrics:
       - ['CELOUSD']
       - ['CELOEUR']
       - ['CELOBRL']
-      - ['CELOXOF']
       - ['USDCUSD']
-      - ['USDCEUR']
-      - ['USDCBRL']
-      - ['EUROCEUR']
-      - ['EURXOF']
+      # The following feeds are not deployed yet
+      # Update the config accordingly once they are deployed
+      # - ['CELOXOF']
+      # - ['USDCEUR']
+      # - ['USDCBRL']
+      # - ['EUROCEUR']
+      # - ['EURXOF']
 
