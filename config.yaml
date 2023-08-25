@@ -4,7 +4,7 @@ global:
     USDCEUR: '0x206b25ea01e188ee243131afde526ba6e131a016'
     USDCBRL: '0x25f21a1f97607edf6852339fad709728cffb9a9d'
     EUROCEUR: '0x26076B9702885d475ac8c3dB3Bd9F250Dc5A318B'
-    XOFEUR: '0x39ffa393566659ffc70d76d238cbe9582042f71f'
+    EURXOF: '0x40dc8528167557353fdcd98548ab2139a670dd0b'
 
 chains:
   - id: celo
@@ -58,7 +58,7 @@ metrics:
       - ['USDCEUR']
       - ['USDCBRL']
       - ['EUROCEUR']
-      - ['XOFEUR']
+      - ['EURXOF']
       
   - source: OracleHelper.deviation(address rateFeed)(uint256,uint256)
     schedule: 0/10 * * * * *
@@ -73,7 +73,7 @@ metrics:
       - ['USDCEUR']
       - ['USDCBRL']
       - ['EUROCEUR']
-      - ['XOFEUR']
+      - ['EURXOF']
   - source: BreakerBox.getRateFeedTradingMode(address rateFeed)(uint8)
     schedule: 0/10 * * * * *
     type: gauge
@@ -87,5 +87,5 @@ metrics:
       - ['USDCEUR']
       - ['USDCBRL']
       - ['EUROCEUR']
-      - ['XOFEUR']
+      - ['EURXOF']
 
