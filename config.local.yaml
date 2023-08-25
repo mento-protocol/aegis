@@ -74,6 +74,7 @@ metrics:
       - ['USDCBRL']
       - ['EUROCEUR']
       - ['EURXOF']
+      
   - source: BreakerBox.getRateFeedTradingMode(address rateFeed)(uint8)
     schedule: 0/10 * * * * *
     type: gauge
