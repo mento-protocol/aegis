@@ -25,7 +25,7 @@ chains:
     contracts:
       SortedOracles: '0xfdd8bd58115ffbf04e47411c1d228ecc45e93075'
       OracleHelper: '0xf6D9C84e21b8B50c45013F99dED2637fd2b06f3b'
-      BreakerBox: '0x259d8CeeB01E9346C830920052003f7D3B62Fd1C'
+      BreakerBox: '0x9Cc7629Da98CD1911717F0AdFBaB795F58a09315'
     vars:
       CELOUSD: '0x874069fa1eb16d44d622f2e0ca25eea172369bc1'
       CELOEUR: '0x10c892a6ec43a53e45d0b916b4b7d383b1b78c0f'
@@ -37,7 +37,7 @@ chains:
     contracts:
       SortedOracles: '0x88a187a876290e9843175027902b9f7f1b092c88'
       OracleHelper: '0x02919803dba5D0fFb1AaB036b99E867bD9FB0d85'
-      BreakerBox: '0xB881aF21C5A9ff8e8d5E4C900F67F066C6CB7936'
+      BreakerBox: '0x5Ea5A5F694F10de979BEeC7b8041E9f931F54bc7'
     vars:
       CELOUSD: '0x62492a644a588fd904270bed06ad52b9abfea1ae'
       CELOEUR: '0xf9ece301247ad2ce21894941830a2470f4e774ca'
@@ -74,7 +74,7 @@ metrics:
       - ['USDCBRL']
       - ['EUROCEUR']
       - ['EURXOF']
-      
+
   - source: BreakerBox.getRateFeedTradingMode(address rateFeed)(uint8)
     schedule: 0/10 * * * * *
     type: gauge
