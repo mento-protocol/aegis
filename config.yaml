@@ -25,7 +25,7 @@ chains:
     contracts:
       SortedOracles: '0xfdd8bd58115ffbf04e47411c1d228ecc45e93075'
       OracleHelper: '0xf6D9C84e21b8B50c45013F99dED2637fd2b06f3b'
-      BreakerBox: '0x9Cc7629Da98CD1911717F0AdFBaB795F58a09315'
+      BreakerBox: '0xC76BDf0AFb654888728003683cf748A8B1b4f5fD'
     vars:
       CELOUSD: '0x874069fa1eb16d44d622f2e0ca25eea172369bc1'
       CELOEUR: '0x10c892a6ec43a53e45d0b916b4b7d383b1b78c0f'
