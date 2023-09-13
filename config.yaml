@@ -13,7 +13,7 @@ chains:
     contracts:
       SortedOracles: '0xefb84935239dacdecf7c5ba76d8de40b077b7b33'
       OracleHelper: '0x555a4D35328462bCadFD9558295F8E0C98FEdea0'
-      BreakerBox: '0xec71b0Ac61b2a0B386B156396F3B7A8363F70707'
+      BreakerBox: '0x303ED1df62Fa067659B586EbEe8De0EcE824Ab39'
     vars:
       CELOUSD: '0x765de816845861e75a25fca122bb6898b8b1282a'
       CELOEUR: '0xd8763cba276a3738e6de85b4b3bf5fded6d6ca73'
@@ -84,11 +84,11 @@ metrics:
       - ['CELOEUR']
       - ['CELOBRL']
       - ['USDCUSD']
+      - ['USDCEUR']
+      - ['USDCBRL']
+      - ['EUROCEUR']
       # The following feeds are not deployed yet
       # Update the config accordingly once they are deployed
       # - ['CELOXOF']
-      # - ['USDCEUR']
-      # - ['USDCBRL']
-      # - ['EUROCEUR']
       # - ['EURXOF']
 
