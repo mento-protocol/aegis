@@ -5,6 +5,7 @@ global:
     USDCBRL: '0x25f21a1f97607edf6852339fad709728cffb9a9d'
     EUROCEUR: '0x26076B9702885d475ac8c3dB3Bd9F250Dc5A318B'
     EURXOF: '0x40dc8528167557353fdcd98548ab2139a670dd0b'
+    EUROCXOF: '0xed35e46b095197da30ddffa5b91d386886d5ce0d'
 
 chains:
   - id: celo
@@ -59,6 +60,7 @@ metrics:
       - ['USDCBRL']
       - ['EUROCEUR']
       - ['EURXOF']
+      - ['EUROCXOF']
       
   - source: OracleHelper.deviation(address rateFeed)(uint256,uint256)
     schedule: 0/10 * * * * *
@@ -74,6 +76,7 @@ metrics:
       - ['USDCBRL']
       - ['EUROCEUR']
       - ['EURXOF']
+      - ['EUROCXOF']
 
   - source: BreakerBox.getRateFeedTradingMode(address rateFeed)(uint8)
     schedule: 0/10 * * * * *
@@ -89,6 +92,7 @@ metrics:
       - ['EUROCEUR']
       # The following feeds are not deployed yet
       # Update the config accordingly once they are deployed
+      # - ['EUROCXOF']
       # - ['CELOXOF']
       # - ['EURXOF']
 
