@@ -90,9 +90,7 @@ metrics:
       - ['USDCEUR']
       - ['USDCBRL']
       - ['EUROCEUR']
-      # The following feeds are not deployed yet
-      # Update the config accordingly once they are deployed
-      # - ['EUROCXOF']
-      # - ['CELOXOF']
-      # - ['EURXOF']
+      - ['EUROCXOF']
+      - ['CELOXOF']
+      - ['EURXOF']
 
