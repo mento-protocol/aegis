@@ -101,5 +101,4 @@ metrics:
       - ['EUROCXOF']
       - ['CELOXOF']
       - ['EURXOF']
-      - ['KESUSD']
-      - ['CELOKES']
+      - ['KESUSD'] 
