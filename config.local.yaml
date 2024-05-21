@@ -6,6 +6,7 @@ global:
     EUROCEUR: '0x26076B9702885d475ac8c3dB3Bd9F250Dc5A318B'
     EURXOF: '0x40dc8528167557353fdcd98548ab2139a670dd0b'
     EUROCXOF: '0xed35e46b095197da30ddffa5b91d386886d5ce0d'
+    KESUSD: '0xbAcEE37d31b9f022Ef5d232B9fD53F05a531c169'
 
 chains:
   - id: celo
@@ -20,6 +21,7 @@ chains:
       CELOEUR: '0xd8763cba276a3738e6de85b4b3bf5fded6d6ca73'
       CELOBRL: '0xe8537a3d056da446677b9e9d6c5db704eaab4787'
       CELOXOF: '0x73F93dcc49cB8A239e2032663e9475dd5ef29A08'
+      CELOKES: '0x456a3D042C0DbD3db53D5489e98dFb038553B0d0'
   - id: celoAlfajores
     label: alfajores
     httpRpcUrl: https://alfajores-forno.celo-testnet.org
@@ -32,6 +34,7 @@ chains:
       CELOEUR: '0x10c892a6ec43a53e45d0b916b4b7d383b1b78c0f'
       CELOBRL: '0xe4d517785d091d3c54818832db6094bcc2744545'
       CELOXOF: '0xB0FA15e002516d0301884059c0aaC0F0C72b019D'
+      CELOKES: '0x1E0433C1769271ECcF4CFF9FDdD515eefE6CdF92'
   - id: baklava
     label: baklava
     httpRpcUrl: https://baklava-forno.celo-testnet.org
@@ -44,6 +47,7 @@ chains:
       CELOEUR: '0xf9ece301247ad2ce21894941830a2470f4e774ca'
       CELOBRL: '0x6a0eef2bed4c30dc2cb42fe6c5f01f80f7ef16d1'
       CELOXOF: '0x64c1D812673E93Bc036AdC3D547d9950696DA5Af'
+      CELOKES: '0x8813Ae180017057d0Cf98C930cED1E7101B97370'
 
 metrics:
   - source: SortedOracles.numRates(address rateFeed)(uint256)
@@ -61,6 +65,8 @@ metrics:
       - ['EUROCEUR']
       - ['EURXOF']
       - ['EUROCXOF']
+      - ['KESUSD']
+      - ['CELOKES']
       
   - source: OracleHelper.deviation(address rateFeed)(uint256,uint256)
     schedule: 0/10 * * * * *
@@ -77,6 +83,8 @@ metrics:
       - ['EUROCEUR']
       - ['EURXOF']
       - ['EUROCXOF']
+      - ['KESUSD']
+      - ['CELOKES']
 
   - source: BreakerBox.getRateFeedTradingMode(address rateFeed)(uint8)
     schedule: 0/10 * * * * *
@@ -93,4 +101,4 @@ metrics:
       - ['EUROCXOF']
       - ['CELOXOF']
       - ['EURXOF']
-
+      - ['KESUSD'] 
