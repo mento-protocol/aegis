@@ -70,6 +70,8 @@ metrics:
       - ['KESUSD']
       - ['CELOKES']
       - ['USDTUSD']
+      - ['relayed:CELOPHP']
+      - ['relayed:PHPUSD']
 
   - source: OracleHelper.deviation(address rateFeed)(uint256,uint256)
     schedule: 0/10 * * * * *
@@ -89,6 +91,8 @@ metrics:
       - ['KESUSD']
       - ['CELOKES']
       - ['USDTUSD']
+      - ['relayed:CELOPHP']
+      - ['relayed:PHPUSD']
 
   - source: BreakerBox.getRateFeedTradingMode(address rateFeed)(uint8)
     schedule: 0/10 * * * * *
