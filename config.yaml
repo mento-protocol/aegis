@@ -90,8 +90,7 @@ metrics:
       - ['KESUSD']
       - ['CELOKES']
       - ['USDTUSD']
-      - ['relayed:PHPUSD']
-      - ['relayed:CELOPHP']
+
   - source: BreakerBox.getRateFeedTradingMode(address rateFeed)(uint8)
     schedule: 0/10 * * * * *
     type: gauge
@@ -109,5 +108,3 @@ metrics:
       - ['EURXOF']
       - ['KESUSD']
       - ['USDTUSD']
-      - ['relayed:PHPUSD']
-      - ['relayed:CELOPHP']
