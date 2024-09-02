@@ -56,54 +56,62 @@ metrics:
     type: gauge
     chains: all
     variants:
-      - ['CELOUSD']
-      - ['CELOEUR']
-      - ['CELOBRL']
-      - ['CELOXOF']
-      - ['USDCUSD']
-      - ['USDCEUR']
-      - ['USDCBRL']
-      - ['EUROCEUR']
-      - ['EURXOF']
-      - ['EUROCXOF']
-      - ['KESUSD']
-      - ['CELOKES']
-      - ['USDTUSD']
+      - [CELOUSD]
+      - [CELOEUR]
+      - [CELOBRL]
+      - [CELOXOF]
+      - [USDCUSD]
+      - [USDCEUR]
+      - [USDCBRL]
+      - [EUROCEUR]
+      - [EURXOF]
+      - [EUROCXOF]
+      - [KESUSD]
+      - [CELOKES]
+      - [USDTUSD]
+
+  - source: SortedOracles.isOldestReportExpired(address rateFeed)(bool,address)
+    schedule: 0/10 * * * * *
+    type: gauge
+    chains: all
+    variants:
+      - [relayed:PHPUSD]
+      - [relayed:CELOPHP]
 
   - source: OracleHelper.deviation(address rateFeed)(uint256,uint256)
     schedule: 0/10 * * * * *
     type: gauge
     chains: all
     variants:
-      - ['CELOUSD']
-      - ['CELOEUR']
-      - ['CELOBRL']
-      - ['CELOXOF']
-      - ['USDCUSD']
-      - ['USDCEUR']
-      - ['USDCBRL']
-      - ['EUROCEUR']
-      - ['EURXOF']
-      - ['EUROCXOF']
-      - ['KESUSD']
-      - ['CELOKES']
-      - ['USDTUSD']
+      - [CELOUSD]
+      - [CELOEUR]
+      - [CELOBRL]
+      - [CELOXOF]
+      - [USDCUSD]
+      - [USDCEUR]
+      - [USDCBRL]
+      - [EUROCEUR]
+      - [EURXOF]
+      - [EUROCXOF]
+      - [KESUSD]
+      - [CELOKES]
+      - [USDTUSD]
 
   - source: BreakerBox.getRateFeedTradingMode(address rateFeed)(uint8)
     schedule: 0/10 * * * * *
     type: gauge
     chains: all
     variants:
-      - ['CELOUSD']
-      - ['CELOEUR']
-      - ['CELOBRL']
-      - ['USDCUSD']
-      - ['USDCEUR']
-      - ['USDCBRL']
-      - ['EUROCEUR']
-      - ['EUROCXOF']
-      - ['CELOXOF']
-      - ['EURXOF']
-      - ['KESUSD']
-      - ['USDTUSD']
-      - ['relayed:PHPUSD']
+      - [CELOUSD]
+      - [CELOEUR]
+      - [CELOBRL]
+      - [USDCUSD]
+      - [USDCEUR]
+      - [USDCBRL]
+      - [EUROCEUR]
+      - [EUROCXOF]
+      - [CELOXOF]
+      - [EURXOF]
+      - [KESUSD]
+      - [USDTUSD]
+      - [relayed:PHPUSD]
