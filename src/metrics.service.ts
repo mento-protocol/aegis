@@ -1,10 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { ChainConfig, MetricTemplate } from './config';
-import { QueryService } from './query.service';
 import { UUID } from 'crypto';
-import { Metric } from './metric';
 import { Gauge } from 'prom-client';
+import { ChainConfig, MetricTemplate } from './config';
+import { Metric } from './metric';
+import { QueryService } from './query.service';
 
 @Injectable()
 export class MetricsService {
