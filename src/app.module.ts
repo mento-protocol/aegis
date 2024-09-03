@@ -18,4 +18,4 @@ import { MetricsService } from './metrics.service';
   ],
   providers: [WatcherService, MetricsService, QueryService],
 })
-export class AppModule { }
+export class AppModule {}
