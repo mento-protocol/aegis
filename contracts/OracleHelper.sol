@@ -28,7 +28,8 @@ contract OracleHelper {
     }
 
     /**
-     * @notice Get the deviation of the median rate of a rate feed from the mean of all rates.
+     * @notice Get the deviation of the median rate from the mean of all rates for a given rate feed ID.
+     * @param token The rate feed ID for which to calculate the deviation
      */
     function deviation(address token) external view returns (uint256, uint256) {
         (
