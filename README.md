@@ -168,6 +168,16 @@ pnpm run start:dev
 pnpm run start:prod
 ```
 
+## Checking the Logs & Grafana Dashboard
+
+```bash
+# Tails the logs of the prod aegis app
+pnpm run logs
+
+# Opens the Aegis Grafana Dashboard in your default browser
+pnpm run grafana
+```
+
 ## Test
 
 ```bash
