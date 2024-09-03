@@ -79,13 +79,13 @@ interface Metric {
 
 The `source` for a metric is the view call used. This should be a string of the form:
 
-```
+```sol
 Contract.function(inputs)(outputs)
 ```
 
 For example:
 
-```
+```sol
 SortedOracles.numRates(address rateFeed)(uint256)
 ```
 
@@ -128,7 +128,7 @@ Thus each metric will result in `number of variants * number of chains` values r
 
 This is an example of the prometheus endpoint result:
 
-```
+```text
 numRates{rateFeed="CELOUSD",chain="celo"} 10
 numRates{rateFeed="CELOEUR",chain="celo"} 10
 numRates{rateFeed="USDCBRL",chain="celo"} 0
@@ -152,33 +152,33 @@ numRates{rateFeed="USDCEUR",chain="baklava"} 6
 ## Installation
 
 ```bash
-$ pnpm install
+pnpm install
 ```
 
 ## Running the app
 
 ```bash
 # development
-$ pnpm run start
+pnpm run start
 
 # watch mode
-$ pnpm run start:dev
+pnpm run start:dev
 
 # production mode
-$ pnpm run start:prod
+pnpm run start:prod
 ```
 
 ## Test
 
 ```bash
 # unit tests
-$ pnpm run test
+pnpm run test
 
 # e2e tests
-$ pnpm run test:e2e
+pnpm run test:e2e
 
 # test coverage
-$ pnpm run test:cov
+pnpm run test:cov
 ```
 
 ## Deployment (Mento labs)
@@ -191,7 +191,8 @@ There are three main components you have to think about:
    b. A prometheus server which ingests the metrics.
 3. (Optional) Helper smart contracts which do any transformations needed to on-chain data for ingestion by `aegis`.
 
-Deploying `aegis` is done simply by running `gcloud app deploy` with `gcloud` pointing to `mento-prod`.
+Deploying `aegis` is done simply by running `npm run deploy`.
+
 For deploying the `grafana-agent` follow the instructions in `grafana-agent/README.md`.
 
 ## Stay in touch

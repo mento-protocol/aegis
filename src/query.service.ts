@@ -1,10 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { ChainConfig } from './config';
-import * as chains from 'viem/chains';
-import { createPublicClient, http } from 'viem';
-import { Metric } from './metric';
 import { Histogram } from 'prom-client';
+import { createPublicClient, http } from 'viem';
+import * as chains from 'viem/chains';
+import { ChainConfig } from './config';
+import { Metric } from './metric';
 
 const makeChain = (chain: ChainConfig): chains.Chain => ({
   id: 0,
@@ -79,7 +79,7 @@ export class QueryService {
         args,
       });
       timer({ status: 'success' });
-      return metric.parse(data);
+      return metric.parse(data, functionName);
     } catch (e) {
       // TODO: Add error handling
       this.logger.error(e);

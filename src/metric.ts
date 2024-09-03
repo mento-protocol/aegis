@@ -1,6 +1,6 @@
 import { UUID, randomUUID } from 'crypto';
-import { MetricSource } from './config/MetricSource';
 import { Gauge, register } from 'prom-client';
+import { MetricSource } from './config/MetricSource';
 
 export class Metric {
   id: UUID = randomUUID();
@@ -58,26 +58,37 @@ export class Metric {
     this.underlying.labels(this.labels).set(value);
   }
 
-  parse(output: any): number {
-    if (this.source.functionAbi.outputs.length === 1) {
-      const parsed = output as bigint;
-      if (parsed > Number.MAX_SAFE_INTEGER) {
-        throw new Error(`Value ${parsed} is too large to be a safe integer`);
-      }
-      return Number(parsed);
-    } else {
-      const [numerator, denominator] = output as [bigint, bigint];
-      if (denominator === BigInt(0)) {
-        return 0;
-      }
-      const precision = 1e6;
-      const value = (numerator * BigInt(precision)) / denominator;
-      if (value > Number.MAX_SAFE_INTEGER) {
+  parse(output: any, functionName: string): number {
+    switch (functionName) {
+      case 'numRates':
+      case 'getRateFeedTradingMode':
+        const parsed = output as bigint;
+        if (parsed > Number.MAX_SAFE_INTEGER) {
+          throw new Error(`Value ${parsed} is too large to be a safe integer`);
+        }
+        return Number(parsed);
+
+      case 'isOldestReportExpired':
+        const [bool] = output as [boolean, bigint];
+        return bool ? 1 : 0;
+
+      case 'deviation':
+        const [numerator, denominator] = output as [bigint, bigint];
+        if (denominator === BigInt(0)) {
+          return 0;
+        }
+        const precision = 1e6;
+        const value = (numerator * BigInt(precision)) / denominator;
+        if (value > Number.MAX_SAFE_INTEGER) {
+          throw new Error(
+            `Value ${value} is too large to be converted to number`,
+          );
+        }
+        return Number(value) / precision;
+      default:
         throw new Error(
-          `Value ${value} is too large to be converted to number`,
+          `Unknown function ${functionName} for metric ${this.name}. Make sure to add a case for it in the Metric.parse() method.`,
         );
-      }
-      return Number(value) / precision;
     }
   }
 }
