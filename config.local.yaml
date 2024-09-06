@@ -115,4 +115,4 @@ metrics:
       - [EURXOF]
       - [KESUSD]
       - [USDTUSD]
-      # TODO: Add [relayed:PHPUSD] after PUSO CGP is executed
+      - [relayed:PHPUSD]
