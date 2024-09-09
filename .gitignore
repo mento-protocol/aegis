@@ -37,3 +37,9 @@ lerna-debug.log*
 # Foundry
 out/
 cache/
+
+# Terraform
+.terraform*
+*.tfvars
+terraform.tfstate*
+errored.tfstate
