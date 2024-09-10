@@ -47,23 +47,6 @@ chains:
       CELOKES: '0x1E0433C1769271ECcF4CFF9FDdD515eefE6CdF92'
       RelayerSignerPHPUSD: '0x07840120d646a449e90D9988c890292Fe0a102D1'
       RelayerSignerCELOPHP: '0x3F1781ca8C2Dc06b2D6AdbFD9EAaF867AA8BB1eA'
-  - id: baklava
-    label: baklava
-    httpRpcUrl: https://baklava-forno.celo-testnet.org
-    contracts:
-      SortedOracles: '0x88a187a876290e9843175027902b9f7f1b092c88'
-      OracleHelper: '0x02919803dba5D0fFb1AaB036b99E867bD9FB0d85'
-      BreakerBox: '0x5Ea5A5F694F10de979BEeC7b8041E9f931F54bc7'
-      # trunk-ignore(gitleaks/generic-api-key,checkov/CKV_SECRET_6)
-      CELOToken: '0xddc9be57f553fe75752d61606b94cbd7e0264ef8'
-    vars:
-      CELOUSD: '0x62492a644a588fd904270bed06ad52b9abfea1ae'
-      CELOEUR: '0xf9ece301247ad2ce21894941830a2470f4e774ca'
-      CELOBRL: '0x6a0eef2bed4c30dc2cb42fe6c5f01f80f7ef16d1'
-      CELOXOF: '0x64c1D812673E93Bc036AdC3D547d9950696DA5Af'
-      CELOKES: '0x8813Ae180017057d0Cf98C930cED1E7101B97370'
-      RelayerSignerPHPUSD: '0x07840120d646a449e90D9988c890292Fe0a102D1'
-      RelayerSignerCELOPHP: '0x3F1781ca8C2Dc06b2D6AdbFD9EAaF867AA8BB1eA'
 
 metrics:
   - source: SortedOracles.numRates(address rateFeed)(uint256)
