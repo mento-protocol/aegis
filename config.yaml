@@ -115,7 +115,7 @@ metrics:
       - [relayed:CELOPHP]
       - [relayed:PHPUSD]
 
-  # Checks if the signer wallets have enough CELO to pay for their relay() transactions
+  # Checks if signer wallets have enough CELO to pay for relay() transactions
   - source: CELOToken.balanceOf(address owner)(uint256)
     schedule: 0/10 * * * * *
     type: gauge
