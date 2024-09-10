@@ -8,6 +8,7 @@
   "scripts": {
     "build": "nest build",
     "deploy": "./bin/deploy.sh",
+    "dev": "npm run start:dev",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "grafana": "open https://clabsmento.grafana.net/d/baec6799-0382-4c23-ae44-355300381bbe/aegis-on-chain-data",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
