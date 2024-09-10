@@ -1,12 +1,13 @@
 global:
   vars:
-    USDCUSD: '0xa1a8003936862e7a15092a91898d69fa8bce290c'
-    USDCEUR: '0x206b25ea01e188ee243131afde526ba6e131a016'
-    USDCBRL: '0x25f21a1f97607edf6852339fad709728cffb9a9d'
+    # Rate Feed IDs
     EUROCEUR: '0x26076B9702885d475ac8c3dB3Bd9F250Dc5A318B'
-    EURXOF: '0x40dc8528167557353fdcd98548ab2139a670dd0b'
     EUROCXOF: '0xed35e46b095197da30ddffa5b91d386886d5ce0d'
+    EURXOF: '0x40dc8528167557353fdcd98548ab2139a670dd0b'
     KESUSD: '0xbAcEE37d31b9f022Ef5d232B9fD53F05a531c169'
+    USDCBRL: '0x25f21a1f97607edf6852339fad709728cffb9a9d'
+    USDCEUR: '0x206b25ea01e188ee243131afde526ba6e131a016'
+    USDCUSD: '0xa1a8003936862e7a15092a91898d69fa8bce290c'
     USDTUSD: '0xE06C10C63377cD098b589c0b90314bFb55751558'
     'relayed:PHPUSD': '0xab921d6ab1057601A9ae19879b111fC381a2a8E9'
     'relayed:CELOPHP': '0xaFc02368A174Cd08e01c373de6D0B537CECF43C8'
@@ -19,13 +20,16 @@ chains:
       SortedOracles: '0xefb84935239dacdecf7c5ba76d8de40b077b7b33'
       OracleHelper: '0x555a4D35328462bCadFD9558295F8E0C98FEdea0'
       BreakerBox: '0x303ED1df62Fa067659B586EbEe8De0EcE824Ab39'
+      # trunk-ignore(gitleaks/generic-api-key,checkov/CKV_SECRET_6)
+      CELOToken: '0x471ece3750da237f93b8e339c536989b8978a438'
     vars:
       CELOUSD: '0x765de816845861e75a25fca122bb6898b8b1282a'
       CELOEUR: '0xd8763cba276a3738e6de85b4b3bf5fded6d6ca73'
       CELOBRL: '0xe8537a3d056da446677b9e9d6c5db704eaab4787'
       CELOXOF: '0x73F93dcc49cB8A239e2032663e9475dd5ef29A08'
       CELOKES: '0x456a3D042C0DbD3db53D5489e98dFb038553B0d0'
-
+      RelayerSignerPHPUSD: '0x07840120d646a449e90D9988c890292Fe0a102D1'
+      RelayerSignerCELOPHP: '0x3F1781ca8C2Dc06b2D6AdbFD9EAaF867AA8BB1eA'
   - id: celoAlfajores
     label: alfajores
     httpRpcUrl: https://alfajores-forno.celo-testnet.org
@@ -33,12 +37,33 @@ chains:
       SortedOracles: '0xfdd8bd58115ffbf04e47411c1d228ecc45e93075'
       OracleHelper: '0xf6D9C84e21b8B50c45013F99dED2637fd2b06f3b'
       BreakerBox: '0xC76BDf0AFb654888728003683cf748A8B1b4f5fD'
+      # trunk-ignore(gitleaks/generic-api-key,checkov/CKV_SECRET_6)
+      CELOToken: '0xF194afDf50B03e69Bd7D057c1Aa9e10c9954E4C9'
     vars:
       CELOUSD: '0x874069fa1eb16d44d622f2e0ca25eea172369bc1'
       CELOEUR: '0x10c892a6ec43a53e45d0b916b4b7d383b1b78c0f'
       CELOBRL: '0xe4d517785d091d3c54818832db6094bcc2744545'
       CELOXOF: '0xB0FA15e002516d0301884059c0aaC0F0C72b019D'
       CELOKES: '0x1E0433C1769271ECcF4CFF9FDdD515eefE6CdF92'
+      RelayerSignerPHPUSD: '0x07840120d646a449e90D9988c890292Fe0a102D1'
+      RelayerSignerCELOPHP: '0x3F1781ca8C2Dc06b2D6AdbFD9EAaF867AA8BB1eA'
+  - id: baklava
+    label: baklava
+    httpRpcUrl: https://baklava-forno.celo-testnet.org
+    contracts:
+      SortedOracles: '0x88a187a876290e9843175027902b9f7f1b092c88'
+      OracleHelper: '0x02919803dba5D0fFb1AaB036b99E867bD9FB0d85'
+      BreakerBox: '0x5Ea5A5F694F10de979BEeC7b8041E9f931F54bc7'
+      # trunk-ignore(gitleaks/generic-api-key,checkov/CKV_SECRET_6)
+      CELOToken: '0xddc9be57f553fe75752d61606b94cbd7e0264ef8'
+    vars:
+      CELOUSD: '0x62492a644a588fd904270bed06ad52b9abfea1ae'
+      CELOEUR: '0xf9ece301247ad2ce21894941830a2470f4e774ca'
+      CELOBRL: '0x6a0eef2bed4c30dc2cb42fe6c5f01f80f7ef16d1'
+      CELOXOF: '0x64c1D812673E93Bc036AdC3D547d9950696DA5Af'
+      CELOKES: '0x8813Ae180017057d0Cf98C930cED1E7101B97370'
+      RelayerSignerPHPUSD: '0x07840120d646a449e90D9988c890292Fe0a102D1'
+      RelayerSignerCELOPHP: '0x3F1781ca8C2Dc06b2D6AdbFD9EAaF867AA8BB1eA'
 
 metrics:
   - source: SortedOracles.numRates(address rateFeed)(uint256)
@@ -46,18 +71,18 @@ metrics:
     type: gauge
     chains: all
     variants:
-      - [CELOUSD]
-      - [CELOEUR]
       - [CELOBRL]
-      - [CELOXOF]
-      - [USDCUSD]
-      - [USDCEUR]
-      - [USDCBRL]
-      - [EUROCEUR]
-      - [EURXOF]
-      - [EUROCXOF]
-      - [KESUSD]
+      - [CELOEUR]
       - [CELOKES]
+      - [CELOUSD]
+      - [CELOXOF]
+      - [EUROCEUR]
+      - [EUROCXOF]
+      - [EURXOF]
+      - [KESUSD]
+      - [USDCBRL]
+      - [USDCEUR]
+      - [USDCUSD]
       - [USDTUSD]
 
   - source: SortedOracles.isOldestReportExpired(address rateFeed)(bool,address)
@@ -73,35 +98,43 @@ metrics:
     type: gauge
     chains: all
     variants:
-      - [CELOUSD]
-      - [CELOEUR]
       - [CELOBRL]
-      - [CELOXOF]
-      - [USDCUSD]
-      - [USDCEUR]
-      - [USDCBRL]
-      - [EUROCEUR]
-      - [EURXOF]
-      - [EUROCXOF]
-      - [KESUSD]
+      - [CELOEUR]
       - [CELOKES]
+      - [CELOUSD]
+      - [CELOXOF]
+      - [EUROCEUR]
+      - [EUROCXOF]
+      - [EURXOF]
+      - [KESUSD]
+      - [USDCBRL]
+      - [USDCEUR]
+      - [USDCUSD]
       - [USDTUSD]
 
   - source: BreakerBox.getRateFeedTradingMode(address rateFeed)(uint8)
     schedule: 0/10 * * * * *
     type: gauge
-    chains: all
+    chains: [celo, celoAlfajores]
     variants:
-      - [CELOUSD]
-      - [CELOEUR]
       - [CELOBRL]
-      - [USDCUSD]
-      - [USDCEUR]
-      - [USDCBRL]
+      - [CELOEUR]
+      - [CELOUSD]
+      - [CELOXOF]
       - [EUROCEUR]
       - [EUROCXOF]
-      - [CELOXOF]
       - [EURXOF]
       - [KESUSD]
+      - [USDCBRL]
+      - [USDCEUR]
+      - [USDCUSD]
       - [USDTUSD]
       - [relayed:PHPUSD]
+
+  - source: CELOToken.balanceOf(address owner)(uint256)
+    schedule: 0/10 * * * * *
+    type: gauge
+    chains: all
+    variants:
+      - [RelayerSignerPHPUSD]
+      - [RelayerSignerCELOPHP]
