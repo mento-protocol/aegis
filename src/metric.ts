@@ -68,6 +68,16 @@ export class Metric {
         }
         return Number(parsed);
 
+      case 'balanceOf':
+        const balance = output as bigint;
+        const balanceInEther = balance / BigInt(1e18);
+        if (balanceInEther > Number.MAX_SAFE_INTEGER) {
+          throw new Error(
+            `Value ${balanceInEther} is too large to be a safe integer`,
+          );
+        }
+        return Number(balanceInEther);
+
       case 'isOldestReportExpired':
         const [bool] = output as [boolean, bigint];
         return bool ? 1 : 0;
