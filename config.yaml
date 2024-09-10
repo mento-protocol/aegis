@@ -10,6 +10,11 @@ global:
     USDCUSD: '0xa1a8003936862e7a15092a91898d69fa8bce290c'
     USDTUSD: '0xE06C10C63377cD098b589c0b90314bFb55751558'
     'relayed:CELOPHP': '0xaFc02368A174Cd08e01c373de6D0B537CECF43C8'
+    'relayed:PHPUSD': '0xab921d6ab1057601A9ae19879b111fC381a2a8E9'
+
+    # Relayer signer wallets
+    RelayerSignerPHPUSD: '0xb2cE6fa691b58Ff4fadBd610a8e09427d2918025'
+    RelayerSignerCELOPHP: '0xCCD3D48D6a5340156d85DC5A43743e65Bd4a6E51'
 
 chains:
   - id: celo
@@ -27,8 +32,6 @@ chains:
       CELOBRL: '0xe8537a3d056da446677b9e9d6c5db704eaab4787'
       CELOXOF: '0x73F93dcc49cB8A239e2032663e9475dd5ef29A08'
       CELOKES: '0x456a3D042C0DbD3db53D5489e98dFb038553B0d0'
-      RelayerSignerPHPUSD: '0x07840120d646a449e90D9988c890292Fe0a102D1'
-      RelayerSignerCELOPHP: '0x3F1781ca8C2Dc06b2D6AdbFD9EAaF867AA8BB1eA'
   - id: celoAlfajores
     label: alfajores
     httpRpcUrl: https://alfajores-forno.celo-testnet.org
@@ -44,8 +47,6 @@ chains:
       CELOBRL: '0xe4d517785d091d3c54818832db6094bcc2744545'
       CELOXOF: '0xB0FA15e002516d0301884059c0aaC0F0C72b019D'
       CELOKES: '0x1E0433C1769271ECcF4CFF9FDdD515eefE6CdF92'
-      RelayerSignerPHPUSD: '0x07840120d646a449e90D9988c890292Fe0a102D1'
-      RelayerSignerCELOPHP: '0x3F1781ca8C2Dc06b2D6AdbFD9EAaF867AA8BB1eA'
 
 metrics:
   - source: SortedOracles.numRates(address rateFeed)(uint256)
@@ -66,14 +67,6 @@ metrics:
       - [USDCEUR]
       - [USDCUSD]
       - [USDTUSD]
-
-  - source: SortedOracles.isOldestReportExpired(address rateFeed)(bool,address)
-    schedule: 0/10 * * * * *
-    type: gauge
-    chains: all
-    variants:
-      - [relayed:PHPUSD]
-      - [relayed:CELOPHP]
 
   - source: OracleHelper.deviation(address rateFeed)(uint256,uint256)
     schedule: 0/10 * * * * *
@@ -113,6 +106,16 @@ metrics:
       - [USDTUSD]
       - [relayed:PHPUSD]
 
+  # Checks for rate feed freshness
+  - source: SortedOracles.isOldestReportExpired(address rateFeed)(bool,address)
+    schedule: 0/10 * * * * *
+    type: gauge
+    chains: all
+    variants:
+      - [relayed:CELOPHP]
+      - [relayed:PHPUSD]
+
+  # Checks if the signer wallets have enough CELO to pay for their relay() transactions
   - source: CELOToken.balanceOf(address owner)(uint256)
     schedule: 0/10 * * * * *
     type: gauge
