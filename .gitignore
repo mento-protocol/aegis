@@ -34,6 +34,10 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
+# JS - Enforce use of pnpm
+package-lock.json
+yarn.lock
+
 # Foundry
 out/
 cache/
