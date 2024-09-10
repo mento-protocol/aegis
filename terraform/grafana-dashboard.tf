@@ -212,7 +212,7 @@ locals {
           showLegend  = true
           displayMode = "table"
           placement   = "bottom"
-          calcs       = ["lastNotNull", "mean"]
+          calcs       = ["lastNotNull"]
         }
       }
       targets = [{
