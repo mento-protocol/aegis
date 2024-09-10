@@ -1,4 +1,13 @@
-## Aegis
+# Aegis
+
+- [Configuration](#configuration)
+- [Installation](#installation)
+- [Running the app](#running-the-app)
+- [Checking the Logs](#checking-the-logs)
+- [Grafana Dashboard](#grafana-dashboard)
+- [Test](#test)
+- [Deployment (Mento labs)](#deployment-mento-labs)
+- [Stay in touch](#stay-in-touch)
 
 > The modern concept of doing something "under someone's aegis" means doing something under the protection of a powerful, knowledgeable, or benevolent source. The word aegis is identified with protection by a strong force with its roots in Greek mythology and adopted by the Romans.
 
@@ -25,7 +34,7 @@ Into a dashboard:
 
 ![grafana screenshot](./docs/aegis-dashboard.png)
 
-### Configuration
+## Configuration
 
 The `config.yaml` has three immediate children:
 
@@ -57,7 +66,7 @@ interface Chain {
 }
 ```
 
-If the chain `id` matches an import from [viem's chains](https://viem.sh/docs/clients/chains.html) that will be used, enabling multicall and other goodness.
+If the chain `id` matches an import from [viem's chains](https://viem.sh/docs/chains/celo) that will be used, enabling multicall and other goodness.
 However arbitrary values also work and a custom chain instance will be created.
 
 The `label` will be used in the context of prometheus metrics `chain={label}` for segmenting.
@@ -138,15 +147,9 @@ numRates{rateFeed="CELOBRL",chain="celo"} 10
 numRates{rateFeed="CELOUSD",chain="alfajores"} 5
 numRates{rateFeed="CELOEUR",chain="alfajores"} 5
 numRates{rateFeed="USDCEUR",chain="alfajores"} 5
-numRates{rateFeed="CELOUSD",chain="baklava"} 5
 numRates{rateFeed="USDCUSD",chain="alfajores"} 6
 numRates{rateFeed="USDCBRL",chain="alfajores"} 5
-numRates{rateFeed="USDCBRL",chain="baklava"} 6
 numRates{rateFeed="CELOBRL",chain="alfajores"} 5
-numRates{rateFeed="USDCUSD",chain="baklava"} 6
-numRates{rateFeed="CELOEUR",chain="baklava"} 6
-numRates{rateFeed="CELOBRL",chain="baklava"} 5
-numRates{rateFeed="USDCEUR",chain="baklava"} 6
 ```
 
 ## Installation
@@ -168,12 +171,16 @@ pnpm run start:dev
 pnpm run start:prod
 ```
 
-## Checking the Logs & Grafana Dashboard
+## Checking the Logs
 
 ```bash
 # Tails the logs of the prod aegis app
 pnpm run logs
+```
 
+## Grafana Dashboard
+
+```bash
 # Opens the Aegis Grafana Dashboard in your default browser
 pnpm run grafana
 ```
@@ -209,7 +216,3 @@ For deploying the `grafana-agent` follow the instructions in `grafana-agent/READ
 
 - Author - [Mento Labs](https://mentolabs.xyz)
 - Twitter - [@mentolabs](https://twitter.com/mentolabs)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
