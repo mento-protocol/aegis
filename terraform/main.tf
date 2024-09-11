@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 1.8"
+  required_version = ">= 1.9"
 
   required_providers {
     grafana = {
@@ -15,13 +15,19 @@ terraform {
   }
 }
 
-variable "grafana_service_account_token" {
-  description = "Grafana Service Account Token allowing Terraform to manage Grafana resources on the Mento Stack"
-  type        = string
-  sensitive   = true
-}
-
 provider "grafana" {
   url  = "https://clabsmento.grafana.net"
   auth = var.grafana_service_account_token
+}
+
+module "grafana_dashboard" {
+  source                        = "./grafana-dashboard"
+  grafana_service_account_token = var.grafana_service_account_token
+  aegis_folder                  = grafana_folder.aegis
+}
+
+module "discord_alerts" {
+  source                        = "./discord-alerts"
+  grafana_service_account_token = var.grafana_service_account_token
+  oracle_relayers_folder        = grafana_folder.oracle_relayers
 }
