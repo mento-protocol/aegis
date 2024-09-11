@@ -9,11 +9,14 @@
     - [Full Metrics Example](#full-metrics-example)
 - [Running the app](#running-the-app)
 - [Checking the Logs](#checking-the-logs)
+- [Terraform](#terraform)
+  - [Set up Terraform](#set-up-terraform)
 - [Grafana Dashboard](#grafana-dashboard)
+- [Discord Alerts](#discord-alerts)
 - [Test](#test)
+- [Deployment](#deployment)
 - [Adding a new Metric](#adding-a-new-metric)
 - [Stay in touch](#stay-in-touch)
-- [Deployment](#deployment)
 
 Aegis is a monitoring tool that exposes the result of on-chain view calls as Prometheus metrics that get ingested into Grafana.
 The system's ethos is that it should be generic and agnostic when it comes to business logic.
@@ -184,6 +187,41 @@ pnpm run start:prod
 pnpm run logs
 ```
 
+## Terraform
+
+We use Terraform to deploy Grafana Dashboards and Discord Alerts. The end-to-end Aegis flow is as follows:
+
+1. The Aegis service executes view calls and forwards the results to Prometheus
+1. Grafana ingests Prometheus metrics and allow us to visualize and react to them
+1. Terraform deploys our metric visualizations into Grafana dashboards
+1. Terraform also deploys our alert rules based on these metrics
+
+### Set up Terraform
+
+1. Install Terraform
+
+   ```sh
+   # On macOS
+   brew tap hashicorp/tap
+   brew install hashicorp/tap/terraform
+
+   # For other systems, see https://developer.hashicorp.com/terraform/install
+   ```
+
+1. Initialize Terraform
+
+   ```sh
+   cd terraform
+   terraform init
+   ```
+
+1. Check that it's set up correctly
+
+   ```sh
+   # You must be inside the ./terraform folder for this command
+   terraform plan
+   ```
+
 ## Grafana Dashboard
 
 ```bash
@@ -193,7 +231,13 @@ pnpm run grafana
 
 We are using Terraform to deploy a Grafana Dashboard containing visualizations for all configured metrics.
 
-To update the dashboard, you simply make the desired changes in [grafana-dashboard.tf](./terraform/grafana-dashboard.tf) and then run `cd terraform && terraform apply` to deploy them.
+To update the dashboard, you simply make the desired changes in [./terraform/grafana-dashboard](./terraform/grafana-dashboard) and then run `cd terraform && terraform apply` to deploy them.
+
+## Discord Alerts
+
+We are using Terraform to deploy Discord Alerts based on the Aegis metrics.
+
+To update the alerts, you simply make the desired changes in [./terraform/discord-alerts](./terraform/discord-alerts) and then run `cd terraform && terraform apply` to deploy them.
 
 ## Test
 
