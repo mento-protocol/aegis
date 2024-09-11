@@ -32,6 +32,7 @@ chains:
       CELOBRL: '0xe8537a3d056da446677b9e9d6c5db704eaab4787'
       CELOXOF: '0x73F93dcc49cB8A239e2032663e9475dd5ef29A08'
       CELOKES: '0x456a3D042C0DbD3db53D5489e98dFb038553B0d0'
+
   - id: celoAlfajores
     label: alfajores
     httpRpcUrl: https://alfajores-forno.celo-testnet.org
