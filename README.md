@@ -223,6 +223,34 @@ We use Terraform to deploy Grafana Dashboards and Grafana Alerts. The end-to-end
    terraform init
    ```
 
+1. Set up your local `terraform.tfvars` (think of it as `.env` for Terraform)
+
+   ```sh
+   # Create the file
+   touch terraform/terraform.tfvars
+   ```
+
+   ```hcl
+   ####################
+   # terraform.tfvars #
+   ####################
+
+   # Get this from LastPass
+   grafana_service_account_token =
+
+   # Get this from the Discord channel integration settings of #🚨︱stg-oracle-relayers
+   discord_alerts_webhook_url_staging =
+
+   # Get this from the Discord channel integration settings of #🚨︱prod-oracle-relayers
+   discord_alerts_webhook_url_prod =
+
+   # Get this from the Discord channel integration settings of #alerts-catch-all
+   discord_alerts_webhook_url_catch_all =
+
+   # Get this from [our VictorOps dashboard](https://portal.victorops.com/dash/mento-labs-gmbh#/advanced/grafana) (find the routing key under ["settings"](https://portal.victorops.com/dash/mento-labs-gmbh#/routekeys))
+   splunk_on_call_alerts_webhook_url =
+   ```
+
 1. Check that it's set up correctly
 
    ```sh
