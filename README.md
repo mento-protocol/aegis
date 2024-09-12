@@ -3,17 +3,12 @@
 > The modern concept of doing something "under someone's aegis" means doing something under the protection of a powerful, knowledgeable, or benevolent source. The word Aegis is identified with protection by a strong force rooted in Greek mythology and adopted by the Romans.
 
 - [Configuration](#configuration)
-  - [Global Config](#global-config)
-  - [Chain-specific Config](#chain-specific-config)
-  - [Metrics Config](#metrics-config)
-    - [Full Metrics Example](#full-metrics-example)
 - [Running the app](#running-the-app)
+- [Tests](#tests)
 - [Checking the Logs](#checking-the-logs)
 - [Terraform](#terraform)
-  - [Set up Terraform](#set-up-terraform)
 - [Grafana Dashboard](#grafana-dashboard)
-- [Discord Alerts](#discord-alerts)
-- [Test](#test)
+- [Grafana Alerts](#grafana-alerts)
 - [Deployment](#deployment)
 - [Adding a new Metric](#adding-a-new-metric)
 - [Stay in touch](#stay-in-touch)
@@ -180,6 +175,19 @@ pnpm run start:dev
 pnpm run start:prod
 ```
 
+## Tests
+
+```bash
+# unit tests
+pnpm run test
+
+# e2e tests
+pnpm run test:e2e
+
+# test coverage
+pnpm run test:cov
+```
+
 ## Checking the Logs
 
 ```bash
@@ -189,7 +197,7 @@ pnpm run logs
 
 ## Terraform
 
-We use Terraform to deploy Grafana Dashboards and Discord Alerts. The end-to-end Aegis flow is as follows:
+We use Terraform to deploy Grafana Dashboards and Grafana Alerts. The end-to-end Aegis flow is as follows:
 
 1. The Aegis service executes view calls and forwards the results to Prometheus
 1. Grafana ingests Prometheus metrics and allow us to visualize and react to them
@@ -233,24 +241,17 @@ We are using Terraform to deploy a Grafana Dashboard containing visualizations f
 
 To update the dashboard, you simply make the desired changes in [./terraform/grafana-dashboard](./terraform/grafana-dashboard) and then run `cd terraform && terraform apply` to deploy them.
 
-## Discord Alerts
+## Grafana Alerts
 
-We are using Terraform to deploy Discord Alerts based on the Aegis metrics.
+We are using Terraform to deploy Discord and On-Call Alerts based on the Aegis metrics.
 
-To update the alerts, you simply make the desired changes in [./terraform/discord-alerts](./terraform/discord-alerts) and then run `cd terraform && terraform apply` to deploy them.
+To update the alerts, you simply make the desired changes in [./terraform/grafana-alerts](./terraform/grafana-alerts) and then run `cd terraform && terraform apply` to deploy them.
 
-## Test
+Grafana uses the following concepts for managing alerts:
 
-```bash
-# unit tests
-pnpm run test
-
-# e2e tests
-pnpm run test:e2e
-
-# test coverage
-pnpm run test:cov
-```
+- [**Alert Rules**](https://grafana.com/docs/grafana/latest/alerting/fundamentals/alert-rules/): A set of evaluation criteria for when an alert should trigger
+- [**Contact Points**](https://grafana.com/docs/grafana/latest/alerting/fundamentals/notifications/contact-points/): They define alert channels like Discord, Splunk/VictorOps, Email etc.
+- [**Notification Policies**](https://grafana.com/docs/grafana/latest/alerting/fundamentals/notifications/notification-policies/): They define which alerts get routed to what contact point.
 
 ## Deployment
 
