@@ -46,12 +46,12 @@ resource "grafana_message_template" "low_celo_balance_alert_message" {
 {{ if eq (len .Alerts.Firing) 0 }}No alerts are currently firing.{{ end }}
 {{ range .Alerts.Firing }}
 **🚨 FIRING: Low CELO balance for {{ .Labels.owner }} on {{ .Labels.chain | title }}**
-Current balance: {{ .Values.reducedBalanceOf }} CELO
+Current balance: {{ .Values.balanceOf }} CELO
 Please top up the wallet to ensure continued operation of the relayer.
 {{ end }}
 {{ range .Alerts.Resolved }}
 **✅ RESOLVED: Sufficient CELO balance restored for {{ .Labels.owner }} on {{ .Labels.chain }}**
-Current balance: {{ .Values.reducedBalanceOf }} CELO
+Current balance: {{ .Values.balanceOf }} CELO
 {{ end }}
 {{ end }}
 EOT

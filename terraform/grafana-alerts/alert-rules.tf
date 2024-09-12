@@ -84,7 +84,7 @@ resource "grafana_rule_group" "oracle_relayers" {
       condition = "lowerThan20CELO"
       for       = "1m" // Alert if balance is low for at least 1 minute
       annotations = {
-        summary = "Low CELO balance for {{ $labels.owner }} on {{ $labels.chain | title }}. Current balance: {{ humanize $values.reducedBalanceOf }} CELO"
+        summary = "Low CELO balance for {{ $labels.owner }} on {{ $labels.chain | title }}. Current balance: {{ $values.balanceOf }} CELO"
       }
       labels = {
         service  = "oracle-relayers"
@@ -95,7 +95,7 @@ resource "grafana_rule_group" "oracle_relayers" {
       no_data_state  = "NoData"
 
       data {
-        ref_id         = "balanceOf"
+        ref_id         = "balanceOfRaw"
         datasource_uid = "grafanacloud-prom"
         relative_time_range {
           from = 600
@@ -103,21 +103,21 @@ resource "grafana_rule_group" "oracle_relayers" {
         }
         model = jsonencode({
           expr  = "balanceOf{chain=\"${rule.value}\"}"
-          refId = "balanceOf"
+          refId = "balanceOfRaw"
         })
       }
       data {
-        ref_id         = "reducedBalanceOf"
+        ref_id         = "balanceOf"
         datasource_uid = "__expr__"
         relative_time_range {
           from = 0
           to   = 0
         }
         model = jsonencode({
-          expression = "balanceOf",
+          expression = "balanceOfRaw",
           type       = "reduce",
           reducer    = "last",
-          refId      = "reducedBalanceOf"
+          refId      = "balanceOf"
         })
       }
       data {
@@ -129,7 +129,7 @@ resource "grafana_rule_group" "oracle_relayers" {
         }
         model = jsonencode({
           type       = "threshold",
-          expression = "reducedBalanceOf",
+          expression = "balanceOf",
           refId      = "lowerThan20CELO"
           conditions = [
             {
