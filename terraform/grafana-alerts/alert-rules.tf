@@ -4,26 +4,22 @@ resource "grafana_rule_group" "oracle_relayers" {
   interval_seconds = 60
 
   dynamic "rule" {
-    for_each = local.chain_config
+    for_each = local.chains
 
     content {
-      name      = "Oldest Report Expired Alert [${rule.value.label}]"
+      name      = "Oldest Report Expired Alert [${title(rule.value)}]"
       condition = "isExpired"
       for       = "1m"
       annotations = {
         summary = "The {{ $labels.rateFeed }} rate feed is stale on {{ $labels.chain | title }}. Check for possible issues with the oracle relayer."
       }
       labels = {
-        service  = "oracles"
-        severity = rule.key == "celo" ? "critical" : "warning"
+        service  = "oracle-relayers"
+        severity = rule.value == "celo" ? "page" : "warning"
       }
       exec_err_state = "Error"
       is_paused      = false
       no_data_state  = "NoData"
-
-      notification_settings {
-        contact_point = rule.value.contact_point
-      }
 
       data {
         ref_id         = "oldestReportStatus"
@@ -36,7 +32,7 @@ resource "grafana_rule_group" "oracle_relayers" {
 
         model = jsonencode({
           refId         = "oldestReportStatus"
-          expr          = "isOldestReportExpired{chain=\"${rule.key}\"}"
+          expr          = "isOldestReportExpired{chain=\"${rule.value}\"}"
           instant       = true
           intervalMs    = 1000
           maxDataPoints = 43200
@@ -81,26 +77,22 @@ resource "grafana_rule_group" "oracle_relayers" {
   }
 
   dynamic "rule" {
-    for_each = local.chain_config
+    for_each = local.chains
 
     content {
-      name      = "Low CELO Balance Alert [${rule.value.label}]"
+      name      = "Low CELO Balance Alert [${title(rule.value)}]"
       condition = "lowerThan20CELO"
       for       = "1m" // Alert if balance is low for at least 1 minute
       annotations = {
         summary = "Low CELO balance for {{ $labels.owner }} on {{ $labels.chain | title }}. Current balance: {{ humanize $values.reducedBalanceOf }} CELO"
       }
       labels = {
-        service  = "oracles"
-        severity = rule.key == "celo" ? "critical" : "warning"
+        service  = "oracle-relayers"
+        severity = rule.value == "celo" ? "warning" : "info"
       }
       exec_err_state = "Error"
       is_paused      = false
       no_data_state  = "NoData"
-
-      notification_settings {
-        contact_point = rule.value.contact_point
-      }
 
       data {
         ref_id         = "balanceOf"
@@ -110,7 +102,7 @@ resource "grafana_rule_group" "oracle_relayers" {
           to   = 0
         }
         model = jsonencode({
-          expr  = "balanceOf{chain=\"${rule.key}\"}"
+          expr  = "balanceOf{chain=\"${rule.value}\"}"
           refId = "balanceOf"
         })
       }
@@ -142,7 +134,7 @@ resource "grafana_rule_group" "oracle_relayers" {
           conditions = [
             {
               evaluator = {
-                params = [20],
+                params = [200],
                 type   = "lt",
               },
               operator = {

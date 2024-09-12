@@ -26,8 +26,12 @@ module "grafana_dashboard" {
   aegis_folder                  = grafana_folder.aegis
 }
 
-module "discord_alerts" {
-  source                        = "./discord-alerts"
-  grafana_service_account_token = var.grafana_service_account_token
-  oracle_relayers_folder        = grafana_folder.oracle_relayers
+module "grafana_alerts" {
+  source                               = "./grafana-alerts"
+  grafana_service_account_token        = var.grafana_service_account_token
+  oracle_relayers_folder               = grafana_folder.oracle_relayers
+  splunk_on_call_alerts_webhook_url    = var.splunk_on_call_alerts_webhook_url
+  discord_alerts_webhook_url_staging   = var.discord_alerts_webhook_url_staging
+  discord_alerts_webhook_url_prod      = var.discord_alerts_webhook_url_prod
+  discord_alerts_webhook_url_catch_all = var.discord_alerts_webhook_url_catch_all
 }
