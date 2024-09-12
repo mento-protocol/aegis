@@ -134,7 +134,7 @@ resource "grafana_rule_group" "oracle_relayers" {
           conditions = [
             {
               evaluator = {
-                params = [200],
+                params = [20],
                 type   = "lt",
               },
               operator = {
