@@ -9,7 +9,7 @@ resource "grafana_rule_group" "oracle_relayers" {
     content {
       name      = "Oldest Report Expired Alert [${title(rule.value)}]"
       condition = "isExpired"
-      for       = "1m"
+      for       = "5m"
       annotations = {
         summary = "The {{ $labels.rateFeed }} rate feed is stale on {{ $labels.chain | title }}. Check for possible issues with the oracle relayer."
       }
@@ -82,7 +82,7 @@ resource "grafana_rule_group" "oracle_relayers" {
     content {
       name      = "Low CELO Balance Alert [${title(rule.value)}]"
       condition = "lowerThan20CELO"
-      for       = "1m" // Alert if balance is low for at least 1 minute
+      for       = "5m" // Alert if balance is low for at least 5 minutes
       annotations = {
         summary = "Low CELO balance for {{ $labels.owner }} on {{ $labels.chain | title }}. Current balance: {{ $values.balanceOf }} CELO"
       }
