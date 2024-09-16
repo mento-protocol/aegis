@@ -311,11 +311,11 @@ To deploy the `grafana-agent,` follow the instructions in `grafana-agent/README.
 1. Export your new Grafana visualization to Terraform format
    1. After you're happy with your manually created query, it's time to convert it to Terraform so we can manage all our Grafana config as code and under version control. Your manually created query should offer an **Export** option somewhere on the top right.
    1. From there, it should have the option to export as `JSON`, `YAML`, or `Terraform (HCL)` — pick **Terraform (HCL)**
-1. Add your export to [./terraform/grafana-dashboard.tf] to the appropriate section
-   1. Finding the right place can be a bit annoying as the exported config is quite verbose. AI is your friend here. You can copy/paste the existing `grafana-dashboard.tf` into your LLM of choice and then ask it to insert your newly exported visualization into the right place.
+1. Add your export to [./terraform/grafana-dashboard/dashboard.tf](./terraform/grafana-dashboard/dashboard.tf) to the appropriate section
+   1. Finding the right place can be a bit annoying as the exported config is quite verbose. AI is your friend here. You can copy/paste the existing `dashboard.tf` into your LLM of choice and then ask it to insert your newly exported visualization into the right place.
 1. Deploy your new Grafana visualization into the main Aegis dashboard via `cd terraform && terraform apply`
 1. Ensure that it worked by reviewing the main Aegis dashboard in Grafana
-1. If anything went wrong, roll back your changes to `grafana-dashboard.tf` and keep editing until you get it right :)
+1. If anything went wrong, roll back your changes to `dashboard.tf` and keep editing until you get it right :)
 
 ## Stay in touch
 
