@@ -82,7 +82,7 @@ resource "grafana_rule_group" "oracle_relayers" {
     content {
       name      = "Low CELO Balance Alert [${title(rule.value)}]"
       condition = "lowerThan20CELO"
-      for       = "5m" // Alert if balance is low for at least 5 minutes
+      for       = "1m" // Alert if balance is low for at least 1 minutes
       annotations = {
         summary = "Low CELO balance for {{ $labels.owner }} on {{ $labels.chain | title }}. Current balance: {{ $values.balanceOf }} CELO"
       }
