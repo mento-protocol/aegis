@@ -1,15 +1,20 @@
 global:
   vars:
-    USDCUSD: '0xa1a8003936862e7a15092a91898d69fa8bce290c'
-    USDCEUR: '0x206b25ea01e188ee243131afde526ba6e131a016'
-    USDCBRL: '0x25f21a1f97607edf6852339fad709728cffb9a9d'
+    # Rate Feed IDs
     EUROCEUR: '0x26076B9702885d475ac8c3dB3Bd9F250Dc5A318B'
-    EURXOF: '0x40dc8528167557353fdcd98548ab2139a670dd0b'
     EUROCXOF: '0xed35e46b095197da30ddffa5b91d386886d5ce0d'
+    EURXOF: '0x40dc8528167557353fdcd98548ab2139a670dd0b'
     KESUSD: '0xbAcEE37d31b9f022Ef5d232B9fD53F05a531c169'
+    USDCBRL: '0x25f21a1f97607edf6852339fad709728cffb9a9d'
+    USDCEUR: '0x206b25ea01e188ee243131afde526ba6e131a016'
+    USDCUSD: '0xa1a8003936862e7a15092a91898d69fa8bce290c'
     USDTUSD: '0xE06C10C63377cD098b589c0b90314bFb55751558'
-    'relayed:PHPUSD': '0xab921d6ab1057601A9ae19879b111fC381a2a8E9'
     'relayed:CELOPHP': '0xaFc02368A174Cd08e01c373de6D0B537CECF43C8'
+    'relayed:PHPUSD': '0xab921d6ab1057601A9ae19879b111fC381a2a8E9'
+
+    # Relayer signer wallets
+    RelayerSignerPHPUSD: '0xb2cE6fa691b58Ff4fadBd610a8e09427d2918025'
+    RelayerSignerCELOPHP: '0xCCD3D48D6a5340156d85DC5A43743e65Bd4a6E51'
 
 chains:
   - id: celo
@@ -19,6 +24,8 @@ chains:
       SortedOracles: '0xefb84935239dacdecf7c5ba76d8de40b077b7b33'
       OracleHelper: '0x555a4D35328462bCadFD9558295F8E0C98FEdea0'
       BreakerBox: '0x303ED1df62Fa067659B586EbEe8De0EcE824Ab39'
+      # trunk-ignore(gitleaks/generic-api-key,checkov/CKV_SECRET_6)
+      CELOToken: '0x471ece3750da237f93b8e339c536989b8978a438'
     vars:
       CELOUSD: '0x765de816845861e75a25fca122bb6898b8b1282a'
       CELOEUR: '0xd8763cba276a3738e6de85b4b3bf5fded6d6ca73'
@@ -33,6 +40,8 @@ chains:
       SortedOracles: '0xfdd8bd58115ffbf04e47411c1d228ecc45e93075'
       OracleHelper: '0xf6D9C84e21b8B50c45013F99dED2637fd2b06f3b'
       BreakerBox: '0xC76BDf0AFb654888728003683cf748A8B1b4f5fD'
+      # trunk-ignore(gitleaks/generic-api-key,checkov/CKV_SECRET_6)
+      CELOToken: '0xF194afDf50B03e69Bd7D057c1Aa9e10c9954E4C9'
     vars:
       CELOUSD: '0x874069fa1eb16d44d622f2e0ca25eea172369bc1'
       CELOEUR: '0x10c892a6ec43a53e45d0b916b4b7d383b1b78c0f'
@@ -46,62 +55,72 @@ metrics:
     type: gauge
     chains: all
     variants:
-      - [CELOUSD]
-      - [CELOEUR]
       - [CELOBRL]
-      - [CELOXOF]
-      - [USDCUSD]
-      - [USDCEUR]
-      - [USDCBRL]
-      - [EUROCEUR]
-      - [EURXOF]
-      - [EUROCXOF]
-      - [KESUSD]
+      - [CELOEUR]
       - [CELOKES]
+      - [CELOUSD]
+      - [CELOXOF]
+      - [EUROCEUR]
+      - [EUROCXOF]
+      - [EURXOF]
+      - [KESUSD]
+      - [USDCBRL]
+      - [USDCEUR]
+      - [USDCUSD]
       - [USDTUSD]
-
-  - source: SortedOracles.isOldestReportExpired(address rateFeed)(bool,address)
-    schedule: 0/10 * * * * *
-    type: gauge
-    chains: all
-    variants:
-      - [relayed:PHPUSD]
-      - [relayed:CELOPHP]
 
   - source: OracleHelper.deviation(address rateFeed)(uint256,uint256)
     schedule: 0/10 * * * * *
     type: gauge
     chains: all
     variants:
-      - [CELOUSD]
-      - [CELOEUR]
       - [CELOBRL]
-      - [CELOXOF]
-      - [USDCUSD]
-      - [USDCEUR]
-      - [USDCBRL]
-      - [EUROCEUR]
-      - [EURXOF]
-      - [EUROCXOF]
-      - [KESUSD]
+      - [CELOEUR]
       - [CELOKES]
+      - [CELOUSD]
+      - [CELOXOF]
+      - [EUROCEUR]
+      - [EUROCXOF]
+      - [EURXOF]
+      - [KESUSD]
+      - [USDCBRL]
+      - [USDCEUR]
+      - [USDCUSD]
       - [USDTUSD]
 
   - source: BreakerBox.getRateFeedTradingMode(address rateFeed)(uint8)
     schedule: 0/10 * * * * *
     type: gauge
-    chains: all
+    chains: [celo, celoAlfajores]
     variants:
-      - [CELOUSD]
-      - [CELOEUR]
       - [CELOBRL]
-      - [USDCUSD]
-      - [USDCEUR]
-      - [USDCBRL]
+      - [CELOEUR]
+      - [CELOUSD]
+      - [CELOXOF]
       - [EUROCEUR]
       - [EUROCXOF]
-      - [CELOXOF]
       - [EURXOF]
       - [KESUSD]
+      - [USDCBRL]
+      - [USDCEUR]
+      - [USDCUSD]
       - [USDTUSD]
       - [relayed:PHPUSD]
+
+  # Checks for rate feed freshness
+  - source: SortedOracles.isOldestReportExpired(address rateFeed)(bool,address)
+    schedule: 0/10 * * * * *
+    type: gauge
+    chains: all
+    variants:
+      - [relayed:CELOPHP]
+      - [relayed:PHPUSD]
+
+  # Checks if signer wallets have enough CELO to pay for relay() transactions
+  - source: CELOToken.balanceOf(address owner)(uint256)
+    schedule: 0/10 * * * * *
+    type: gauge
+    chains: all
+    variants:
+      - [RelayerSignerPHPUSD]
+      - [RelayerSignerCELOPHP]
