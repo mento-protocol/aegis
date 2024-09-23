@@ -45,13 +45,13 @@ resource "grafana_message_template" "low_celo_balance_alert_message" {
 {{ define "discord.message.low_celo_balance_alert_message" }}
 {{ if eq (len .Alerts.Firing) 0 }}No alerts are currently firing.{{ end }}
 {{ range .Alerts.Firing }}
-**🚨 FIRING: Low CELO balance for {{ .Labels.owner }} on {{ .Labels.chain | title }}**
-Current balance: {{ .Values.balanceOf }} CELO
-Please top up the wallet to ensure continued operation of the relayer.
+**🚨 FIRING: Low CELO balance for {{ .Labels.owner }} on {{ .Labels.chain | title }}: {{ .Values.balanceOf }} CELO**
+Please top up the {{ .Labels.owner }} wallet to ensure continued operation of the relayer:
+- Send 500 CELO to the {{ .Labels.owner }} ({{ .Labels.ownerValue }}) on {{ .Labels.chain | title }} from our Deployer wallet
+- You can get the deployer wallet's private key by running `npm run secrets:get` in the `mento-deployment` repo
 {{ end }}
 {{ range .Alerts.Resolved }}
-**✅ RESOLVED: Sufficient CELO balance restored for {{ .Labels.owner }} on {{ .Labels.chain }}**
-Current balance: {{ .Values.balanceOf }} CELO
+**✅ RESOLVED: Sufficient CELO balance restored for {{ .Labels.owner }} on {{ .Labels.chain | title }}: {{ .Values.balanceOf }} CELO**
 {{ end }}
 {{ end }}
 EOT
