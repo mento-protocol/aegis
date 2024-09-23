@@ -1,5 +1,7 @@
+import { ConfigService } from '@nestjs/config';
 import { UUID, randomUUID } from 'crypto';
 import { Gauge, register } from 'prom-client';
+import type { ChainConfig } from './config';
 import { MetricSource } from './config/MetricSource';
 
 export class Metric {
@@ -14,6 +16,7 @@ export class Metric {
     public chain: string,
     public chainLabel: string,
     public type: string,
+    configService: ConfigService,
   ) {
     /**
      * TODO: Support multiple return values
@@ -26,8 +29,12 @@ export class Metric {
       throw new Error('Only functions with 1 or 2 values are supported');
     }
 
+    const chainConfig = configService
+      .get('chains')
+      .find((conf: ChainConfig) => conf.label === chainLabel);
     this.labels = this.source.functionAbi.inputs.reduce((acc, input, idx) => {
       acc[input.name] = args[idx];
+      acc[`${input.name}Value`] = chainConfig.vars[args[idx]];
       return acc;
     }, {});
     this.labels.chain = chainLabel;
@@ -41,6 +48,7 @@ export class Metric {
         help: `Return value of ${source.raw}`,
         labelNames: ['chain'].concat(
           source.functionAbi.inputs.map((input) => input.name),
+          source.functionAbi.inputs.map((input) => `${input.name}Value`),
         ),
       });
     }
