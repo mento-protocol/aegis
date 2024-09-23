@@ -34,6 +34,7 @@ export class MetricsService {
               chain,
               chains.find((c) => c.id == chain).label,
               template.type,
+              configService,
             );
           });
         })

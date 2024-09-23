@@ -55,7 +55,6 @@ export class QueryService {
 
     const vars = this.chains[metric.chain].vars;
     const client = this.clients[metric.chain];
-
     const address = this.chains[metric.chain].contracts[metric.source.contract];
     const functionName = metric.source.functionAbi.name;
     const abi = metric.source.functionAbi;
