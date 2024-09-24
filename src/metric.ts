@@ -77,8 +77,10 @@ export class Metric {
         return Number(parsed);
 
       case 'balanceOf':
-        const balance = output as bigint;
-        const balanceInEther = balance / BigInt(1e18);
+        const balance = BigInt(output[0]);
+        const decimals = BigInt(output[1]);
+
+        const balanceInEther = balance / BigInt(10) ** decimals;
         if (balanceInEther > Number.MAX_SAFE_INTEGER) {
           throw new Error(
             `Value ${balanceInEther} is too large to be a safe integer`,

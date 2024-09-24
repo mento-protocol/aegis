@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Histogram } from 'prom-client';
-import { createPublicClient, http } from 'viem';
+import { createPublicClient, http, parseAbi } from 'viem';
 import * as chains from 'viem/chains';
 import { ChainConfig } from './config';
 import { Metric } from './metric';
@@ -53,23 +53,14 @@ export class QueryService {
       );
     }
 
-    const vars = this.chains[metric.chain].vars;
     const client = this.clients[metric.chain];
     const address = this.chains[metric.chain].contracts[metric.source.contract];
     const functionName = metric.source.functionAbi.name;
     const abi = metric.source.functionAbi;
-    const args = metric.args.map((arg) => {
-      if (vars[arg] === undefined) {
-        return arg;
-      }
-      return vars[arg];
-    });
+    const args = this.mapArgs(metric.args, this.chains[metric.chain].vars);
 
-    const timer = this.queryTime.startTimer({
-      contract: metric.source.contract,
-      functionName: metric.source.functionAbi.name,
-      chain: metric.chain,
-    });
+    const timer = this.startTimer(metric);
+
     try {
       const data: bigint = await client.readContract({
         address,
@@ -77,13 +68,41 @@ export class QueryService {
         functionName,
         args,
       });
-      timer({ status: 'success' });
-      return metric.parse(data, functionName);
+
+      // If the function name is balanceOf then also get the decimals
+      // then return this with the data so it can be parsed correctly
+      if (functionName === 'balanceOf') {
+        const decimals = await client.readContract({
+          address,
+          abi: parseAbi(['function decimals() view returns (uint8)']),
+          functionName: 'decimals',
+          args: [],
+        });
+
+        timer({ status: 'success' });
+        return metric.parse([data, decimals], functionName);
+      } else {
+        timer({ status: 'success' });
+        return metric.parse(data, functionName);
+      }
     } catch (e) {
-      // TODO: Add error handling
-      this.logger.error(e);
+      this.logger.error(
+        `Error querying ${functionName} on ${metric.chain}: ${e.message}`,
+      );
       timer({ status: 'error' });
       return undefined;
     }
+  }
+
+  private mapArgs(args: any[], vars: Record<string, string>): any[] {
+    return args.map((arg) => (vars[arg] !== undefined ? vars[arg] : arg));
+  }
+
+  private startTimer(metric: Metric) {
+    return this.queryTime.startTimer({
+      contract: metric.source.contract,
+      functionName: metric.source.functionAbi.name,
+      chain: metric.chain,
+    });
   }
 }
