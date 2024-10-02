@@ -56,6 +56,7 @@ export class QueryService {
     const vars = this.chains[metric.chain].vars;
     const client = this.clients[metric.chain];
     const address = this.chains[metric.chain].contracts[metric.source.contract];
+    const contractName = metric.source.contract;
     const functionName = metric.source.functionAbi.name;
     const abi = metric.source.functionAbi;
     const args = metric.args.map((arg) => {
@@ -78,7 +79,7 @@ export class QueryService {
         args,
       });
       timer({ status: 'success' });
-      return metric.parse(data, functionName);
+      return metric.parse(data, contractName, functionName);
     } catch (e) {
       // TODO: Add error handling
       this.logger.error(e);

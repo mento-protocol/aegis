@@ -1,5 +1,7 @@
 global:
   vars:
+    Reserve: '0x9380fA34Fd9e4Fd14c06305fd7B6199089eD4eb9'
+
     # Rate Feed IDs
     EUROCEUR: '0x26076B9702885d475ac8c3dB3Bd9F250Dc5A318B'
     EUROCXOF: '0xed35e46b095197da30ddffa5b91d386886d5ce0d'
@@ -26,7 +28,11 @@ chains:
       BreakerBox: '0x303ED1df62Fa067659B586EbEe8De0EcE824Ab39'
       # trunk-ignore(gitleaks/generic-api-key,checkov/CKV_SECRET_6)
       CELOToken: '0x471ece3750da237f93b8e339c536989b8978a438'
+      USDT: '0x48065fbbe25f71c9282ddf5e1cd6d6a887483d5e' # https://tether.to/en/supported-protocols
+      USDC: '0xceba9300f2b948710d2653dd7b07f33a8b32118c' # https://www.circle.com/en/multi-chain-usdc/celo
+      axlEUROC: '0x061cc5a2C863E0C1Cb404006D559dB18A34C762d' # https://axelarscan.io/resources/assets
     vars:
+      # Chain-specific Rate Feed IDs (legacy)
       CELOUSD: '0x765de816845861e75a25fca122bb6898b8b1282a'
       CELOEUR: '0xd8763cba276a3738e6de85b4b3bf5fded6d6ca73'
       CELOBRL: '0xe8537a3d056da446677b9e9d6c5db704eaab4787'
@@ -43,6 +49,7 @@ chains:
       # trunk-ignore(gitleaks/generic-api-key,checkov/CKV_SECRET_6)
       CELOToken: '0xF194afDf50B03e69Bd7D057c1Aa9e10c9954E4C9'
     vars:
+      # Chain-specific Rate Feed IDs (legacy)
       CELOUSD: '0x874069fa1eb16d44d622f2e0ca25eea172369bc1'
       CELOEUR: '0x10c892a6ec43a53e45d0b916b4b7d383b1b78c0f'
       CELOBRL: '0xe4d517785d091d3c54818832db6094bcc2744545'
@@ -116,11 +123,38 @@ metrics:
       - [relayed:CELOPHP]
       - [relayed:PHPUSD]
 
-  # Checks if signer wallets have enough CELO to pay for relay() transactions
   - source: CELOToken.balanceOf(address owner)(uint256)
     schedule: 0/10 * * * * *
     type: gauge
     chains: all
     variants:
+      # Do signer wallets have enough CELO to pay for relay() transactions?
       - [RelayerSignerPHPUSD]
       - [RelayerSignerCELOPHP]
+
+      # Does the reserve have enough CELO for swap operations?
+      - [Reserve]
+
+  # Does the reserve have enough USDC for swap operations?
+  - source: USDC.balanceOf(address owner)(uint256)
+    schedule: 0/10 * * * * *
+    type: gauge
+    chains: [celo]
+    variants:
+      - [Reserve]
+
+  # Does the reserve have enough USDT for swap operations?
+  - source: USDT.balanceOf(address owner)(uint256)
+    schedule: 0/10 * * * * *
+    type: gauge
+    chains: [celo]
+    variants:
+      - [Reserve]
+
+  # Does the reserve have enough axlEUROC for swap operations?
+  - source: axlEUROC.balanceOf(address owner)(uint256)
+    schedule: 0/10 * * * * *
+    type: gauge
+    chains: [celo]
+    variants:
+      - [Reserve]
