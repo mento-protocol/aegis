@@ -60,6 +60,19 @@ resource "grafana_notification_policy" "oracle_relayers" {
       continue = true
     }
 
+    # Reserve Alerts
+    policy {
+      contact_point = grafana_contact_point.discord_channel_reserve.name
+
+      matcher {
+        label = "service"
+        match = "="
+        value = "reserve"
+      }
+
+      continue = true
+    }
+
     # Legacy Oracle Client Alerts
     policy {
       contact_point = "discord-alerts-oracles"
