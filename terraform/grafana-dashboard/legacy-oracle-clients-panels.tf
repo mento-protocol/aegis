@@ -20,7 +20,7 @@ locals {
             w = 12
           }
           targets = [{
-            expr         = "topk by(rateFeed) (1, numRates{chain=\"${chain}\"})"
+            expr         = "topk by(rateFeed) (1, SortedOracles_numRates{chain=\"${chain}\"})"
             legendFormat = "{{rateFeed}}"
           }]
           options = merge(local.state_timeline_config.options, {
@@ -51,7 +51,7 @@ locals {
             w = 12
           }
           targets = [{
-            expr         = "deviation{chain=\"${chain}\"}"
+            expr         = "OracleHelper_deviation{chain=\"${chain}\"}"
             legendFormat = "{{rateFeed}}"
           }]
           type = "timeseries"
