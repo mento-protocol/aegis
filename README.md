@@ -87,7 +87,7 @@ interface Chain {
 interface Metric {
   source: string;
   schedule: string;
-  type: 'gouge';
+  type: 'gauge';
   chains: 'all' | string[];
   variants: string[][];
 }
@@ -145,18 +145,18 @@ Thus, each metric will result in `number of variants * number of chains` values 
 An example of the Prometheus endpoint result:
 
 ```text
-numRates{rateFeed="CELOBRL",chain="celo"} 10
-numRates{rateFeed="CELOEUR",chain="celo"} 10
-numRates{rateFeed="CELOUSD",chain="celo"} 10
-numRates{rateFeed="USDCBRL",chain="celo"} 0
-numRates{rateFeed="USDCEUR",chain="celo"} 0
-numRates{rateFeed="USDCUSD",chain="celo"} 10
-numRates{rateFeed="CELOBRL",chain="alfajores"} 5
-numRates{rateFeed="CELOEUR",chain="alfajores"} 5
-numRates{rateFeed="CELOUSD",chain="alfajores"} 5
-numRates{rateFeed="USDCBRL",chain="alfajores"} 5
-numRates{rateFeed="USDCEUR",chain="alfajores"} 5
-numRates{rateFeed="USDCUSD",chain="alfajores"} 6
+SortedOracles_numRates{rateFeed="CELOBRL",chain="celo"} 10
+SortedOracles_numRates{rateFeed="CELOEUR",chain="celo"} 10
+SortedOracles_numRates{rateFeed="CELOUSD",chain="celo"} 10
+SortedOracles_numRates{rateFeed="USDCBRL",chain="celo"} 0
+SortedOracles_numRates{rateFeed="USDCEUR",chain="celo"} 0
+SortedOracles_numRates{rateFeed="USDCUSD",chain="celo"} 10
+SortedOracles_numRates{rateFeed="CELOBRL",chain="alfajores"} 5
+SortedOracles_numRates{rateFeed="CELOEUR",chain="alfajores"} 5
+SortedOracles_numRates{rateFeed="CELOUSD",chain="alfajores"} 5
+SortedOracles_numRates{rateFeed="USDCBRL",chain="alfajores"} 5
+SortedOracles_numRates{rateFeed="USDCEUR",chain="alfajores"} 5
+SortedOracles_numRates{rateFeed="USDCUSD",chain="alfajores"} 6
 ```
 
 ## Running the app
@@ -244,6 +244,9 @@ We use Terraform to deploy Grafana Dashboards and Grafana Alerts. The end-to-end
    # Get this from the Discord channel integration settings of #🚨︱prod-oracle-relayers
    discord_alerts_webhook_url_prod =
 
+   # Get this from the Discord channel integration settings of #🏦︱reserve-alerts
+   discord_alerts_webhook_url_reserve =
+
    # Get this from the Discord channel integration settings of #alerts-catch-all
    discord_alerts_webhook_url_catch_all =
 
@@ -278,8 +281,8 @@ To update the alerts, you simply make the desired changes in [./terraform/grafan
 Grafana uses the following concepts for managing alerts:
 
 - [**Alert Rules**](https://grafana.com/docs/grafana/latest/alerting/fundamentals/alert-rules/): A set of evaluation criteria for when an alert should trigger
-- [**Contact Points**](https://grafana.com/docs/grafana/latest/alerting/fundamentals/notifications/contact-points/): They define alert channels like Discord, Splunk/VictorOps, Email etc.
-- [**Notification Policies**](https://grafana.com/docs/grafana/latest/alerting/fundamentals/notifications/notification-policies/): They define which alerts get routed to what contact point.
+- [**Contact Points**](https://grafana.com/docs/grafana/latest/alerting/fundamentals/notifications/contact-points/): Alert channels like Discord, Splunk/VictorOps, Email etc.
+- [**Notification Policies**](https://grafana.com/docs/grafana/latest/alerting/fundamentals/notifications/notification-policies/): Routing rules to determine which alerts get routed to what contact points.
 
 ## Deployment
 
@@ -300,7 +303,7 @@ To deploy the `grafana-agent,` follow the instructions in `grafana-agent/README.
 1. Add the contract you want to run a view call on to the `chains[id].contracts` section in both `config.local.yaml` and `config.yaml` and make sure to add the correct address for each chain
 1. Add your new view call to the bottom of the `metrics` section
    1. If your view call needs any input parameters, make sure to define these either in `global.vars` or `chains[id].vars`, and reference them as `variants` in your metric
-1. Extend the `switch` statement in the [Metric.parse()](./src/metric.ts) function with the appropriate logic for your view call's function name.
+1. Extend the `switch` statement in the [Metric.parse()](./src/metric.ts) function with the appropriate logic for your view call's contract & function name.
    1. If you already see another `case` for an existing view call using the same logic (i.e. another call returning a simple `uint256`), you can add the function name of your view call to that `case`
    1. If your view call requires new or adjusted logic, add a new `case` for your function name with the appropriate logic
 1. Try out your changes locally by running `npm run dev` and see if the logs output the values you expect
