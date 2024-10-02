@@ -3,14 +3,14 @@ locals {
     id      = 3 * length(local.chains) + 4
     type    = "row"
     title   = "Aegis System Verification"
-    gridPos = { x = 0, y = 35, h = 1, w = 24 }
+    gridPos = { x = 0, y = 40, h = 1, w = 24 }
   }
 
   rpc_query_heatmap_panel = {
     id             = 3 * length(local.chains) + 5
     type           = "heatmap"
     title          = "RPC Query Heatmap"
-    gridPos        = { x = 0, y = 36, h = 8, w = 12 }
+    gridPos        = { x = 0, y = 41, h = 8, w = 12 }
     datasource_uid = "grafanacloud-prom"
     maxDataPoints  = 100
     targets = [
@@ -32,7 +32,7 @@ locals {
     id      = 3 * length(local.chains) + 6
     type    = "timeseries"
     title   = "Number of failed RPC calls"
-    gridPos = { x = 12, y = 36, h = 8, w = 12, }
+    gridPos = { x = 12, y = 41, h = 8, w = 12, }
     fieldConfig = {
       defaults = {
         custom = {
@@ -119,7 +119,7 @@ locals {
     type        = "timeseries"
     title       = "Time since last update"
     description = "This is a health check for the Aegis exporter. If it starts to go up, it may mean that Aegis is down."
-    gridPos     = { x = 0, y = 44, h = 8, w = 12 }
+    gridPos     = { x = 0, y = 49, h = 8, w = 12 }
     fieldConfig = {
       defaults = {
         custom = {
@@ -209,13 +209,10 @@ locals {
   }
 
   # Append the new row and panels to the existing panels
-  aegis_system_verification_panels = concat(
-    local.legacy_client_panels,
-    [
-      local.aegis_system_verification_row,
-      local.rpc_query_heatmap_panel,
-      local.failed_rpc_calls_panel,
-      local.time_since_last_update_panel
-    ]
-  )
+  aegis_system_verification_panels = [
+    local.aegis_system_verification_row,
+    local.rpc_query_heatmap_panel,
+    local.failed_rpc_calls_panel,
+    local.time_since_last_update_panel
+  ]
 }
