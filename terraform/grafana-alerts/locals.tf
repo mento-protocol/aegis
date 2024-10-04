@@ -44,7 +44,8 @@ locals {
     %{endfor~}
     %{endfor~}
     {{ else }}
-    Alert without a configured alert template: {{ $alertName }}
+    {{ $alertName }}
+    {{ .CommonLabels }}
     {{ end }}
     EOT
 
@@ -63,8 +64,8 @@ locals {
     {{ else if (eq $alertName "DatasourceError") }}
     The Grafana alert query might be broken. Please check the alert configuration.
     {{ else }}
-    TODO: Print labels and values
-
+    {{ $alertName}}
+    {{ .CommonLabels }}
     {{ end }}
     EOT
   }
