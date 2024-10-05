@@ -1,13 +1,12 @@
+import { randomUUID } from 'crypto';
 import { readFileSync } from 'fs';
 import * as yaml from 'js-yaml';
 import { join } from 'path';
 import z from 'zod';
-import { randomUUID } from 'crypto';
 
 import { MetricSource } from './MetricSource';
 
-const YAML_CONFIG_FILENAME =
-  process.env.NODE_ENV == 'production' ? 'config.yaml' : 'config.local.yaml';
+const YAML_CONFIG_FILENAME = 'config.yaml';
 
 export const GlobalConfig = z.object({
   vars: z.record(z.string()),

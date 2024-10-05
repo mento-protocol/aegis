@@ -2,10 +2,10 @@ locals {
   legacy_client_panels = concat(
     [
       {
-        id      = length(local.chains) + 3
+        id      = 10
         type    = "row"
         title   = "Oracles - Legacy Clients"
-        gridPos = { x = 0, y = 18, h = 1, w = 24 }
+        gridPos = { x = 0, y = 23, h = 1, w = 24 }
       }
     ],
     flatten([
@@ -15,12 +15,12 @@ locals {
           title = "Number of Oracle Report Rates [${chain}]"
           gridPos = {
             x = i * 12,
-            y = 19,
+            y = 24,
             h = 8,
             w = 12
           }
           targets = [{
-            expr         = "topk by(rateFeed) (1, numRates{chain=\"${chain}\"})"
+            expr         = "topk by(rateFeed) (1, SortedOracles_numRates{chain=\"${chain}\"})"
             legendFormat = "{{rateFeed}}"
           }]
           options = merge(local.state_timeline_config.options, {
@@ -46,12 +46,12 @@ locals {
           title = "Oracle Max Deviation [${chain}]"
           gridPos = {
             x = i * 12,
-            y = 27,
+            y = 32,
             h = 8,
             w = 12
           }
           targets = [{
-            expr         = "deviation{chain=\"${chain}\"}"
+            expr         = "OracleHelper_deviation{chain=\"${chain}\"}"
             legendFormat = "{{rateFeed}}"
           }]
           type = "timeseries"
@@ -112,7 +112,4 @@ locals {
       ]
     ])
   )
-
-
-
 }

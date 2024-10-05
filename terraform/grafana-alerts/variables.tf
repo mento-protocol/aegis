@@ -12,6 +12,13 @@ variable "oracle_relayers_folder" {
   })
 }
 
+variable "reserve_folder" {
+  description = "The Reserve folder in which to create the Reserve balance alerts"
+  type = object({
+    uid = string
+  })
+}
+
 variable "discord_alerts_webhook_url_staging" {
   description = "Webhook URL for the Discord channel where alerts for staging oracle relayers are sent"
   type        = string
@@ -20,6 +27,12 @@ variable "discord_alerts_webhook_url_staging" {
 
 variable "discord_alerts_webhook_url_prod" {
   description = "Webhook URL for the Discord channel where alerts for prod oracle relayers are sent"
+  type        = string
+  sensitive   = true
+}
+
+variable "discord_alerts_webhook_url_reserve" {
+  description = "Webhook URL for the Discord channel where alerts for reserve balances are sent"
   type        = string
   sensitive   = true
 }

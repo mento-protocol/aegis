@@ -55,7 +55,8 @@ export class Metric {
   }
 
   get name(): string {
-    return `${this.source.functionAbi.name}`;
+    // NOTE: We can't use a dot in prometheus metric names so we use an underscore instead
+    return `${this.source.contract}_${this.source.functionAbi.name}`;
   }
 
   get nameWithLabels(): string {
@@ -66,19 +67,34 @@ export class Metric {
     this.underlying.labels(this.labels).set(value);
   }
 
-  parse(output: any, functionName: string): number {
-    switch (functionName) {
-      case 'numRates':
-      case 'getRateFeedTradingMode':
+  parse(output: any, contractName: string, functionName: string): number {
+    const metricName = `${contractName}.${functionName}`;
+    switch (metricName) {
+      case 'SortedOracles.numRates':
+      case 'BreakerBox.getRateFeedTradingMode':
         const parsed = output as bigint;
         if (parsed > Number.MAX_SAFE_INTEGER) {
           throw new Error(`Value ${parsed} is too large to be a safe integer`);
         }
         return Number(parsed);
 
-      case 'balanceOf':
+      case 'CELOToken.balanceOf':
+        const celoDecimals = 1e18;
+        const celoBalanceInWei = output as bigint;
+        const celoBalanceInEther = celoBalanceInWei / BigInt(celoDecimals);
+        if (celoBalanceInEther > Number.MAX_SAFE_INTEGER) {
+          throw new Error(
+            `Value ${celoBalanceInEther} is too large to be a safe integer`,
+          );
+        }
+        return Number(celoBalanceInEther);
+
+      case 'USDC.balanceOf':
+      case 'USDT.balanceOf':
+      case 'axlEUROC.balanceOf':
+        const decimals = 1e6;
         const balance = output as bigint;
-        const balanceInEther = balance / BigInt(1e18);
+        const balanceInEther = balance / BigInt(decimals);
         if (balanceInEther > Number.MAX_SAFE_INTEGER) {
           throw new Error(
             `Value ${balanceInEther} is too large to be a safe integer`,
@@ -86,11 +102,11 @@ export class Metric {
         }
         return Number(balanceInEther);
 
-      case 'isOldestReportExpired':
+      case 'SortedOracles.isOldestReportExpired':
         const [bool] = output as [boolean, bigint];
         return bool ? 1 : 0;
 
-      case 'deviation':
+      case 'OracleHelper.deviation':
         const [numerator, denominator] = output as [bigint, bigint];
         if (denominator === BigInt(0)) {
           return 0;
@@ -105,7 +121,7 @@ export class Metric {
         return Number(value) / precision;
       default:
         throw new Error(
-          `Unknown function ${functionName} for metric ${this.name}. Make sure to add a case for it in the Metric.parse() method.`,
+          `Unknown metric '${metricName}'. Make sure to add a case for it in the Metric.parse() method.`,
         );
     }
   }

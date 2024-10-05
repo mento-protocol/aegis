@@ -2,30 +2,71 @@
 # See https://www.terraform.io/docs/language/values/locals.html
 locals {
   chains = ["celo", "alfajores"]
-  oracle_relayer_alert_config = {
-    title   = <<EOT
-{{ if or (eq .CommonLabels.alertname "Oldest Report Expired Alert [Alfajores]") (eq .CommonLabels.alertname "Oldest Report Expired Alert [Celo]") }}
-{{ template "discord.message.stale_price_alert_title" . }}
-{{ else if or (eq .CommonLabels.alertname "Low CELO Balance Alert [Alfajores]") (eq .CommonLabels.alertname "Low CELO Balance Alert [Celo]") }}
-{{ template "discord.message.low_celo_balance_alert_title" . }}
-{{ else }}
-Alert without a configured alert template: {{ .CommonLabels.alertname }}
-{{ end }}
-EOT
+  alert_types = {
+    oracle_stale_price = {
+      names = [
+        "Oldest Report Expired Alert [Alfajores]",
+        "Oldest Report Expired Alert [Celo]"
+      ],
+      title_template   = "discord.oracle_stale_price_alert_title",
+      message_template = "discord.oracle_stale_price_alert_message"
+    },
+    oracle_relayer_low_celo_balance = {
+      names = [
+        "Low CELO Balance Alert [Alfajores]",
+        "Low CELO Balance Alert [Celo]"
+      ],
+      title_template   = "discord.oracle_relayer_low_celo_balance_alert_title",
+      message_template = "discord.oracle_relayer_low_celo_balance_alert_message"
+    },
+    low_reserve_balance = {
+      names = [
+        "Low CELO Reserve Balance Alert",
+        "Low USDC Reserve Balance Alert",
+        "Low USDT Reserve Balance Alert",
+        "Low EUROC Reserve Balance Alert"
+      ],
+      title_template   = "discord.reserve_balance_alert_title",
+      message_template = "discord.reserve_balance_alert_message"
+    },
+  }
+  alert_config = {
+    title = <<EOT
+    {{ $alertName := .CommonLabels.alertname }}
+    %{for alert_type, config in local.alert_types~}
+    %{for index, name in config.names~}
+    %{if index == 0 && alert_type == keys(local.alert_types)[0]~}
+    {{ if eq $alertName "${name}" }}
+    %{else~}
+    {{ else if eq $alertName "${name}" }}
+    %{endif~}
+    {{ template "${config.title_template}" . }}
+    %{endfor~}
+    %{endfor~}
+    {{ else }}
+    {{ $alertName }}
+    {{ .CommonLabels }}
+    {{ end }}
+    EOT
+
     message = <<EOT
-{{ if or (eq .CommonLabels.alertname "Oldest Report Expired Alert [Alfajores]") (eq .CommonLabels.alertname "Oldest Report Expired Alert [Celo]") }}
-{{ template "discord.message.stale_price_alert_message" . }}
-{{ else if or (eq .CommonLabels.alertname "Low CELO Balance Alert [Alfajores]") (eq .CommonLabels.alertname "Low CELO Balance Alert [Celo]") }}
-{{ template "discord.message.low_celo_balance_alert_message" . }}
-{{ else if eq .CommonLabels.alertname "DatasourceError" }}
-The Grafana alert query might be broken. Please check the alert configuration.
-{{ else }}
-Alert without a configured alert template: {{ .CommonLabels.alertname }}
-Alert Labels:
-{{ range $k, $v := .CommonLabels }}
-  {{ $k }}: {{ $v }}
-{{ end }}
-{{ end }}
-EOT
+    {{ $alertName := .CommonLabels.alertname }}
+    %{for alert_type, config in local.alert_types~}
+    %{for index, name in config.names~}
+    %{if index == 0 && alert_type == keys(local.alert_types)[0]~}
+    {{ if (eq $alertName "${name}") }}
+    %{else~}
+    {{ else if (eq $alertName "${name}") }}
+    %{endif~}
+    {{ template "${config.message_template}" . }}
+    %{endfor~}
+    %{endfor~}
+    {{ else if (eq $alertName "DatasourceError") }}
+    The Grafana alert query might be broken. Please check the alert configuration.
+    {{ else }}
+    {{ $alertName}}
+    {{ .CommonLabels }}
+    {{ end }}
+    EOT
   }
 }

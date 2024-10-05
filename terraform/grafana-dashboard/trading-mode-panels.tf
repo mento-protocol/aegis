@@ -30,7 +30,7 @@ locals {
             })
           }
           targets = [{
-            expr         = "getRateFeedTradingMode{chain=\"${chain}\"}"
+            expr         = "BreakerBox_getRateFeedTradingMode{chain=\"${chain}\"}"
             legendFormat = "{{rateFeed}}"
           }]
         })

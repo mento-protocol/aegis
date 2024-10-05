@@ -1,7 +1,11 @@
+resource "grafana_folder" "aegis" {
+  title = "Aegis"
+}
+
 resource "grafana_folder" "oracle_relayers" {
   title = "Oracle Relayers"
 }
 
-resource "grafana_folder" "aegis" {
-  title = "Aegis"
+data "grafana_folder" "reserve" {
+  title = "Reserve"
 }

@@ -32,7 +32,7 @@ resource "grafana_rule_group" "oracle_relayers" {
 
         model = jsonencode({
           refId         = "oldestReportStatus"
-          expr          = "isOldestReportExpired{chain=\"${rule.value}\"}"
+          expr          = "SortedOracles_isOldestReportExpired{chain=\"${rule.value}\"}"
           instant       = true
           intervalMs    = 1000
           maxDataPoints = 43200
@@ -84,7 +84,7 @@ resource "grafana_rule_group" "oracle_relayers" {
       condition = "lowerThan20CELO"
       for       = "1m" // Alert if balance is low for at least 1 minutes
       annotations = {
-        summary = "Low CELO balance for {{ $labels.owner }} on {{ $labels.chain | title }}. Current balance: {{ $values.balanceOf }} CELO"
+        summary = "Low CELO balance for {{ $labels.owner }} on {{ $labels.chain | title }}. Current balance: {{ $values.CELOToken_balanceOf }} CELO"
       }
       labels = {
         service  = "oracle-relayers"
@@ -102,7 +102,7 @@ resource "grafana_rule_group" "oracle_relayers" {
           to   = 0
         }
         model = jsonencode({
-          expr  = "balanceOf{chain=\"${rule.value}\"}"
+          expr  = "CELOToken_balanceOf{chain=\"${rule.value}\", owner=~\"RelayerSignerCELOPHP|RelayerSignerPHPUSD\"}"
           refId = "balanceOfRaw"
         })
       }

@@ -30,7 +30,7 @@ locals {
             })
           }
           targets = [{
-            expr         = "isOldestReportExpired{chain=\"${chain}\"}"
+            expr         = "SortedOracles_isOldestReportExpired{chain=\"${chain}\"}"
             legendFormat = "{{rateFeed}}"
           }]
         })
@@ -102,7 +102,7 @@ locals {
           }
         }
         targets = [{
-          expr         = "balanceOf{chain=\"${chain}\"}"
+          expr         = "CELOToken_balanceOf{chain=\"${chain}\", owner!=\"Reserve\"}"
           legendFormat = "{{owner}}" # This line is updated to use the 'owner' label
           refId        = chain
         }]
