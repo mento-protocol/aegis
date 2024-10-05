@@ -300,7 +300,7 @@ To deploy the `grafana-agent,` follow the instructions in `grafana-agent/README.
 
 ## Adding a new Metric
 
-1. Add the contract you want to run a view call on to the `chains[id].contracts` section in both `config.local.yaml` and `config.yaml` and make sure to add the correct address for each chain
+1. Add the contract you want to run a view call on to the `chains[id].contracts` section in `config.yaml` and make sure to add the correct address for each chain
 1. Add your new view call to the bottom of the `metrics` section
    1. If your view call needs any input parameters, make sure to define these either in `global.vars` or `chains[id].vars`, and reference them as `variants` in your metric
 1. Extend the `switch` statement in the [Metric.parse()](./src/metric.ts) function with the appropriate logic for your view call's contract & function name.
