@@ -16,7 +16,11 @@ resource "grafana_rule_group" "reserve_balances" {
     content {
       name      = "Low ${rule.key} Reserve Balance Alert"
       condition = "lowerThan${rule.value.threshold / 1000000}m${rule.key}"
-      for       = "1m"
+
+      # Threshold must be breached for at least 1 hour, using the default 1m could get very noisy
+      # Because due to trades it could temporarily dip below the threshold and then back above it
+      # many times causing a lot of alerts.
+      for = "60m"
       annotations = {
         summary        = "Low ${rule.key} Reserve Balance: {{ humanize (index $values \"balance\").Value }} ${rule.key}"
         threshold      = "{{ humanize (${rule.value.threshold}) }}"
