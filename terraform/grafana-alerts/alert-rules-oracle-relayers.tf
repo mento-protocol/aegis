@@ -102,7 +102,7 @@ resource "grafana_rule_group" "oracle_relayers" {
           to   = 0
         }
         model = jsonencode({
-          expr  = "CELOToken_balanceOf{chain=\"${rule.value}\", owner=~\"RelayerSignerCELOPHP|RelayerSignerPHPUSD\"}"
+          expr  = "CELOToken_balanceOf{chain=\"${rule.value}\", owner=~\"^RelayerSigner.*\"}"
           refId = "balanceOfRaw"
         })
       }
