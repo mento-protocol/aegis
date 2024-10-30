@@ -110,8 +110,7 @@ pnpm run tf:deploy
 1. After successful deployment, check the logs for any errors via `pnpm run logs`
 1. Check that the new metrics appear in the Grafana Dashboard: `pnpm run grafana`
    - New rate feeds should be picked up automatically, it might take a few minutes after they show up
-1. To add new Grafana Alerts for the Relayer Signer's CELO balances, open [alert-rules-oracle-relayers.tf](./terraform/grafana-alerts/alert-rules-oracle-relayers.tf) and add your new relayer signers to this line:
-   `expr  = "CELOToken_balanceOf{chain=\"${rule.value}\", owner=~\"RelayerSignerCELOPHP|RelayerSignerPHPUSD|NEW_RELAYER_SIGNER_NAME_GOES_HERE\"}"`
+1. Check that new [Oracle Relayer Grafana Alerts](https://clabsmento.grafana.net/alerting/list) have been added for the new Relayer Signer Wallets' CELO Balance
 
 ## Checking the Logs
 
