@@ -11,12 +11,16 @@ global:
     USDCEUR: '0x206b25ea01e188ee243131afde526ba6e131a016'
     USDCUSD: '0xa1a8003936862e7a15092a91898d69fa8bce290c'
     USDTUSD: '0xE06C10C63377cD098b589c0b90314bFb55751558'
-    'relayed:CELOPHP': '0xaFc02368A174Cd08e01c373de6D0B537CECF43C8'
     'relayed:PHPUSD': '0xab921d6ab1057601A9ae19879b111fC381a2a8E9'
+    'relayed:COPUSD': '0x0196D1F4FdA21fA442e53EaF18Bf31282F6139F1'
+    'relayed:CELOPHP': '0xaFc02368A174Cd08e01c373de6D0B537CECF43C8'
+    'relayed:CELOCOP': '0x32ABF1cBdFdcD56790f427694be2658d4B1A83bC'
 
-    # Relayer signer wallets
+    # Relayer Signer Wallets
     RelayerSignerPHPUSD: '0xb2cE6fa691b58Ff4fadBd610a8e09427d2918025'
+    RelayerSignerCOPUSD: '0x95C365fBE39d9b8002f4683b0Bb6020680D9C4E0'
     RelayerSignerCELOPHP: '0xCCD3D48D6a5340156d85DC5A43743e65Bd4a6E51'
+    RelayerSignerCELOCOP: '0xd8dfB551157B0B80D41787C08885e09F994B7cC5'
 
 chains:
   - id: celo
@@ -120,17 +124,21 @@ metrics:
     type: gauge
     chains: all
     variants:
-      - [relayed:CELOPHP]
       - [relayed:PHPUSD]
+      - [relayed:COPUSD]
+      - [relayed:CELOPHP]
+      - [relayed:CELOCOP]
 
+  # Checks if the signer wallets have enough CELO to pay for the relay() transactions
   - source: CELOToken.balanceOf(address owner)(uint256)
     schedule: 0/10 * * * * *
     type: gauge
     chains: all
     variants:
-      # Do signer wallets have enough CELO to pay for relay() transactions?
       - [RelayerSignerPHPUSD]
+      - [RelayerSignerCOPUSD]
       - [RelayerSignerCELOPHP]
+      - [RelayerSignerCELOCOP]
 
       # Does the reserve have enough CELO for swap operations?
       - [Reserve]
