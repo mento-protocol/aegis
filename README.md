@@ -2,17 +2,6 @@
 
 > The modern concept of doing something "under someone's aegis" means doing something under the protection of a powerful, knowledgeable, or benevolent source. The word Aegis is identified with protection by a strong force rooted in Greek mythology and adopted by the Romans.
 
-- [Configuration](#configuration)
-- [Running the app](#running-the-app)
-- [Tests](#tests)
-- [Checking the Logs](#checking-the-logs)
-- [Terraform](#terraform)
-- [Grafana Dashboard](#grafana-dashboard)
-- [Grafana Alerts](#grafana-alerts)
-- [Deployment](#deployment)
-- [Adding a new Metric](#adding-a-new-metric)
-- [Stay in touch](#stay-in-touch)
-
 Aegis is a monitoring tool that exposes the result of on-chain view calls as Prometheus metrics that get ingested into Grafana.
 The system's ethos is that it should be generic and agnostic when it comes to business logic.
 
@@ -36,6 +25,100 @@ variants:
 Into a Grafana Dashboard like this:
 
 ![grafana screenshot](./docs/aegis-dashboard.png)
+
+- [Running the app](#running-the-app)
+- [Tests](#tests)
+- [Deployment](#deployment)
+  - [Deploying Aegis](#deploying-aegis)
+  - [Deploying Grafana Resources](#deploying-grafana-resources)
+  - [How to deploy a new rate feed](#how-to-deploy-a-new-rate-feed)
+- [Checking the Logs](#checking-the-logs)
+- [Configuration](#configuration)
+  - [Global Config](#global-config)
+  - [Chain-specific Config](#chain-specific-config)
+  - [Metrics Config](#metrics-config)
+    - [Full Metrics Example](#full-metrics-example)
+  - [Adding a new Metric](#adding-a-new-metric)
+- [Terraform for Grafana](#terraform-for-grafana)
+  - [Set up Terraform](#set-up-terraform)
+  - [Grafana Dashboard](#grafana-dashboard)
+  - [Grafana Alerts](#grafana-alerts)
+
+## Running the app
+
+```bash
+# install dependencies
+pnpm install
+
+# run a dev server
+pnpm start
+
+# run a dev server with hot reload
+pnpm run start:dev
+
+# run in prod mode
+pnpm run start:prod
+```
+
+## Tests
+
+```bash
+# unit tests
+pnpm run test
+
+# test coverage
+pnpm run test:cov
+```
+
+## Deployment
+
+### Deploying Aegis
+
+There are three main components you have to think about:
+
+1. The `aegis` service that polls view calls and exposes Prometheus metrics based on a `config.yaml` file.
+2. A service that ingests the metrics, this could be:
+   a. A `grafana-agent` instance which pushes the metrics to grafana-cloud.
+   b. A Prometheus server that ingests the metrics.
+3. (Optional) Helper smart contracts, which do any transformations needed to on-chain data for ingestion by `aegis.`
+
+Deploying `aegis` is done by running
+
+```sh
+pnpm run deploy
+```
+
+To deploy the `grafana-agent` follow the instructions in [grafana-agent/README.md](./grafana-agent/README.md)
+
+### Deploying Grafana Resources
+
+The [Grafana Dashboard](#grafana-dashboard) and [Grafana Alerts](#grafana-alerts) are managed via Terraform and can be deployed via:
+
+```sh
+pnpm run tf:deploy
+```
+
+### How to deploy a new rate feed
+
+1. Update the [config.yaml](./config.yaml):
+   - Add the new rate feed IDs and relayer signer wallets to `global.vars`
+   - Add the new rate feeds as variants to the `SortedOracles.isOldestReportExpired()` metric
+   - Add the new rate feeds as variants to the `BreakerBox.getRateFeedTradingMode()` metric
+   - Add the new relayer signer as variants to the `CELOToken.balanceOf()` metric
+1. Test the new config locally by running `pnpm start` and checking for any errors in the logs
+1. After code review, deploy the new config via `pnpm run deploy`
+1. After successful deployment, check the logs for any errors via `pnpm run logs`
+1. Check that the new metrics appear in the Grafana Dashboard: `pnpm run grafana`
+   - New rate feeds should be picked up automatically, it might take a few minutes after they show up
+1. To add new Grafana Alerts for the Relayer Signer's CELO balances, open [alert-rules-oracle-relayers.tf](./terraform/grafana-alerts/alert-rules-oracle-relayers.tf) and add your new relayer signers to this line:
+   `expr  = "CELOToken_balanceOf{chain=\"${rule.value}\", owner=~\"RelayerSignerCELOPHP|RelayerSignerPHPUSD|NEW_RELAYER_SIGNER_NAME_GOES_HERE\"}"`
+
+## Checking the Logs
+
+```bash
+# Tails the logs of the prod aegis app
+pnpm run logs
+```
 
 ## Configuration
 
@@ -159,43 +242,29 @@ SortedOracles_numRates{rateFeed="USDCEUR",chain="alfajores"} 5
 SortedOracles_numRates{rateFeed="USDCUSD",chain="alfajores"} 6
 ```
 
-## Running the app
+### Adding a new Metric
 
-```bash
-# install dependencies
-pnpm install
+1. Add the contract you want to run a view call on to the `chains[id].contracts` section in `config.yaml` and make sure to add the correct address for each chain
+1. Add your new view call to the bottom of the `metrics` section
+   1. If your view call needs any input parameters, make sure to define these either in `global.vars` or `chains[id].vars`, and reference them as `variants` in your metric
+1. Extend the `switch` statement in the [Metric.parse()](./src/metric.ts) function with the appropriate logic for your view call's contract & function name.
+   1. If you already see another `case` for an existing view call using the same logic (i.e. another call returning a simple `uint256`), you can add the function name of your view call to that `case`
+   1. If your view call requires new or adjusted logic, add a new `case` for your function name with the appropriate logic
+1. Try out your changes locally by running `npm run dev` and see if the logs output the values you expect
+1. If everything works locally, deploy your changes via `npm run deploy`
+1. After successful deployment, check if everything works as expected by monitoring the logs via `npm run logs`
+1. Create a new Grafana visualization consuming your newly added metric
+   1. If you're not a Grafana expert, the easiest would be to create a new empty dashboard and manually compose your query via the UI. You can also take inspiration from viewing the configuration of existing queries on other dashboards.
+1. Export your new Grafana visualization to Terraform format
+   1. After you're happy with your manually created query, it's time to convert it to Terraform so we can manage all our Grafana config as code and under version control. Your manually created query should offer an **Export** option somewhere on the top right.
+   1. From there, it should have the option to export as `JSON`, `YAML`, or `Terraform (HCL)` — pick **Terraform (HCL)**
+1. Add your export to [./terraform/grafana-dashboard/dashboard.tf](./terraform/grafana-dashboard/dashboard.tf) to the appropriate section
+   1. Finding the right place can be a bit annoying as the exported config is quite verbose. AI is your friend here. You can copy/paste the existing `dashboard.tf` into your LLM of choice and then ask it to insert your newly exported visualization into the right place.
+1. Deploy your new Grafana visualization into the main Aegis dashboard via `cd terraform && terraform apply`
+1. Ensure that it worked by reviewing the main Aegis dashboard in Grafana
+1. If anything went wrong, roll back your changes to `dashboard.tf` and keep editing until you get it right :)
 
-# run a dev server
-pnpm run start
-
-# run a dev server with hot reload
-pnpm run start:dev
-
-# run in prod mode
-pnpm run start:prod
-```
-
-## Tests
-
-```bash
-# unit tests
-pnpm run test
-
-# e2e tests
-pnpm run test:e2e
-
-# test coverage
-pnpm run test:cov
-```
-
-## Checking the Logs
-
-```bash
-# Tails the logs of the prod aegis app
-pnpm run logs
-```
-
-## Terraform
+## Terraform for Grafana
 
 We use Terraform to deploy Grafana Dashboards and Grafana Alerts. The end-to-end Aegis flow is as follows:
 
@@ -261,7 +330,7 @@ We use Terraform to deploy Grafana Dashboards and Grafana Alerts. The end-to-end
    terraform plan
    ```
 
-## Grafana Dashboard
+### Grafana Dashboard
 
 ```bash
 # Opens the Aegis Grafana Dashboard in your default browser
@@ -272,7 +341,7 @@ We are using Terraform to deploy a Grafana Dashboard containing visualizations f
 
 To update the dashboard, you simply make the desired changes in [./terraform/grafana-dashboard](./terraform/grafana-dashboard) and then run `cd terraform && terraform apply` to deploy them.
 
-## Grafana Alerts
+### Grafana Alerts
 
 We are using Terraform to deploy Discord and On-Call Alerts based on the Aegis metrics.
 
@@ -283,44 +352,3 @@ Grafana uses the following concepts for managing alerts:
 - [**Alert Rules**](https://grafana.com/docs/grafana/latest/alerting/fundamentals/alert-rules/): A set of evaluation criteria for when an alert should trigger
 - [**Contact Points**](https://grafana.com/docs/grafana/latest/alerting/fundamentals/notifications/contact-points/): Alert channels like Discord, Splunk/VictorOps, Email etc.
 - [**Notification Policies**](https://grafana.com/docs/grafana/latest/alerting/fundamentals/notifications/notification-policies/): Routing rules to determine which alerts get routed to what contact points.
-
-## Deployment
-
-There are three main components you have to think about:
-
-1. The `aegis` service that polls view calls and exposes Prometheus metrics based on a `config.yaml` file.
-2. A service that ingests the metrics, this could be:
-   a. A `grafana-agent` instance which pushes the metrics to grafana-cloud.
-   b. A Prometheus server that ingests the metrics.
-3. (Optional) Helper smart contracts, which do any transformations needed to on-chain data for ingestion by `aegis.`
-
-Deploying `aegis` is done simply by running `npm run deploy`.
-
-To deploy the `grafana-agent,` follow the instructions in `grafana-agent/README.md. '
-
-## Adding a new Metric
-
-1. Add the contract you want to run a view call on to the `chains[id].contracts` section in `config.yaml` and make sure to add the correct address for each chain
-1. Add your new view call to the bottom of the `metrics` section
-   1. If your view call needs any input parameters, make sure to define these either in `global.vars` or `chains[id].vars`, and reference them as `variants` in your metric
-1. Extend the `switch` statement in the [Metric.parse()](./src/metric.ts) function with the appropriate logic for your view call's contract & function name.
-   1. If you already see another `case` for an existing view call using the same logic (i.e. another call returning a simple `uint256`), you can add the function name of your view call to that `case`
-   1. If your view call requires new or adjusted logic, add a new `case` for your function name with the appropriate logic
-1. Try out your changes locally by running `npm run dev` and see if the logs output the values you expect
-1. If everything works locally, deploy your changes via `npm run deploy`
-1. After successful deployment, check if everything works as expected by monitoring the logs via `npm run logs`
-1. Create a new Grafana visualization consuming your newly added metric
-   1. If you're not a Grafana expert, the easiest would be to create a new empty dashboard and manually compose your query via the UI. You can also take inspiration from viewing the configuration of existing queries on other dashboards.
-1. Export your new Grafana visualization to Terraform format
-   1. After you're happy with your manually created query, it's time to convert it to Terraform so we can manage all our Grafana config as code and under version control. Your manually created query should offer an **Export** option somewhere on the top right.
-   1. From there, it should have the option to export as `JSON`, `YAML`, or `Terraform (HCL)` — pick **Terraform (HCL)**
-1. Add your export to [./terraform/grafana-dashboard/dashboard.tf](./terraform/grafana-dashboard/dashboard.tf) to the appropriate section
-   1. Finding the right place can be a bit annoying as the exported config is quite verbose. AI is your friend here. You can copy/paste the existing `dashboard.tf` into your LLM of choice and then ask it to insert your newly exported visualization into the right place.
-1. Deploy your new Grafana visualization into the main Aegis dashboard via `cd terraform && terraform apply`
-1. Ensure that it worked by reviewing the main Aegis dashboard in Grafana
-1. If anything went wrong, roll back your changes to `dashboard.tf` and keep editing until you get it right :)
-
-## Stay in touch
-
-- Author - [Mento Labs](https://mentolabs.xyz)
-- Twitter - [@mentolabs](https://twitter.com/mentolabs)

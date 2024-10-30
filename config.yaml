@@ -99,6 +99,7 @@ metrics:
       - [USDCUSD]
       - [USDTUSD]
 
+  # Checks rate feed trading modes
   - source: BreakerBox.getRateFeedTradingMode(address rateFeed)(uint8)
     schedule: 0/10 * * * * *
     type: gauge
@@ -129,12 +130,13 @@ metrics:
       - [relayed:CELOPHP]
       - [relayed:CELOCOP]
 
-  # Checks if the signer wallets have enough CELO to pay for the relay() transactions
+  # Checks if wallets or contracts of interest have enough CELO to pay for transactions
   - source: CELOToken.balanceOf(address owner)(uint256)
     schedule: 0/10 * * * * *
     type: gauge
     chains: all
     variants:
+      # Do signer wallets have enough CELO to pay for relay() transactions?
       - [RelayerSignerPHPUSD]
       - [RelayerSignerCOPUSD]
       - [RelayerSignerCELOPHP]
