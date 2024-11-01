@@ -14,7 +14,7 @@ resource "grafana_rule_group" "trading_modes" {
       }
       labels = {
         service  = "exchanges"
-        severity = rule.value == "celo" ? "page" : "warning"
+        severity = "warning"
       }
       exec_err_state = "Error"
       is_paused      = false
