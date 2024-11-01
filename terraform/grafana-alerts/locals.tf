@@ -29,6 +29,14 @@ locals {
       title_template   = "discord.reserve_balance_alert_title",
       message_template = "discord.reserve_balance_alert_message"
     },
+    trading_halted = {
+      names = [
+        "Trading Mode Alert [Alfajores]",
+        "Trading Mode Alert [Celo]"
+      ],
+      title_template   = "discord.trading_mode_alert_title",
+      message_template = "discord.trading_mode_alert_message"
+    }
   }
   alert_config = {
     title = <<EOT

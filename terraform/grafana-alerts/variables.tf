@@ -19,6 +19,13 @@ variable "reserve_folder" {
   })
 }
 
+variable "trading_modes_folder" {
+  description = "The Trading Modes folder in which to create the Trading Mode alerts"
+  type = object({
+    uid = string
+  })
+}
+
 variable "discord_alerts_webhook_url_staging" {
   description = "Webhook URL for the Discord channel where alerts for staging oracle relayers are sent"
   type        = string
@@ -33,6 +40,18 @@ variable "discord_alerts_webhook_url_prod" {
 
 variable "discord_alerts_webhook_url_reserve" {
   description = "Webhook URL for the Discord channel where alerts for reserve balances are sent"
+  type        = string
+  sensitive   = true
+}
+
+variable "discord_alerts_webhook_url_trading_modes_staging" {
+  description = "Webhook URL for the Discord channel where trading mode alerts on staging are sent"
+  type        = string
+  sensitive   = true
+}
+
+variable "discord_alerts_webhook_url_trading_modes_prod" {
+  description = "Webhook URL for the Discord channel where trading mode alerts on production are sent"
   type        = string
   sensitive   = true
 }

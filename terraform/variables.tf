@@ -22,6 +22,18 @@ variable "discord_alerts_webhook_url_reserve" {
   sensitive   = true
 }
 
+variable "discord_alerts_webhook_url_trading_modes_staging" {
+  description = "Webhook URL for the Discord channel where trading mode alerts on staging are sent"
+  type        = string
+  sensitive   = true
+}
+
+variable "discord_alerts_webhook_url_trading_modes_prod" {
+  description = "Webhook URL for the Discord channel where trading mode alerts on production are sent"
+  type        = string
+  sensitive   = true
+}
+
 variable "discord_alerts_webhook_url_catch_all" {
   description = "Catch-all Webhook URL for the Discord channel where alerts without a configured contact point are sent"
   type        = string
