@@ -351,3 +351,14 @@ Grafana uses the following concepts for managing alerts:
 - [**Alert Rules**](https://grafana.com/docs/grafana/latest/alerting/fundamentals/alert-rules/): A set of evaluation criteria for when an alert should trigger
 - [**Contact Points**](https://grafana.com/docs/grafana/latest/alerting/fundamentals/notifications/contact-points/): Alert channels like Discord, Splunk/VictorOps, Email etc.
 - [**Notification Policies**](https://grafana.com/docs/grafana/latest/alerting/fundamentals/notifications/notification-policies/): Routing rules to determine which alerts get routed to what contact points.
+
+### Terraform Troubleshooting
+
+#### Terraform fails to delete Grafana Resources
+
+At times, we've seen Terraform throw 409s when trying to delete old Grafana Resources (to replace them with new ones).
+
+You have two choices when this happens:
+
+1. Nuke everything via `terraform destroy` and re-deploy everything from a clean slate via `terraform apply`
+2. OR try to manually delete the resources terraform is struggling with via the Grafana API. There is a little helper script that has some example API calls that you can use locally: [grafana-api-interactions.sh](./bin/grafana-api-interactions.sh)
