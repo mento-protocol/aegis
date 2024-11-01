@@ -9,3 +9,7 @@ resource "grafana_folder" "oracle_relayers" {
 data "grafana_folder" "reserve" {
   title = "Reserve"
 }
+
+resource "grafana_folder" "trading_modes" {
+  title = "Trading Modes"
+}
