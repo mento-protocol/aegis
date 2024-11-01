@@ -13,19 +13,19 @@ resource "grafana_message_template" "trading_mode_alert_message" {
   name     = "Discord: Trading Mode Alert Message"
   template = <<EOT
 {{ define "discord.trading_mode_alert_message" }}
-  {{ if eq (len .Alerts.Firing) 0 }}No alerts are currently firing.{{ end }}
-  {{ range .Alerts.Firing -}}
-  {{ $rateFeed := .Labels.rateFeed -}}
-  {{ $chain := .Labels.chain | title -}}
-**🚨 Trading halted for [{{ $rateFeed }}]({{ .GeneratorURL }}&tab=instances) on {{ $chain }} - Check the [Circuit Breaker Dashboard](https://dune.com/mento-labs-eng/circuit-breakers) for tripped breakers**
-  {{ end -}}
-
-  {{ range .Alerts.Resolved -}}
-  {{ $rateFeed := .Labels.rateFeed -}}
-  {{ $chain := .Labels.chain | title -}}
-**✅ Trading resumed for {{ $rateFeed }} on {{ $chain }}
-  {{ end -}}
-
+{{ range .Alerts.Firing -}}
+{{ $rateFeed := .Labels.rateFeed -}}
+{{ $chain := .Labels.chain | title -}}
+- **🚨 Trading halted for [{{ $rateFeed }}]({{ .GeneratorURL }}&tab=instances) on {{ $chain }}**{{ if eq $chain "Celo" }} - Check the [Circuit Breaker Dashboard](https://dune.com/mento-labs-eng/circuit-breakers) for tripped breakers{{ end }}
 {{ end -}}
+
+{{ range .Alerts.Resolved -}}
+{{ $rateFeed := .Labels.rateFeed -}}
+{{ $chain := .Labels.chain | title -}}
+- **✅ Trading resumed for {{ $rateFeed }} on {{ $chain }}**
+{{ end -}}
+{{ end -}}
+
+{{ if eq (len .Alerts.Firing) 0 }}No alerts are currently firing 🙂.{{ end }}
 EOT
 }
