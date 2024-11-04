@@ -84,7 +84,8 @@ resource "grafana_rule_group" "oracle_relayers" {
       condition = "lowerThan20CELO"
       for       = "1m" // Alert if balance is low for at least 1 minutes
       annotations = {
-        summary = "Low CELO balance for {{ $labels.owner }} on {{ $labels.chain | title }}. Current balance: {{ $values.CELOToken_balanceOf }} CELO"
+        summary        = "Low CELO balance for {{ $labels.owner }} on {{ $labels.chain | title }}: {{ humanize (index $values \"balance\").Value }} CELO"
+        currentBalance = "{{ humanize (index $values \"balance\").Value }}"
       }
       labels = {
         service  = "oracle-relayers"
@@ -107,7 +108,7 @@ resource "grafana_rule_group" "oracle_relayers" {
         })
       }
       data {
-        ref_id         = "balanceOf"
+        ref_id         = "balance"
         datasource_uid = "__expr__"
         relative_time_range {
           from = 0
@@ -117,7 +118,7 @@ resource "grafana_rule_group" "oracle_relayers" {
           expression = "balanceOfRaw",
           type       = "reduce",
           reducer    = "last",
-          refId      = "balanceOf"
+          refId      = "balance"
         })
       }
       data {
@@ -129,7 +130,7 @@ resource "grafana_rule_group" "oracle_relayers" {
         }
         model = jsonencode({
           type       = "threshold",
-          expression = "balanceOf",
+          expression = "balance",
           refId      = "lowerThan20CELO"
           conditions = [
             {
