@@ -45,13 +45,14 @@ resource "grafana_message_template" "oracle_relayer_low_celo_balance_alert_messa
 {{ define "discord.oracle_relayer_low_celo_balance_alert_message" }}
 {{ if eq (len .Alerts.Firing) 0 }}No alerts are currently firing.{{ end }}
 {{ range .Alerts.Firing }}
-**🚨 FIRING: Low CELO balance for {{ .Labels.owner }} on {{ .Labels.chain | title }} — {{ .Values.CELOToken_balanceOf }} CELO left**
+**🚨 FIRING: Low CELO balance for {{ .Labels.owner }} on {{ .Labels.chain | title }} — {{ .Annotations.currentBalance }} CELO left**
 - Please top up the {{ .Labels.owner }} wallet to ensure continued operation of the relayer
 - Send 500 CELO to the {{ .Labels.owner }} ([{{ .Labels.ownerValue }}](https://{{ if eq .Labels.chain "alfajores" }}alfajores.{{ end }}celoscan.io/address/{{ .Labels.ownerValue }})) on {{ .Labels.chain | title }} from our Deployer wallet
 - You can get the deployer wallet's private key by running `npm run secrets:get` in the [mento-deployment](https://github.com/mento-protocol/mento-deployment/blob/main/bin/get-secrets.sh) repo
 {{ end }}
 {{ range .Alerts.Resolved }}
-**✅ RESOLVED: Sufficient CELO balance restored for [{{ .Labels.owner }}](https://{{ if eq .Labels.chain "alfajores" }}alfajores.{{ end }}celoscan.io/address/{{ .Labels.ownerValue }}) on {{ .Labels.chain | title }} — {{ .Values.CELOToken_balanceOf }} CELO**
+**✅ RESOLVED: Sufficient CELO balance restored for [{{ .Labels.owner }}](https://{{ if eq .Labels.chain "alfajores" }}alfajores.{{ end }}celoscan.io/address/{{ .Labels.ownerValue }}) on {{ .Labels.chain | title }} — {{ .Annotations.currentBalance }} CELO**
+
 {{ end }}
 {{ end }}
 EOT
