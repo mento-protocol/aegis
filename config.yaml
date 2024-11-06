@@ -117,7 +117,9 @@ metrics:
       - [USDCEUR]
       - [USDCUSD]
       - [USDTUSD]
+      # NOTE: We filtered out derived CELO rate feeds like 'relayed:CELOPHP' here because we typically don't add breakers for them
       - [relayed:PHPUSD]
+      - [relayed:COPUSD]
 
   # Checks for rate feed freshness
   - source: SortedOracles.isOldestReportExpired(address rateFeed)(bool,address)
