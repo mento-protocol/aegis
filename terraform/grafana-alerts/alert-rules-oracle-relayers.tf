@@ -1,7 +1,7 @@
 resource "grafana_rule_group" "oracle_relayers" {
   name             = "Oracle Relayer Alerts"
   folder_uid       = var.oracle_relayers_folder.uid
-  interval_seconds = 60
+  interval_seconds = 120
 
   dynamic "rule" {
     for_each = local.chains
