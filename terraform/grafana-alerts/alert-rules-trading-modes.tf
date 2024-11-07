@@ -9,6 +9,7 @@ resource "grafana_rule_group" "trading_modes" {
     content {
       name      = "Trading Mode Alert [${title(rule.value)}]"
       condition = "isTradingHalted"
+      for       = "5m"
       annotations = {
         summary = "Trading is halted for the {{ $labels.rateFeed }} rate feed on {{ $labels.chain | title }}. Check if a breaker tripped."
       }
