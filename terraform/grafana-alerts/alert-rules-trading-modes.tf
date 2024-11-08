@@ -7,19 +7,20 @@ resource "grafana_rule_group" "trading_modes" {
     for_each = local.chains
 
     content {
-      name      = "Trading Mode Alert [${title(rule.value)}]"
-      condition = "isTradingHalted"
-      for       = "5m"
+      name           = "Trading Mode Alert [${title(rule.value)}]"
+      condition      = "isTradingHalted"
+      for            = "5m"
+      exec_err_state = "Error"
+      no_data_state  = "NoData"
+
       annotations = {
         summary = "Trading is halted for the {{ $labels.rateFeed }} rate feed on {{ $labels.chain | title }}. Check if a breaker tripped."
       }
+
       labels = {
         service  = "exchanges"
         severity = "warning"
       }
-      exec_err_state = "Error"
-      is_paused      = false
-      no_data_state  = "NoData"
 
       data {
         ref_id         = "tradingMode"
@@ -31,11 +32,9 @@ resource "grafana_rule_group" "trading_modes" {
         }
 
         model = jsonencode({
-          refId         = "tradingMode"
-          expr          = "BreakerBox_getRateFeedTradingMode{chain=\"${rule.value}\"}"
-          instant       = true
-          intervalMs    = 1000
-          maxDataPoints = 43200
+          refId   = "tradingMode"
+          expr    = "BreakerBox_getRateFeedTradingMode{chain=\"${rule.value}\"}"
+          instant = true
         })
       }
       data {
@@ -69,7 +68,6 @@ resource "grafana_rule_group" "trading_modes" {
             uid  = "__expr__"
           }
           expression = "tradingMode"
-          intervalMs = 1000
           type       = "threshold"
         })
       }

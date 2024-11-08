@@ -7,19 +7,20 @@ resource "grafana_rule_group" "oracle_relayers" {
     for_each = local.chains
 
     content {
-      name      = "Oldest Report Expired Alert [${title(rule.value)}]"
-      condition = "isExpired"
-      for       = "5m"
+      name           = "Oldest Report Expired Alert [${title(rule.value)}]"
+      condition      = "isExpired"
+      for            = "5m"
+      exec_err_state = "Error"
+      no_data_state  = "NoData"
+
       annotations = {
         summary = "The {{ $labels.rateFeed }} rate feed is stale on {{ $labels.chain | title }}. Check for possible issues with the oracle relayer."
       }
+
       labels = {
         service  = "oracle-relayers"
         severity = rule.value == "celo" ? "page" : "warning"
       }
-      exec_err_state = "Error"
-      is_paused      = false
-      no_data_state  = "NoData"
 
       data {
         ref_id         = "oldestReportStatus"
@@ -31,11 +32,9 @@ resource "grafana_rule_group" "oracle_relayers" {
         }
 
         model = jsonencode({
-          refId         = "oldestReportStatus"
-          expr          = "SortedOracles_isOldestReportExpired{chain=\"${rule.value}\"}"
-          instant       = true
-          intervalMs    = 1000
-          maxDataPoints = 43200
+          refId   = "oldestReportStatus"
+          expr    = "SortedOracles_isOldestReportExpired{chain=\"${rule.value}\"}"
+          instant = true
         })
       }
       data {
@@ -69,7 +68,6 @@ resource "grafana_rule_group" "oracle_relayers" {
             uid  = "__expr__"
           }
           expression = "oldestReportStatus"
-          intervalMs = 1000
           type       = "threshold"
         })
       }
@@ -80,20 +78,21 @@ resource "grafana_rule_group" "oracle_relayers" {
     for_each = local.chains
 
     content {
-      name      = "Low CELO Balance Alert [${title(rule.value)}]"
-      condition = "lowerThan20CELO"
-      for       = "1m" // Alert if balance is low for at least 1 minutes
+      name           = "Low CELO Balance Alert [${title(rule.value)}]"
+      condition      = "lowerThan20CELO"
+      for            = "1m" // Alert if balance is low for at least 1 minutes
+      exec_err_state = "Error"
+      no_data_state  = "NoData"
+
       annotations = {
         summary        = "Low CELO balance for {{ $labels.owner }} on {{ $labels.chain | title }}: {{ humanize (index $values \"balance\").Value }} CELO"
         currentBalance = "{{ humanize (index $values \"balance\").Value }}"
       }
+
       labels = {
         service  = "oracle-relayers"
         severity = rule.value == "celo" ? "warning" : "info"
       }
-      exec_err_state = "Error"
-      is_paused      = false
-      no_data_state  = "NoData"
 
       data {
         ref_id         = "balanceOfRaw"
@@ -103,6 +102,8 @@ resource "grafana_rule_group" "oracle_relayers" {
           to   = 0
         }
         model = jsonencode({
+          # NOTE: Grafana syntax is a bit confusing here in that 'expr' and 'expression' mean different things
+          # This is a Prometheus PromQL query that fetches the balance of the CELO token for all RelayerSigner accounts
           expr  = "CELOToken_balanceOf{chain=\"${rule.value}\", owner=~\"^RelayerSigner.*\"}"
           refId = "balanceOfRaw"
         })
@@ -115,6 +116,7 @@ resource "grafana_rule_group" "oracle_relayers" {
           to   = 0
         }
         model = jsonencode({
+          # This is a Grafana expression that reduces the balance of the CELO token for all RelayerSigner accounts to a single value
           expression = "balanceOfRaw",
           type       = "reduce",
           reducer    = "last",
