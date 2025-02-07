@@ -9,8 +9,8 @@ resource "grafana_rule_group" "reserve_balances" {
     for_each = {
       # trunk-ignore(checkov/CKV_SECRET_6)
       CELO  = { token = "CELOToken", threshold = 5000000 }
-      USDC  = { token = "USDC", threshold = 2000000 }
-      USDT  = { token = "USDT", threshold = 2000000 }
+      USDC  = { token = "USDC", threshold = 1000000 }
+      USDT  = { token = "USDT", threshold = 1000000 }
       EUROC = { token = "axlEUROC", threshold = 1000000 }
     }
     content {
