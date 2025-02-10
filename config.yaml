@@ -13,14 +13,18 @@ global:
     USDTUSD: '0xE06C10C63377cD098b589c0b90314bFb55751558'
     'relayed:PHPUSD': '0xab921d6ab1057601A9ae19879b111fC381a2a8E9'
     'relayed:COPUSD': '0x0196D1F4FdA21fA442e53EaF18Bf31282F6139F1'
+    'relayed:GHSUSD': '0x44D99a013a0DAdbB4C06F9Cc9397BFd3AC12b017'
     'relayed:CELOPHP': '0xaFc02368A174Cd08e01c373de6D0B537CECF43C8'
     'relayed:CELOCOP': '0x32ABF1cBdFdcD56790f427694be2658d4B1A83bC'
+    'relayed:CELOGHS': '0x5AD3817fE11971c1fd79c7D88485af560eD5470C'
 
     # Relayer Signer Wallets
     RelayerSignerPHPUSD: '0xb2cE6fa691b58Ff4fadBd610a8e09427d2918025'
     RelayerSignerCOPUSD: '0x95C365fBE39d9b8002f4683b0Bb6020680D9C4E0'
+    RelayerSignerGHSUSD: '0x36b103087c5c46b1515c32a2d91928181F8d39f8'
     RelayerSignerCELOPHP: '0xCCD3D48D6a5340156d85DC5A43743e65Bd4a6E51'
     RelayerSignerCELOCOP: '0xd8dfB551157B0B80D41787C08885e09F994B7cC5'
+    RelayerSignerCELOGHS: '0x43C9190F712C1f3c923f02073499A97cf8a9348b'
 
 chains:
   - id: celo
@@ -120,6 +124,7 @@ metrics:
       # NOTE: We filtered out derived CELO rate feeds like 'relayed:CELOPHP' here because we typically don't add breakers for them
       - [relayed:PHPUSD]
       - [relayed:COPUSD]
+      - [relayed:GHSUSD]
 
   # Checks for rate feed freshness
   - source: SortedOracles.isOldestReportExpired(address rateFeed)(bool,address)
@@ -129,8 +134,10 @@ metrics:
     variants:
       - [relayed:PHPUSD]
       - [relayed:COPUSD]
+      - [relayed:GHSUSD]
       - [relayed:CELOPHP]
       - [relayed:CELOCOP]
+      - [relayed:CELOGHS]
 
   # Checks if wallets or contracts of interest have enough CELO to pay for transactions
   - source: CELOToken.balanceOf(address owner)(uint256)
@@ -141,8 +148,10 @@ metrics:
       # Do signer wallets have enough CELO to pay for relay() transactions?
       - [RelayerSignerPHPUSD]
       - [RelayerSignerCOPUSD]
+      - [RelayerSignerGHSUSD]
       - [RelayerSignerCELOPHP]
       - [RelayerSignerCELOCOP]
+      - [RelayerSignerCELOGHS]
 
       # Does the reserve have enough CELO for swap operations?
       - [Reserve]
