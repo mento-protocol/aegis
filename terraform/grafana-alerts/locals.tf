@@ -5,16 +5,16 @@ locals {
   alert_types = {
     oracle_stale_price = {
       names = [
-        "Oldest Report Expired Alert [Alfajores]",
-        "Oldest Report Expired Alert [Celo]"
+        "Oldest Report Expired [Alfajores]",
+        "Oldest Report Expired [Celo]"
       ],
       title_template   = "discord.oracle_stale_price_alert_title",
       message_template = "discord.oracle_stale_price_alert_message"
     },
     oracle_relayer_low_celo_balance = {
       names = [
-        "Low CELO Balance Alert [Alfajores]",
-        "Low CELO Balance Alert [Celo]"
+        "Low CELO Balance [Alfajores]",
+        "Low CELO Balance [Celo]"
       ],
       title_template   = "discord.oracle_relayer_low_celo_balance_alert_title",
       message_template = "discord.oracle_relayer_low_celo_balance_alert_message"

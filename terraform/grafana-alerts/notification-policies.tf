@@ -60,6 +60,22 @@ resource "grafana_notification_policy" "all" {
       continue = true
     }
 
+    # Mute notifications on weekends for FX feeds that don't receive new data on weekends
+    policy {
+      # Apply the mute timing to the policy
+      mute_timings = [grafana_mute_timing.weekend_mute.name]
+
+      # Only apply this policy to the weekend-disabled feeds
+      matcher {
+        label = "rateFeed"
+        match = "=~"
+        value = "relayed:PHPUSD|relayed:COPUSD|relayed:GHSUSD|relayed:CELOPHP|relayed:CELOCOP|relayed:CELOGHS"
+      }
+
+      # Continue processing other policies
+      continue = true
+    }
+
     # Reserve Alerts
     policy {
       contact_point = grafana_contact_point.discord_channel_reserve.name
@@ -105,7 +121,6 @@ resource "grafana_notification_policy" "all" {
       continue = true
     }
 
-
     # Trading Mode Alerts [Celo Mainnet]
     policy {
       contact_point = grafana_contact_point.discord_channel_trading_modes_prod.name
@@ -124,7 +139,6 @@ resource "grafana_notification_policy" "all" {
 
       continue = true
     }
-
 
     # Market Making Alerts
     policy {
