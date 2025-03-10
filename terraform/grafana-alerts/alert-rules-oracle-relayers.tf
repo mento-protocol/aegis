@@ -7,7 +7,7 @@ resource "grafana_rule_group" "oracle_relayers" {
     for_each = local.chains
 
     content {
-      name           = "Oldest Report Expired Alert [${title(rule.value)}]"
+      name           = "Oldest Report Expired [${title(rule.value)}]"
       condition      = "isExpired"
       for            = "5m"
       exec_err_state = "Error"
@@ -78,7 +78,7 @@ resource "grafana_rule_group" "oracle_relayers" {
     for_each = local.chains
 
     content {
-      name           = "Low CELO Balance Alert [${title(rule.value)}]"
+      name           = "Low CELO Balance [${title(rule.value)}]"
       condition      = "lowerThan20CELO"
       for            = "1m" // Alert if balance is low for at least 1 minutes
       exec_err_state = "Error"
