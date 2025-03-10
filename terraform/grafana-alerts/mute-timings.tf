@@ -1,20 +1,20 @@
-# Create a mute timing for weekends (Friday 23:00 CET to Sunday 22:00 CET)
-# This is to prevent alerts from being fired during the weekend.
+# Create a mute timing for weekend market closing hours (Friday 22:00 UTC to Sunday 22:00 UTC)
+# This is to prevent alerts from being fired during the weekend when FX markets are closed.
 resource "grafana_mute_timing" "weekend_mute" {
-  name = "Weekend Hours"
+  name = "Weekend Market Closing Hours"
 
   intervals {
     times {
-      start = "23:00"
+      start = "22:00"
       end   = "24:00"
     }
     weekdays = ["friday"]
-    location = "Europe/Berlin"
+    location = "UTC"
   }
 
   intervals {
     weekdays = ["saturday"]
-    location = "Europe/Berlin"
+    location = "UTC"
   }
 
   intervals {
@@ -23,6 +23,6 @@ resource "grafana_mute_timing" "weekend_mute" {
       end   = "22:00"
     }
     weekdays = ["sunday"]
-    location = "Europe/Berlin"
+    location = "UTC"
   }
 }
