@@ -105,6 +105,8 @@ pnpm run tf:deploy
    - Add the new rate feeds as variants to the `SortedOracles.isOldestReportExpired()` metric
    - Add the new rate feeds as variants to the `BreakerBox.getRateFeedTradingMode()` metric
    - Add the new relayer signer as variants to the `CELOToken.balanceOf()` metric
+1. [optional] If it's an FX rate feed with disabled trading on weekends because we don't get new price data on weekends:
+   - Add the rate feed name to the `weekend_disabled_feeds` array in [grafana-alerts/locals.tf](./terraform/grafana-alerts/locals.tf#L7)
 1. Test the new config locally by running `pnpm start` and checking for any errors in the logs
 1. After code review, deploy the new config via `pnpm run deploy`
 1. After successful deployment, check the logs for any errors via `pnpm run logs`

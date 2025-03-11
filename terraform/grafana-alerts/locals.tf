@@ -2,6 +2,20 @@
 # See https://www.terraform.io/docs/language/values/locals.html
 locals {
   chains = ["celo", "alfajores"]
+
+  # Weekend-disabled feeds that don't receive updates during market closing hours
+  weekend_disabled_feeds = [
+    "relayed:PHPUSD",
+    "relayed:COPUSD",
+    "relayed:GHSUSD",
+    "relayed:CELOPHP",
+    "relayed:CELOCOP",
+    "relayed:CELOGHS"
+  ]
+
+  # Create a regex pattern for the weekend-disabled feeds
+  weekend_disabled_feeds_pattern = join("|", local.weekend_disabled_feeds)
+
   alert_types = {
     oracle_stale_price = {
       names = [
