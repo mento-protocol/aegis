@@ -38,7 +38,45 @@ resource "grafana_notification_policy" "all" {
         value = "alfajores"
       }
 
+      # Exclude the weekend-disabled feeds
+      matcher {
+        label = "rateFeed"
+        match = "!~"
+        value = local.weekend_disabled_feeds_pattern
+      }
+
       continue = true
+    }
+
+    # Mute notifications on weekends for FX feeds that don't receive new data on weekends [Alfajores]
+    policy {
+      # Apply the mute timing to the policy
+      mute_timings = [grafana_mute_timing.weekend_mute.name]
+
+      # Use the same contact point as the Alfajores Oracle Relayer policy
+      contact_point = grafana_contact_point.discord_channel_oracle_relayers_staging.name
+
+      # Only apply this policy to the weekend-disabled feeds
+      matcher {
+        label = "service"
+        match = "="
+        value = "oracle-relayers"
+      }
+
+      matcher {
+        label = "chain"
+        match = "="
+        value = "alfajores"
+      }
+
+      matcher {
+        label = "rateFeed"
+        match = "=~"
+        value = local.weekend_disabled_feeds_pattern
+      }
+
+      # Set continue to false to prevent further processing of these specific alerts
+      continue = false
     }
 
     # Oracle Relayer Alerts [Celo Mainnet]
@@ -57,6 +95,13 @@ resource "grafana_notification_policy" "all" {
         value = "celo"
       }
 
+      # Exclude the weekend-disabled feeds
+      matcher {
+        label = "rateFeed"
+        match = "!~"
+        value = local.weekend_disabled_feeds_pattern
+      }
+
       continue = true
     }
 
@@ -65,15 +110,30 @@ resource "grafana_notification_policy" "all" {
       # Apply the mute timing to the policy
       mute_timings = [grafana_mute_timing.weekend_mute.name]
 
+      # Use the same contact point as the main Oracle Relayer policy
+      contact_point = grafana_contact_point.discord_channel_oracle_relayers_prod.name
+
       # Only apply this policy to the weekend-disabled feeds
+      matcher {
+        label = "service"
+        match = "="
+        value = "oracle-relayers"
+      }
+
+      matcher {
+        label = "chain"
+        match = "="
+        value = "celo"
+      }
+
       matcher {
         label = "rateFeed"
         match = "=~"
-        value = "relayed:PHPUSD|relayed:COPUSD|relayed:GHSUSD|relayed:CELOPHP|relayed:CELOCOP|relayed:CELOGHS"
+        value = local.weekend_disabled_feeds_pattern
       }
 
-      # Continue processing other policies
-      continue = true
+      # Set continue to false to prevent further processing of these specific alerts
+      continue = false
     }
 
     # Reserve Alerts
