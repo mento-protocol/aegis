@@ -2,8 +2,6 @@ resource "grafana_notification_policy" "all" {
   group_by      = ["alertname", "chain"]
   contact_point = grafana_contact_point.discord_channel_catch_all.name # Default contact point
 
-  # for_each = rule.value == "celo" ? [grafana_contact_point.splunk_on_call.name, grafana_contact_point.discord_channel_oracle_relayers_prod.name] : [grafana_contact_point.discord_channel_oracle_relayers_staging.name]
-
   policy {
     group_wait      = "30s"
     group_interval  = "5m"
@@ -17,6 +15,13 @@ resource "grafana_notification_policy" "all" {
         label = "severity"
         match = "="
         value = "page"
+      }
+
+      # Exclude the weekend-disabled feeds
+      matcher {
+        label = "rateFeed"
+        match = "!~"
+        value = local.weekend_disabled_feeds_pattern
       }
 
       continue = true
