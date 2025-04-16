@@ -47,7 +47,8 @@ resource "grafana_message_template" "oracle_relayer_low_celo_balance_alert_messa
 {{ range .Alerts.Firing }}
 **🚨 FIRING: Low CELO balance for {{ .Labels.owner }} on {{ .Labels.chain | title }} — {{ .Annotations.currentBalance }} CELO left**
 - Please top up the {{ .Labels.owner }} wallet to ensure continued operation of the relayer
-- Send 50 CELO to the {{ .Labels.owner }} ([{{ .Labels.ownerValue }}](https://{{ if eq .Labels.chain "alfajores" }}alfajores.{{ end }}celoscan.io/address/{{ .Labels.ownerValue }})) on {{ .Labels.chain | title }} from our Deployer wallet
+- You can do this by running the [refill script](https://github.com/mento-protocol/oracle-relayer?tab=readme-ov-file#refilling-relayer-signer-accounts) in the oracle-relayer repo
+- Or alternatively, send 50 CELO to the {{ .Labels.owner }} ([{{ .Labels.ownerValue }}](https://{{ if eq .Labels.chain "alfajores" }}alfajores.{{ end }}celoscan.io/address/{{ .Labels.ownerValue }})) on {{ .Labels.chain | title }} from our Deployer wallet
 - You can get the deployer wallet's private key by running `npm run secrets:get` in the [mento-deployment](https://github.com/mento-protocol/mento-deployment/blob/main/bin/get-secrets.sh) repo
 {{ end }}
 {{ range .Alerts.Resolved }}
