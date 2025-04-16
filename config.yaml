@@ -157,7 +157,6 @@ metrics:
       - [relayed:GHSUSD]
       - [relayed:GBPUSD]
       - [relayed:ZARUSD]
-      - [relayed:CHFUSD]
       - [relayed:CADUSD]
       - [relayed:AUDUSD]
       - [relayed:CELOPHP]
