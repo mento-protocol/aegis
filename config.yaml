@@ -14,17 +14,33 @@ global:
     'relayed:PHPUSD': '0xab921d6ab1057601A9ae19879b111fC381a2a8E9'
     'relayed:COPUSD': '0x0196D1F4FdA21fA442e53EaF18Bf31282F6139F1'
     'relayed:GHSUSD': '0x44D99a013a0DAdbB4C06F9Cc9397BFd3AC12b017'
+    'relayed:GBPUSD': '0xf590b62f9cfcc6409075b1ecAc8176fe25744B88'
+    'relayed:ZARUSD': '0x17ef04Af0c52465694a841552fc2415169b1114c'
+    'relayed:CADUSD': '0x20869cF54Ead821C45DFb2aB0C23d2e10Fbb65A4'
+    'relayed:AUDUSD': '0x646bD504C3864Ea5b8A6B6D25743721f61864A07'
     'relayed:CELOPHP': '0xaFc02368A174Cd08e01c373de6D0B537CECF43C8'
     'relayed:CELOCOP': '0x32ABF1cBdFdcD56790f427694be2658d4B1A83bC'
     'relayed:CELOGHS': '0x5AD3817fE11971c1fd79c7D88485af560eD5470C'
+    'relayed:CELOGBP': '0x6732fEF1b6EE8003A06a3D7eECFF1a36550CFDF5'
+    'relayed:CELOZAR': '0xD064b6CcFF2AE8968bA6725e9A92f3F0431bf5D0'
+    'relayed:CELOCAD': '0x15339E57E761F006834893CD5134138339e7bfCb'
+    'relayed:CELOAUD': '0x1aA86eAd81936a1E9707c6B4A7AEfb2B4A538B58'
 
     # Relayer Signer Wallets
     RelayerSignerPHPUSD: '0xb2cE6fa691b58Ff4fadBd610a8e09427d2918025'
     RelayerSignerCOPUSD: '0x95C365fBE39d9b8002f4683b0Bb6020680D9C4E0'
     RelayerSignerGHSUSD: '0x36b103087c5c46b1515c32a2d91928181F8d39f8'
+    RelayerSignerGBPUSD: '0x8103bE713aa149928D26c1b3873Ee240F8F7429E'
+    RelayerSignerZARUSD: '0xc0342D31Cc875f3dC85E3Ab352e60698444197AE'
+    RelayerSignerCADUSD: '0x857ad1CeE80c3e72f2d8e558B773E63dAB8185fe'
+    RelayerSignerAUDUSD: '0x6fa93B73F00f9c61f726bCE15f327686de05b696'
     RelayerSignerCELOPHP: '0xCCD3D48D6a5340156d85DC5A43743e65Bd4a6E51'
     RelayerSignerCELOCOP: '0xd8dfB551157B0B80D41787C08885e09F994B7cC5'
     RelayerSignerCELOGHS: '0x43C9190F712C1f3c923f02073499A97cf8a9348b'
+    RelayerSignerCELOGBP: '0x7924EaC31d10682aa3049E957E3bB72bA3FF4730'
+    RelayerSignerCELOZAR: '0x17C8c519CD32abDE464D4FA19c7461A399eE2c5a'
+    RelayerSignerCELOCAD: '0x0faBAd32E6cb81CC20756E65b4df7B2553CFf4eE'
+    RelayerSignerCELOAUD: '0x2821d073C30876187198f573Bf544200ff95bf7e'
 
 chains:
   - id: celo
@@ -125,6 +141,10 @@ metrics:
       - [relayed:PHPUSD]
       - [relayed:COPUSD]
       - [relayed:GHSUSD]
+      - [relayed:GBPUSD]
+      - [relayed:ZARUSD]
+      - [relayed:CADUSD]
+      - [relayed:AUDUSD]
 
   # Checks for rate feed freshness
   - source: SortedOracles.isOldestReportExpired(address rateFeed)(bool,address)
@@ -135,9 +155,17 @@ metrics:
       - [relayed:PHPUSD]
       - [relayed:COPUSD]
       - [relayed:GHSUSD]
+      - [relayed:GBPUSD]
+      - [relayed:ZARUSD]
+      - [relayed:CADUSD]
+      - [relayed:AUDUSD]
       - [relayed:CELOPHP]
       - [relayed:CELOCOP]
       - [relayed:CELOGHS]
+      - [relayed:CELOGBP]
+      - [relayed:CELOZAR]
+      - [relayed:CELOCAD]
+      - [relayed:CELOAUD]
 
   # Checks if wallets or contracts of interest have enough CELO to pay for transactions
   - source: CELOToken.balanceOf(address owner)(uint256)
@@ -149,9 +177,17 @@ metrics:
       - [RelayerSignerPHPUSD]
       - [RelayerSignerCOPUSD]
       - [RelayerSignerGHSUSD]
+      - [RelayerSignerGBPUSD]
+      - [RelayerSignerZARUSD]
+      - [RelayerSignerCADUSD]
+      - [RelayerSignerAUDUSD]
       - [RelayerSignerCELOPHP]
       - [RelayerSignerCELOCOP]
       - [RelayerSignerCELOGHS]
+      - [RelayerSignerCELOGBP]
+      - [RelayerSignerCELOZAR]
+      - [RelayerSignerCELOCAD]
+      - [RelayerSignerCELOAUD]
 
       # Does the reserve have enough CELO for swap operations?
       - [Reserve]
