@@ -14,7 +14,7 @@ locals {
           id          = i + length(local.chains) + 3
           title       = "Rate Feed Freshness [${chain}]"
           description = "Shows if the oldest report in SortedOracles is expired for each relayed rate feed. 1 means expired, 0 means not expired."
-          gridPos     = { x = i * 12, y = 10, h = 10, w = 24 / length(local.chains) }
+          gridPos     = { x = i * 12, y = 10, h = 20, w = 24 / length(local.chains) }
           fieldConfig = {
             defaults = merge(local.state_timeline_config.fieldConfig.defaults, {
               decimals = 0
