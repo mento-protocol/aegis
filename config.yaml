@@ -48,7 +48,6 @@ chains:
     httpRpcUrl: https://forno.celo.org
     contracts:
       SortedOracles: '0xefb84935239dacdecf7c5ba76d8de40b077b7b33'
-      OracleHelper: '0x555a4D35328462bCadFD9558295F8E0C98FEdea0'
       BreakerBox: '0x303ED1df62Fa067659B586EbEe8De0EcE824Ab39'
       # trunk-ignore(gitleaks/generic-api-key,checkov/CKV_SECRET_6)
       CELOToken: '0x471ece3750da237f93b8e339c536989b8978a438'
@@ -68,7 +67,6 @@ chains:
     httpRpcUrl: https://alfajores-forno.celo-testnet.org
     contracts:
       SortedOracles: '0xfdd8bd58115ffbf04e47411c1d228ecc45e93075'
-      OracleHelper: '0xf6D9C84e21b8B50c45013F99dED2637fd2b06f3b'
       BreakerBox: '0xC76BDf0AFb654888728003683cf748A8B1b4f5fD'
       # trunk-ignore(gitleaks/generic-api-key,checkov/CKV_SECRET_6)
       CELOToken: '0xF194afDf50B03e69Bd7D057c1Aa9e10c9954E4C9'
@@ -81,44 +79,6 @@ chains:
       CELOKES: '0x1E0433C1769271ECcF4CFF9FDdD515eefE6CdF92'
 
 metrics:
-  - source: SortedOracles.numRates(address rateFeed)(uint256)
-    schedule: 0/10 * * * * *
-    type: gauge
-    chains: all
-    variants:
-      - [CELOBRL]
-      - [CELOEUR]
-      - [CELOKES]
-      - [CELOUSD]
-      - [CELOXOF]
-      - [EUROCEUR]
-      - [EUROCXOF]
-      - [EURXOF]
-      - [KESUSD]
-      - [USDCBRL]
-      - [USDCEUR]
-      - [USDCUSD]
-      - [USDTUSD]
-
-  - source: OracleHelper.deviation(address rateFeed)(uint256,uint256)
-    schedule: 0/10 * * * * *
-    type: gauge
-    chains: all
-    variants:
-      - [CELOBRL]
-      - [CELOEUR]
-      - [CELOKES]
-      - [CELOUSD]
-      - [CELOXOF]
-      - [EUROCEUR]
-      - [EUROCXOF]
-      - [EURXOF]
-      - [KESUSD]
-      - [USDCBRL]
-      - [USDCEUR]
-      - [USDCUSD]
-      - [USDTUSD]
-
   # Checks rate feed trading modes
   - source: BreakerBox.getRateFeedTradingMode(address rateFeed)(uint8)
     schedule: 0/10 * * * * *

@@ -38,21 +38,6 @@ describe('Metric.parse', () => {
     );
   });
 
-  describe('SortedOracles.numRates()', () => {
-    it('should parse function correctly', () => {
-      const output = BigInt(10);
-      const result = metric.parse(output, 'SortedOracles', 'numRates');
-      expect(result).toBe(10);
-    });
-
-    it('should throw an error if numRates value is too large', () => {
-      const output = BigInt(Number.MAX_SAFE_INTEGER) + BigInt(1);
-      expect(() => metric.parse(output, 'SortedOracles', 'numRates')).toThrow(
-        `Value ${output} is too large to be a safe integer`,
-      );
-    });
-  });
-
   describe('BreakerBox.getRateFeedTradingMode()', () => {
     it('should parse all trading modes correctly', () => {
       const tradingModes = [1, 2, 3, 4];

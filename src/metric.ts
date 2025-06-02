@@ -70,7 +70,6 @@ export class Metric {
   parse(output: any, contractName: string, functionName: string): number {
     const metricName = `${contractName}.${functionName}`;
     switch (metricName) {
-      case 'SortedOracles.numRates':
       case 'BreakerBox.getRateFeedTradingMode':
         const parsed = output as bigint;
         if (parsed > Number.MAX_SAFE_INTEGER) {
