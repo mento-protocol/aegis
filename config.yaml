@@ -149,7 +149,7 @@ metrics:
       - [KESUSD]
       - [EUROCXOF]
       - [EURXOF]
-      # New relayed:pair format identifiers
+      # Chainlink feeds - New relayed:pair format identifiers
       - [relayed:PHPUSD]
       - [relayed:COPUSD]
       - [relayed:GHSUSD]
