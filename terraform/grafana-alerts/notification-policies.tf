@@ -191,18 +191,5 @@ resource "grafana_notification_policy" "all" {
 
       continue = true
     }
-
-    # Market Making Alerts
-    policy {
-      contact_point = "Market Making Alerts"
-
-      matcher {
-        label = "service"
-        match = "="
-        value = "marketmaker"
-      }
-
-      continue = true
-    }
   }
 }
