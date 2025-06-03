@@ -141,7 +141,7 @@ metrics:
       - [USDCEUR]
       - [USDCBRL]
       - [EUROCEUR]
-      # Chainlink feeds
+      # Chainlink feeds - Legacy identifiers
       # Legacy identifiers
       - [USDTUSD]
       - [CELOXOF]
