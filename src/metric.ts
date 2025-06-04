@@ -70,7 +70,6 @@ export class Metric {
   parse(output: any, contractName: string, functionName: string): number {
     const metricName = `${contractName}.${functionName}`;
     switch (metricName) {
-      case 'SortedOracles.numRates':
       case 'BreakerBox.getRateFeedTradingMode':
         const parsed = output as bigint;
         if (parsed > Number.MAX_SAFE_INTEGER) {
@@ -105,20 +104,6 @@ export class Metric {
       case 'SortedOracles.isOldestReportExpired':
         const [bool] = output as [boolean, bigint];
         return bool ? 1 : 0;
-
-      case 'OracleHelper.deviation':
-        const [numerator, denominator] = output as [bigint, bigint];
-        if (denominator === BigInt(0)) {
-          return 0;
-        }
-        const precision = 1e6;
-        const value = (numerator * BigInt(precision)) / denominator;
-        if (value > Number.MAX_SAFE_INTEGER) {
-          throw new Error(
-            `Value ${value} is too large to be converted to number`,
-          );
-        }
-        return Number(value) / precision;
       default:
         throw new Error(
           `Unknown metric '${metricName}'. Make sure to add a case for it in the Metric.parse() method.`,

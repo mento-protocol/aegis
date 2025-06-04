@@ -14,7 +14,7 @@ locals {
           id          = i + 2
           title       = "Rate Feed Trading Mode [${chain}]"
           description = "Rate feed trading mode for each active rate feed. If != 0, it means the trading is halted for that pair."
-          gridPos     = { x = i * 12, y = 1, h = 8, w = 24 / length(local.chains) }
+          gridPos     = { x = i * 12, y = 1, h = 12, w = 24 / length(local.chains) }
           fieldConfig = {
             defaults = merge(local.state_timeline_config.fieldConfig.defaults, {
               decimals = 0

@@ -16,15 +16,21 @@ global:
     'relayed:GHSUSD': '0x44D99a013a0DAdbB4C06F9Cc9397BFd3AC12b017'
     'relayed:GBPUSD': '0xf590b62f9cfcc6409075b1ecAc8176fe25744B88'
     'relayed:ZARUSD': '0x17ef04Af0c52465694a841552fc2415169b1114c'
+    'relayed:CHFUSD': '0x0f61BA9c30ef7CaEE7E5CC1F96BFFCb0f52ccD64'
     'relayed:CADUSD': '0x20869cF54Ead821C45DFb2aB0C23d2e10Fbb65A4'
     'relayed:AUDUSD': '0x646bD504C3864Ea5b8A6B6D25743721f61864A07'
+    'relayed:JPYUSD': '0xFDE35B45cBd2504FB5dC514F007bC2DE27034274'
+    'relayed:NGNUSD': '0xC13D42556f1baeab4a8600C735afcd5344048d3C'
     'relayed:CELOPHP': '0xaFc02368A174Cd08e01c373de6D0B537CECF43C8'
     'relayed:CELOCOP': '0x32ABF1cBdFdcD56790f427694be2658d4B1A83bC'
     'relayed:CELOGHS': '0x5AD3817fE11971c1fd79c7D88485af560eD5470C'
     'relayed:CELOGBP': '0x6732fEF1b6EE8003A06a3D7eECFF1a36550CFDF5'
     'relayed:CELOZAR': '0xD064b6CcFF2AE8968bA6725e9A92f3F0431bf5D0'
+    'relayed:CELOCHF': '0xD808031cC050CFC81e7609156002361af6a579A6'
     'relayed:CELOCAD': '0x15339E57E761F006834893CD5134138339e7bfCb'
     'relayed:CELOAUD': '0x1aA86eAd81936a1E9707c6B4A7AEfb2B4A538B58'
+    'relayed:CELOJPY': '0xd5800BbeC4Fb58b549C8de50635654E919c3Cd5D'
+    'relayed:CELONGN': '0xd9D1A7FAA5deFe7E0301Ac5363E6ca18eB78c9D7'
 
     # Relayer Signer Wallets
     RelayerSignerPHPUSD: '0xb2cE6fa691b58Ff4fadBd610a8e09427d2918025'
@@ -32,15 +38,27 @@ global:
     RelayerSignerGHSUSD: '0x36b103087c5c46b1515c32a2d91928181F8d39f8'
     RelayerSignerGBPUSD: '0x8103bE713aa149928D26c1b3873Ee240F8F7429E'
     RelayerSignerZARUSD: '0xc0342D31Cc875f3dC85E3Ab352e60698444197AE'
+    RelayerSignerCHFUSD: '0x75bB7BC38Bb886D86B6cBaBfC334B807F6926b7d'
     RelayerSignerCADUSD: '0x857ad1CeE80c3e72f2d8e558B773E63dAB8185fe'
     RelayerSignerAUDUSD: '0x6fa93B73F00f9c61f726bCE15f327686de05b696'
+    RelayerSignerJPYUSD: '0xF4615456f71157F758b7FaCaF62d57E339a664D7'
+    RelayerSignerNGNUSD: '0xbfA9203552e9b02035034befDFE012aC5029B4F9'
     RelayerSignerCELOPHP: '0xCCD3D48D6a5340156d85DC5A43743e65Bd4a6E51'
     RelayerSignerCELOCOP: '0xd8dfB551157B0B80D41787C08885e09F994B7cC5'
     RelayerSignerCELOGHS: '0x43C9190F712C1f3c923f02073499A97cf8a9348b'
     RelayerSignerCELOGBP: '0x7924EaC31d10682aa3049E957E3bB72bA3FF4730'
     RelayerSignerCELOZAR: '0x17C8c519CD32abDE464D4FA19c7461A399eE2c5a'
+    RelayerSignerCELOCHF: '0x658f09B516801Eb390d150EB601dD11428A03028'
     RelayerSignerCELOCAD: '0x0faBAd32E6cb81CC20756E65b4df7B2553CFf4eE'
     RelayerSignerCELOAUD: '0x2821d073C30876187198f573Bf544200ff95bf7e'
+    RelayerSignerCELOJPY: '0x9174bc946D0a4274ed221C75F66128174BdFB099'
+    RelayerSignerCELONGN: '0x5008F97b7713e2166041375a316990868F92B3d2'
+    RelayerSignerCELOXOF: '0xB3B87B49De2C5012467505cAb551773023B89aEB'
+    RelayerSignerCELOKES: '0x34cD259E3e92B9FFEA38E8c84665A1Ca289bfB32'
+    RelayerSignerEUROCXOF: '0x7d83c0fD005E885cB5F764Acb0d919B4f945577B'
+    RelayerSignerEURXOF: '0xDE96A69fAba07A8dfF8Bd9309c245bDf4175d3E7'
+    RelayerSignerKESUSD: '0x3c05004b74e0fa466B24ca19929ee662d5BbEc45'
+    RelayerSignerUSDTUSD: '0x36a5C808e25AF0F5e406Eaa831d1749542378794'
 
 chains:
   - id: celo
@@ -48,7 +66,6 @@ chains:
     httpRpcUrl: https://forno.celo.org
     contracts:
       SortedOracles: '0xefb84935239dacdecf7c5ba76d8de40b077b7b33'
-      OracleHelper: '0x555a4D35328462bCadFD9558295F8E0C98FEdea0'
       BreakerBox: '0x303ED1df62Fa067659B586EbEe8De0EcE824Ab39'
       # trunk-ignore(gitleaks/generic-api-key,checkov/CKV_SECRET_6)
       CELOToken: '0x471ece3750da237f93b8e339c536989b8978a438'
@@ -68,7 +85,6 @@ chains:
     httpRpcUrl: https://alfajores-forno.celo-testnet.org
     contracts:
       SortedOracles: '0xfdd8bd58115ffbf04e47411c1d228ecc45e93075'
-      OracleHelper: '0xf6D9C84e21b8B50c45013F99dED2637fd2b06f3b'
       BreakerBox: '0xC76BDf0AFb654888728003683cf748A8B1b4f5fD'
       # trunk-ignore(gitleaks/generic-api-key,checkov/CKV_SECRET_6)
       CELOToken: '0xF194afDf50B03e69Bd7D057c1Aa9e10c9954E4C9'
@@ -81,70 +97,35 @@ chains:
       CELOKES: '0x1E0433C1769271ECcF4CFF9FDdD515eefE6CdF92'
 
 metrics:
-  - source: SortedOracles.numRates(address rateFeed)(uint256)
-    schedule: 0/10 * * * * *
-    type: gauge
-    chains: all
-    variants:
-      - [CELOBRL]
-      - [CELOEUR]
-      - [CELOKES]
-      - [CELOUSD]
-      - [CELOXOF]
-      - [EUROCEUR]
-      - [EUROCXOF]
-      - [EURXOF]
-      - [KESUSD]
-      - [USDCBRL]
-      - [USDCEUR]
-      - [USDCUSD]
-      - [USDTUSD]
-
-  - source: OracleHelper.deviation(address rateFeed)(uint256,uint256)
-    schedule: 0/10 * * * * *
-    type: gauge
-    chains: all
-    variants:
-      - [CELOBRL]
-      - [CELOEUR]
-      - [CELOKES]
-      - [CELOUSD]
-      - [CELOXOF]
-      - [EUROCEUR]
-      - [EUROCXOF]
-      - [EURXOF]
-      - [KESUSD]
-      - [USDCBRL]
-      - [USDCEUR]
-      - [USDCUSD]
-      - [USDTUSD]
-
   # Checks rate feed trading modes
   - source: BreakerBox.getRateFeedTradingMode(address rateFeed)(uint8)
     schedule: 0/10 * * * * *
     type: gauge
     chains: all
     variants:
-      - [CELOBRL]
-      - [CELOEUR]
       - [CELOUSD]
-      - [CELOXOF]
+      - [CELOEUR]
+      - [CELOBRL]
+      - [USDCUSD]
+      - [USDCEUR]
+      - [USDCBRL]
       - [EUROCEUR]
+      - [USDTUSD]
+      - [CELOXOF]
       - [EUROCXOF]
       - [EURXOF]
       - [KESUSD]
-      - [USDCBRL]
-      - [USDCEUR]
-      - [USDCUSD]
-      - [USDTUSD]
       # NOTE: We filtered out derived CELO rate feeds like 'relayed:CELOPHP' here because we typically don't add breakers for them
       - [relayed:PHPUSD]
       - [relayed:COPUSD]
       - [relayed:GHSUSD]
       - [relayed:GBPUSD]
       - [relayed:ZARUSD]
+      - [relayed:CHFUSD]
       - [relayed:CADUSD]
       - [relayed:AUDUSD]
+      - [relayed:JPYUSD]
+      - [relayed:NGNUSD]
 
   # Checks for rate feed freshness
   - source: SortedOracles.isOldestReportExpired(address rateFeed)(bool,address)
@@ -152,20 +133,43 @@ metrics:
     type: gauge
     chains: all
     variants:
+      # Redstone feeds
+      - [CELOUSD]
+      - [CELOEUR]
+      - [CELOBRL]
+      - [USDCUSD]
+      - [USDCEUR]
+      - [USDCBRL]
+      - [EUROCEUR]
+      # Chainlink feeds - Legacy identifiers
+      # Legacy identifiers
+      - [USDTUSD]
+      - [CELOXOF]
+      - [CELOKES]
+      - [KESUSD]
+      - [EUROCXOF]
+      - [EURXOF]
+      # Chainlink feeds - New relayed:pair format identifiers
       - [relayed:PHPUSD]
       - [relayed:COPUSD]
       - [relayed:GHSUSD]
       - [relayed:GBPUSD]
       - [relayed:ZARUSD]
+      - [relayed:CHFUSD]
       - [relayed:CADUSD]
       - [relayed:AUDUSD]
+      - [relayed:JPYUSD]
+      - [relayed:NGNUSD]
       - [relayed:CELOPHP]
       - [relayed:CELOCOP]
       - [relayed:CELOGHS]
       - [relayed:CELOGBP]
       - [relayed:CELOZAR]
+      - [relayed:CELOCHF]
       - [relayed:CELOCAD]
       - [relayed:CELOAUD]
+      - [relayed:CELOJPY]
+      - [relayed:CELONGN]
 
   # Checks if wallets or contracts of interest have enough CELO to pay for transactions
   - source: CELOToken.balanceOf(address owner)(uint256)
@@ -179,15 +183,27 @@ metrics:
       - [RelayerSignerGHSUSD]
       - [RelayerSignerGBPUSD]
       - [RelayerSignerZARUSD]
+      - [RelayerSignerCHFUSD]
       - [RelayerSignerCADUSD]
       - [RelayerSignerAUDUSD]
+      - [RelayerSignerJPYUSD]
+      - [RelayerSignerNGNUSD]
       - [RelayerSignerCELOPHP]
       - [RelayerSignerCELOCOP]
       - [RelayerSignerCELOGHS]
       - [RelayerSignerCELOGBP]
       - [RelayerSignerCELOZAR]
+      - [RelayerSignerCELOCHF]
       - [RelayerSignerCELOCAD]
       - [RelayerSignerCELOAUD]
+      - [RelayerSignerCELOJPY]
+      - [RelayerSignerCELONGN]
+      - [RelayerSignerCELOXOF]
+      - [RelayerSignerCELOKES]
+      - [RelayerSignerEUROCXOF]
+      - [RelayerSignerEURXOF]
+      - [RelayerSignerKESUSD]
+      - [RelayerSignerUSDTUSD]
 
       # Does the reserve have enough CELO for swap operations?
       - [Reserve]

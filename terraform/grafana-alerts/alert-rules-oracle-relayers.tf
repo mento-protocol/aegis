@@ -79,7 +79,7 @@ resource "grafana_rule_group" "oracle_relayers" {
 
     content {
       name           = "Low CELO Balance [${title(rule.value)}]"
-      condition      = "lowerThan20CELO"
+      condition      = "lowerThan5CELO"
       for            = "1m" // Alert if balance is low for at least 1 minutes
       exec_err_state = "Error"
       no_data_state  = "NoData"
@@ -124,7 +124,7 @@ resource "grafana_rule_group" "oracle_relayers" {
         })
       }
       data {
-        ref_id         = "lowerThan20CELO"
+        ref_id         = "lowerThan5CELO"
         datasource_uid = "__expr__"
         relative_time_range {
           from = 0
@@ -133,11 +133,11 @@ resource "grafana_rule_group" "oracle_relayers" {
         model = jsonencode({
           type       = "threshold",
           expression = "balance",
-          refId      = "lowerThan20CELO"
+          refId      = "lowerThan5CELO"
           conditions = [
             {
               evaluator = {
-                params = [20],
+                params = [5],
                 type   = "lt",
               },
               operator = {

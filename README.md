@@ -9,7 +9,7 @@ It allows you to turn a `config.yaml` like this:
 
 ```yaml
 # config.yaml
-source: SortedOracles.numRates(address rateFeed)(uint256)
+source: SortedOracles.isOldestReportExpired(address rateFeed)(bool,address)
 schedule: 0/10 * * * * *
 type: gauge
 chains: all
@@ -186,16 +186,16 @@ interface Metric {
   For example:
 
   ```sol
-  SortedOracles.numRates(address rateFeed)(uint256)
+  SortedOracles.isOldestReportExpired(address rateFeed)(bool,address)
   ```
 
   The contract name must be defined in the `chains[id].contracts` configs that the metric targets.
 
   The system currently supports various view call types, such as:
 
-  - `SortedOracles.numRates(address rateFeed)(uint256)`: A single `uint256` value which must not exceed `Number.MAX_SAFE_INTEGER`.
+  - `SortedOracles.isOldestReportExpired(address rateFeed)(bool,address)`: A `bool` indicating whether the report on the given rate feed identifier has expired.
+  - `BreakerBox.getRateFeedTradingMode(address rateFeed)(uint8)`: A single `uint8` indicating the trading mode of the given rate feed identifier.
   - `CELOToken.balanceOf(address owner)(uint256)`: A single `uint256` value, divided by 1e18 which must not exceed `Number.MAX_SAFE_INTEGER`.
-  - `OracleHelper.deviation(address rateFeed)(uint256,uint256)`: Two `uint256`: value and scale. The metric exposed is then `value/scale`, which must also fit into a `Number`. The conversion will keep 1e6 of precision.
 
   See the [Adding a new Metric section](#adding-a-new-metric) to learn how to add new view calls to Aegis.
 
@@ -207,7 +207,7 @@ interface Metric {
 #### Full Metrics Example
 
 ```yaml
-source: SortedOracles.numRates(address rateFeed)(uint256)
+source: SortedOracles.isOldestReportExpired(address rateFeed)(bool,address)
 schedule: 0/10 * * * * *
 type: gauge
 chains: all
@@ -215,13 +215,10 @@ variants:
   - ['CELOUSD']
   - ['CELOEUR']
   - ['CELOBRL']
-  - ['USDCUSD']
-  - ['USDCEUR']
-  - ['USDCBRL']
 ```
 
 The `variants` are where the `vars` from the `global` and `chain` configs come into play.
-Here, we're calling the function six times and, each time, passing the value of the variant variables as the `rateFeed` argument to the view call.
+Here, we're calling the function three times and, each time, passing the value of the variant variables as the `rateFeed` argument to the view call.
 
 All arguments of the view call will also be passed as metric labels to Prometheus.
 Thus, each metric will result in `number of variants * number of chains` values recorded.
@@ -229,18 +226,9 @@ Thus, each metric will result in `number of variants * number of chains` values 
 An example of the Prometheus endpoint result:
 
 ```text
-SortedOracles_numRates{rateFeed="CELOBRL",chain="celo"} 10
-SortedOracles_numRates{rateFeed="CELOEUR",chain="celo"} 10
-SortedOracles_numRates{rateFeed="CELOUSD",chain="celo"} 10
-SortedOracles_numRates{rateFeed="USDCBRL",chain="celo"} 0
-SortedOracles_numRates{rateFeed="USDCEUR",chain="celo"} 0
-SortedOracles_numRates{rateFeed="USDCUSD",chain="celo"} 10
-SortedOracles_numRates{rateFeed="CELOBRL",chain="alfajores"} 5
-SortedOracles_numRates{rateFeed="CELOEUR",chain="alfajores"} 5
-SortedOracles_numRates{rateFeed="CELOUSD",chain="alfajores"} 5
-SortedOracles_numRates{rateFeed="USDCBRL",chain="alfajores"} 5
-SortedOracles_numRates{rateFeed="USDCEUR",chain="alfajores"} 5
-SortedOracles_numRates{rateFeed="USDCUSD",chain="alfajores"} 6
+SortedOracles_isOldestReportExpired{rateFeed="CELOUSD",rateFeedValue="0x765de816845861e75a25fca122bb6898b8b1282a",chain="celo"} 0
+SortedOracles_isOldestReportExpired{rateFeed="CELOEUR",rateFeedValue="0xd8763cba276a3738e6de85b4b3bf5fded6d6ca73",chain="celo"} 0
+SortedOracles_isOldestReportExpired{rateFeed="CELOBRL",rateFeedValue="0xe8537a3d056da446677b9e9d6c5db704eaab4787",chain="celo"} 0
 ```
 
 ### Adding a new Metric

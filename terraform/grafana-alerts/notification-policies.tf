@@ -154,19 +154,6 @@ resource "grafana_notification_policy" "all" {
       continue = true
     }
 
-    # Legacy Oracle Client Alerts
-    policy {
-      contact_point = "discord-alerts-oracles"
-
-      matcher {
-        label = "service"
-        match = "="
-        value = "oracles"
-      }
-
-      continue = true
-    }
-
     # Trading Mode Alerts [Alfajores]
     policy {
       contact_point = grafana_contact_point.discord_channel_trading_modes_staging.name
@@ -200,19 +187,6 @@ resource "grafana_notification_policy" "all" {
         label = "chain"
         match = "="
         value = "celo"
-      }
-
-      continue = true
-    }
-
-    # Market Making Alerts
-    policy {
-      contact_point = "Market Making Alerts"
-
-      matcher {
-        label = "service"
-        match = "="
-        value = "marketmaker"
       }
 
       continue = true

@@ -38,21 +38,6 @@ describe('Metric.parse', () => {
     );
   });
 
-  describe('SortedOracles.numRates()', () => {
-    it('should parse function correctly', () => {
-      const output = BigInt(10);
-      const result = metric.parse(output, 'SortedOracles', 'numRates');
-      expect(result).toBe(10);
-    });
-
-    it('should throw an error if numRates value is too large', () => {
-      const output = BigInt(Number.MAX_SAFE_INTEGER) + BigInt(1);
-      expect(() => metric.parse(output, 'SortedOracles', 'numRates')).toThrow(
-        `Value ${output} is too large to be a safe integer`,
-      );
-    });
-  });
-
   describe('BreakerBox.getRateFeedTradingMode()', () => {
     it('should parse all trading modes correctly', () => {
       const tradingModes = [1, 2, 3, 4];
@@ -85,35 +70,6 @@ describe('Metric.parse', () => {
         'isOldestReportExpired',
       );
       expect(result).toBe(1);
-    });
-  });
-
-  describe('OracleHelper.deviation()', () => {
-    it('should parse function correctly', () => {
-      const numerator = BigInt(100);
-      const denominator = BigInt(200);
-      const output: [bigint, bigint] = [numerator, denominator];
-      const result = metric.parse(output, 'OracleHelper', 'deviation');
-      expect(result).toBe(0.5);
-    });
-
-    it('should return 0 for deviation if denominator is zero', () => {
-      const numerator = BigInt(100);
-      const denominator = BigInt(0);
-      const output: [bigint, bigint] = [numerator, denominator];
-      const result = metric.parse(output, 'OracleHelper', 'deviation');
-      expect(result).toBe(0);
-    });
-
-    it('should throw an error if deviation value is too large', () => {
-      const numerator = BigInt(Number.MAX_SAFE_INTEGER) * BigInt(2);
-      const denominator = BigInt(1);
-      const precision = BigInt(1e6);
-      const value = (numerator * precision) / denominator;
-      const output: [bigint, bigint] = [numerator, denominator];
-      expect(() => metric.parse(output, 'OracleHelper', 'deviation')).toThrow(
-        `Value ${value} is too large to be converted to number`,
-      );
     });
   });
 
