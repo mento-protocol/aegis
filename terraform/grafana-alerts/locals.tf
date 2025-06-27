@@ -10,7 +10,10 @@ locals {
     "relayed:GHSUSD",
     "relayed:CELOPHP",
     "relayed:CELOCOP",
-    "relayed:CELOGHS"
+    "relayed:CELOGHS",
+    "CELOXOF",
+    "EUROCXOF",
+    "EURXOF"
   ]
 
   # Create a regex pattern for the weekend-disabled feeds

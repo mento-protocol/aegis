@@ -21,6 +21,9 @@ global:
     'relayed:AUDUSD': '0x646bD504C3864Ea5b8A6B6D25743721f61864A07'
     'relayed:JPYUSD': '0xFDE35B45cBd2504FB5dC514F007bC2DE27034274'
     'relayed:NGNUSD': '0xC13D42556f1baeab4a8600C735afcd5344048d3C'
+    'relayed:EURUSD': '0xF4f9bBdA9CD6841fCB9b1510f9269E2dB42a6e3a'
+    'relayed:BRLUSD': '0x9dB83bE97C82912cB342407dd7b880983052B9c1'
+    'relayed:XOFUSD': '0x43620310c2FEADbFEcFd71b5A93E6e28946d64a5'
     'relayed:CELOPHP': '0xaFc02368A174Cd08e01c373de6D0B537CECF43C8'
     'relayed:CELOCOP': '0x32ABF1cBdFdcD56790f427694be2658d4B1A83bC'
     'relayed:CELOGHS': '0x5AD3817fE11971c1fd79c7D88485af560eD5470C'
@@ -43,6 +46,9 @@ global:
     RelayerSignerAUDUSD: '0x6fa93B73F00f9c61f726bCE15f327686de05b696'
     RelayerSignerJPYUSD: '0xF4615456f71157F758b7FaCaF62d57E339a664D7'
     RelayerSignerNGNUSD: '0xbfA9203552e9b02035034befDFE012aC5029B4F9'
+    RelayerSignerEURUSD: '0x7973B53c09Ec35cdCa71D46b98801ddeD856BB20'
+    RelayerSignerBRLUSD: '0x7a82bfDeC85bF54B240065CdC20A811BF56528C8'
+    RelayerSignerXOFUSD: '0x2C5dB0140b6B25CA6a37304198095B23E2604dF2'
     RelayerSignerCELOPHP: '0xCCD3D48D6a5340156d85DC5A43743e65Bd4a6E51'
     RelayerSignerCELOCOP: '0xd8dfB551157B0B80D41787C08885e09F994B7cC5'
     RelayerSignerCELOGHS: '0x43C9190F712C1f3c923f02073499A97cf8a9348b'
@@ -126,6 +132,9 @@ metrics:
       - [relayed:AUDUSD]
       - [relayed:JPYUSD]
       - [relayed:NGNUSD]
+      - [relayed:EURUSD]
+      - [relayed:BRLUSD]
+      - [relayed:XOFUSD]
 
   # Checks for rate feed freshness
   - source: SortedOracles.isOldestReportExpired(address rateFeed)(bool,address)
@@ -160,6 +169,9 @@ metrics:
       - [relayed:AUDUSD]
       - [relayed:JPYUSD]
       - [relayed:NGNUSD]
+      - [relayed:EURUSD]
+      - [relayed:BRLUSD]
+      - [relayed:XOFUSD]
       - [relayed:CELOPHP]
       - [relayed:CELOCOP]
       - [relayed:CELOGHS]
@@ -188,6 +200,9 @@ metrics:
       - [RelayerSignerAUDUSD]
       - [RelayerSignerJPYUSD]
       - [RelayerSignerNGNUSD]
+      - [RelayerSignerEURUSD]
+      - [RelayerSignerBRLUSD]
+      - [RelayerSignerXOFUSD]
       - [RelayerSignerCELOPHP]
       - [RelayerSignerCELOCOP]
       - [RelayerSignerCELOGHS]
