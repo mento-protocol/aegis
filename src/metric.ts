@@ -90,7 +90,7 @@ export class Metric {
 
       case 'USDC.balanceOf':
       case 'USDT.balanceOf':
-      case 'axlEUROC.balanceOf':
+      case 'axlUSDC.balanceOf':
         const decimals = 1e6;
         const balance = output as bigint;
         const balanceInEther = balance / BigInt(decimals);
