@@ -7,7 +7,7 @@ resource "grafana_notification_policy" "all" {
     group_interval  = "5m"
     repeat_interval = "4h"
 
-    # On-Call Alerts
+    # On-Call Alert Policy for weekend-enabled feeds
     policy {
       contact_point = grafana_contact_point.splunk_on_call.name
 
@@ -17,10 +17,33 @@ resource "grafana_notification_policy" "all" {
         value = "page"
       }
 
-      # Exclude the weekend-disabled feeds
+      # Only weekend-enabled feeds (by excluding weekend-disabled feeds)
       matcher {
         label = "rateFeed"
         match = "!~"
+        value = local.weekend_disabled_feeds_pattern
+      }
+
+      continue = true
+    }
+
+    # On-Call Alert Policy for weekend-disabled feeds
+    policy {
+      contact_point = grafana_contact_point.splunk_on_call.name
+
+      # Apply the mute timing to the policy
+      mute_timings = [grafana_mute_timing.weekend_mute.name]
+
+      matcher {
+        label = "severity"
+        match = "="
+        value = "page"
+      }
+
+      # Only weekend-disabled feeds
+      matcher {
+        label = "rateFeed"
+        match = "=~"
         value = local.weekend_disabled_feeds_pattern
       }
 
