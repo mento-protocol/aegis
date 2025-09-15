@@ -67,7 +67,7 @@ export class Metric {
     this.underlying.labels(this.labels).set(value);
   }
 
-  parse(output: any, contractName: string, functionName: string): number {
+  parse(output: unknown, contractName: string, functionName: string): number {
     const metricName = `${contractName}.${functionName}`;
     switch (metricName) {
       case 'BreakerBox.getRateFeedTradingMode':

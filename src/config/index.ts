@@ -19,7 +19,7 @@ export const ChainConfig = z
     label: z.string(),
     httpRpcUrl: z.string(),
     contracts: z.record(z.string()),
-    vars: z.record(z.string()),
+    vars: z.record(z.string()).optional(),
   })
   .brand('ChainConfig');
 export type ChainConfig = z.infer<typeof ChainConfig>;
