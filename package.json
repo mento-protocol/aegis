@@ -87,5 +87,10 @@
   },
   "volta": {
     "node": "22.14.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@nestjs/core"
+    ]
   }
 }
