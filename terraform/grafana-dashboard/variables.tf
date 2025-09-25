@@ -12,7 +12,7 @@ variable "aegis_folder" {
 }
 
 locals {
-  chains                    = ["celo", "alfajores"]
+  chains                    = ["celo", "celo-sepolia"]
   prometheus_datasource_uid = "grafanacloud-clabsmento-prom"
   common_panel_config = {
     datasource = {

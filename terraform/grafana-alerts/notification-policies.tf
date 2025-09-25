@@ -50,7 +50,7 @@ resource "grafana_notification_policy" "all" {
       continue = true
     }
 
-    # Oracle Relayer Alerts [Alfajores]
+    # Oracle Relayer Alerts [Celo-Sepolia]
     policy {
       contact_point = grafana_contact_point.discord_channel_oracle_relayers_staging.name
 
@@ -63,7 +63,7 @@ resource "grafana_notification_policy" "all" {
       matcher {
         label = "chain"
         match = "="
-        value = "alfajores"
+        value = "celo-sepolia"
       }
 
       # Exclude the weekend-disabled feeds
@@ -76,12 +76,12 @@ resource "grafana_notification_policy" "all" {
       continue = true
     }
 
-    # Mute notifications on weekends for FX feeds that don't receive new data on weekends [Alfajores]
+    # Mute notifications on weekends for FX feeds that don't receive new data on weekends [Sepolia]
     policy {
       # Apply the mute timing to the policy
       mute_timings = [grafana_mute_timing.weekend_mute.name]
 
-      # Use the same contact point as the Alfajores Oracle Relayer policy
+      # Use the same contact point as the Sepolia Oracle Relayer policy
       contact_point = grafana_contact_point.discord_channel_oracle_relayers_staging.name
 
       # Only apply this policy to the weekend-disabled feeds
@@ -94,7 +94,7 @@ resource "grafana_notification_policy" "all" {
       matcher {
         label = "chain"
         match = "="
-        value = "alfajores"
+        value = "celo-sepolia"
       }
 
       matcher {
@@ -177,7 +177,7 @@ resource "grafana_notification_policy" "all" {
       continue = true
     }
 
-    # Trading Mode Alerts [Alfajores]
+    # Trading Mode Alerts [Celo-Sepolia]
     policy {
       contact_point = grafana_contact_point.discord_channel_trading_modes_staging.name
 
@@ -190,7 +190,7 @@ resource "grafana_notification_policy" "all" {
       matcher {
         label = "chain"
         match = "="
-        value = "alfajores"
+        value = "celo-sepolia"
       }
 
       continue = true

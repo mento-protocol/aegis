@@ -72,7 +72,7 @@ export class QueryService {
       chain: metric.chain,
     });
     try {
-      const data: bigint = await client.readContract({
+      const data: unknown = await client.readContract({
         address,
         abi: [abi],
         functionName,

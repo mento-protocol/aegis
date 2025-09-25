@@ -1,5 +1,3 @@
-# NOTE: Reserve balance alerts are CELO-only because we don't have an actively maintained
-# Reserve on Alfajores and some tokens (i.e. USDT) don't even exist there.
 resource "grafana_rule_group" "reserve_balances" {
   name             = "Reserve Balance Alerts"
   folder_uid       = var.reserve_folder.uid
@@ -7,8 +5,9 @@ resource "grafana_rule_group" "reserve_balances" {
 
   dynamic "rule" {
     for_each = {
+      # Removed CELO because it's not being actively managed in the Reserve at the moment
       # trunk-ignore(checkov/CKV_SECRET_6)
-      CELO    = { token = "CELOToken", threshold = 5000000 }
+      # CELO    = { token = "CELOToken", threshold = 5000000 }
       USDC    = { token = "USDC", threshold = 400000 }
       USDT    = { token = "USDT", threshold = 400000 }
       axlUSDC = { token = "axlUSDC", threshold = 200000 }
