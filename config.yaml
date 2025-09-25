@@ -19,7 +19,6 @@ global:
     RelayerSignerCELOZAR: '0x17C8c519CD32abDE464D4FA19c7461A399eE2c5a'
     RelayerSignerCHFUSD: '0x75bB7BC38Bb886D86B6cBaBfC334B807F6926b7d'
     RelayerSignerCOPUSD: '0x95C365fBE39d9b8002f4683b0Bb6020680D9C4E0'
-    RelayerSignerEUROCXOF: '0x7d83c0fD005E885cB5F764Acb0d919B4f945577B'
     RelayerSignerEURUSD: '0x7973B53c09Ec35cdCa71D46b98801ddeD856BB20'
     RelayerSignerEURXOF: '0xDE96A69fAba07A8dfF8Bd9309c245bDf4175d3E7'
     RelayerSignerGBPUSD: '0x8103bE713aa149928D26c1b3873Ee240F8F7429E'
@@ -277,7 +276,6 @@ metrics:
       - [RelayerSignerCELONGN]
       - [RelayerSignerCELOXOF]
       - [RelayerSignerCELOKES]
-      - [RelayerSignerEUROCXOF]
       - [RelayerSignerEURXOF]
       - [RelayerSignerKESUSD]
       - [RelayerSignerUSDTUSD]
