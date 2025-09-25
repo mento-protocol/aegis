@@ -53,8 +53,8 @@ chains:
       # stable/stable
       AUDUSD: '0x646bD504C3864Ea5b8A6B6D25743721f61864A07' # keccak(relayed:AUDUSD)
       BRLUSD: '0x9dB83bE97C82912cB342407dd7b880983052B9c1' # keccak(relayed:BRLUSD)
-      CADUSD: '0x20869cF54Ead821C45DFb2aB0C23d2e10Fbb65A4' # keccak(relayed:CADUSD) 
-      CHFUSD: '0x0f61BA9c30ef7CaEE7E5CC1F96BFFCb0f52ccD64' # keccak(relayed:CHFUSD) 
+      CADUSD: '0x20869cF54Ead821C45DFb2aB0C23d2e10Fbb65A4' # keccak(relayed:CADUSD)
+      CHFUSD: '0x0f61BA9c30ef7CaEE7E5CC1F96BFFCb0f52ccD64' # keccak(relayed:CHFUSD)
       COPUSD: '0x0196D1F4FdA21fA442e53EaF18Bf31282F6139F1' # keccak(relayed:COPUSD)
       EURUSD: '0xF4f9bBdA9CD6841fCB9b1510f9269E2dB42a6e3a' # keccak(relayed:EURUSD)
       GBPUSD: '0xf590b62f9cfcc6409075b1ecAc8176fe25744B88' # keccak(relayed:GBPUSD)
@@ -69,7 +69,7 @@ chains:
       EURXOF: '0x40dC8528167557353fdcD98548AB2139A670Dd0b' # keccak(EURXOF)
       # celo/stable (for gas)
       CELOAUD: '0x1aA86eAd81936a1E9707c6B4A7AEfb2B4A538B58' # keccak(relayed:CELOAUD)
-      CELOBRL: '0xe8537a3d056DA446677B9E9d6c5dB704EaAb4787' # cBRL address   
+      CELOBRL: '0xe8537a3d056DA446677B9E9d6c5dB704EaAb4787' # cBRL address
       CELOCAD: '0x15339E57E761F006834893CD5134138339e7bfCb' # keccak(relayed:CELOCAD)
       CELOCHF: '0xD808031cC050CFC81e7609156002361af6a579A6' # keccak(relayed:CELOCHF)
       CELOCOP: '0x32ABF1cBdFdcD56790f427694be2658d4B1A83bC' # keccak(relayed:CELOCOP)
@@ -78,7 +78,7 @@ chains:
       CELOGHS: '0x5AD3817fE11971c1fd79c7D88485af560eD5470C' # keccak(relayed:CELOGHS)
       CELOJPY: '0xd5800BbeC4Fb58b549C8de50635654E919c3Cd5D' # keccak(relayed:CELOJPY)
       CELOKES: '0x456a3d042c0dbd3db53d5489e98dfb038553b0d0' # cKES address
-      CELONGN: '0xd9D1A7FAA5deFe7E0301Ac5363E6ca18eB78c9D7' # keccak(relayed:CELONGN) 
+      CELONGN: '0xd9D1A7FAA5deFe7E0301Ac5363E6ca18eB78c9D7' # keccak(relayed:CELONGN)
       CELOPHP: '0xaFc02368A174Cd08e01c373de6D0B537CECF43C8' # keccak(relayed:CELOPHP)
       CELOXOF: '0x73F93dcc49cB8A239e2032663e9475dd5ef29A08' # eXOF address
       CELOZAR: '0xD064b6CcFF2AE8968bA6725e9A92f3F0431bf5D0' # keccak(relayed:CELOZAR)
@@ -98,8 +98,8 @@ chains:
       # stable/stable
       AUDUSD: '0x646bD504C3864Ea5b8A6B6D25743721f61864A07' # keccak(relayed:AUDUSD)
       BRLUSD: '0x9dB83bE97C82912cB342407dd7b880983052B9c1' # keccak(relayed:BRLUSD)
-      CADUSD: '0x20869cF54Ead821C45DFb2aB0C23d2e10Fbb65A4' # keccak(relayed:CADUSD) 
-      CHFUSD: '0x0f61BA9c30ef7CaEE7E5CC1F96BFFCb0f52ccD64' # keccak(relayed:CHFUSD) 
+      CADUSD: '0x20869cF54Ead821C45DFb2aB0C23d2e10Fbb65A4' # keccak(relayed:CADUSD)
+      CHFUSD: '0x0f61BA9c30ef7CaEE7E5CC1F96BFFCb0f52ccD64' # keccak(relayed:CHFUSD)
       COPUSD: '0x0196D1F4FdA21fA442e53EaF18Bf31282F6139F1' # keccak(relayed:COPUSD)
       EURUSD: '0xF4f9bBdA9CD6841fCB9b1510f9269E2dB42a6e3a' # keccak(relayed:EURUSD)
       GBPUSD: '0xf590b62f9cfcc6409075b1ecAc8176fe25744B88' # keccak(relayed:GBPUSD)
@@ -114,7 +114,7 @@ chains:
       EURXOF: '0x40dC8528167557353fdcD98548AB2139A670Dd0b' # keccak(EURXOF)
       # celo/stable (for gas)
       CELOAUD: '0x1aA86eAd81936a1E9707c6B4A7AEfb2B4A538B58' # keccak(relayed:CELOAUD)
-      CELOBRL: '0xE4D517785D091D3c54818832dB6094bcc2744545' # cREAL address   
+      CELOBRL: '0xE4D517785D091D3c54818832dB6094bcc2744545' # cREAL address
       CELOCAD: '0x15339E57E761F006834893CD5134138339e7bfCb' # keccak(relayed:CELOCAD)
       CELOCHF: '0xD808031cC050CFC81e7609156002361af6a579A6' # keccak(relayed:CELOCHF)
       CELOCOP: '0x32ABF1cBdFdcD56790f427694be2658d4B1A83bC' # keccak(relayed:CELOCOP)
@@ -123,7 +123,7 @@ chains:
       CELOGHS: '0x5AD3817fE11971c1fd79c7D88485af560eD5470C' # keccak(relayed:CELOGHS)
       CELOJPY: '0xd5800BbeC4Fb58b549C8de50635654E919c3Cd5D' # keccak(relayed:CELOJPY)
       CELOKES: '0x1E0433C1769271ECcF4CFF9FDdD515eefE6CdF92' # cKES address
-      CELONGN: '0xd9D1A7FAA5deFe7E0301Ac5363E6ca18eB78c9D7' # keccak(relayed:CELONGN) 
+      CELONGN: '0xd9D1A7FAA5deFe7E0301Ac5363E6ca18eB78c9D7' # keccak(relayed:CELONGN)
       CELOPHP: '0xaFc02368A174Cd08e01c373de6D0B537CECF43C8' # keccak(relayed:CELOPHP)
       CELOXOF: '0xB0FA15e002516d0301884059c0aaC0F0C72b019D' # eXOF address
       CELOZAR: '0xD064b6CcFF2AE8968bA6725e9A92f3F0431bf5D0' # keccak(relayed:CELOZAR)
@@ -131,7 +131,7 @@ chains:
     label: celo-sepolia
     httpRpcUrl: https://forno.celo-sepolia.celo-testnet.org
     contracts:
-      SortedOracles: '0xD68DB1382703575Ba27BA470e8888A5875A7686e'
+      SortedOracles: '0xfaa7Ca2B056E60F6733aE75AA0709140a6eAfD20'
       BreakerBox: '0x578bD46003B9D3fd4c3C3f47c98B329562a6a1dE'
       # trunk-ignore(gitleaks/generic-api-key,checkov/CKV_SECRET_6)
       CELOToken: '0x019E1E529200fEf594A93A261141dDDeef92F855'
@@ -142,19 +142,19 @@ chains:
       USDTUSD: '0xE06C10C63377cD098b589c0b90314bFb55751558' # keccack(USDTUSD)
       # stable/stable
       AUDUSD: '0x864Ea534d6992F3721000cdB6585b11E7046D5ec' # keccak(AUDUSD)
-      BRLUSD: '0xCE1213507c81576759181A2b795f3c9aE5ede6bd' # keccak(BRLUSD) 
-      CADUSD: '0xc9dbD89FCe5710C91c35Ed9af1dc93fA090A28B0' # keccak(CADUSD) 
-      CHFUSD: '0x4F2746E21A13Ea9A8A832D929CDBf32ffC113A2C' # keccak(CHFUSD) 
-      COPUSD: '0x7149632514c5BAA315520Ab9d12556D9C67F15E0' # keccak(COPUSD) 
-      EURUSD: '0x5D5a22116233BDb2a9C2977279cC348B8b8Ce917' # keccak(EURUSD) 
-      GBPUSD: '0xAe5eEe6815b8529847955d19522858806Bca8217' # keccak(GBPUSD) 
-      GHSUSD: '0xbB776CD80Bab1E658A6a8685580751166145121F' # keccak(GHSUSD) 
-      JPYUSD: '0x403EA4186ce479fF162636c37fDf4086bD286F8c' # keccak(JPYUSD) 
-      KESUSD: '0xbAcEE37d31b9f022Ef5d232B9fD53F05a531c169' # keccak(KESUSD) 
-      NGNUSD: '0xe7cDDEDC3dCA1674b70c347c814c8A9fCf8F68C9' # keccak(NGNUSD) 
-      PHPUSD: '0x341E2A8b5b52B54F1794DDbdD54e433746C65d60' # keccak(PHPUSD) 
-      XOFUSD: '0xBBc9c6E41E2A402b12992875eDaa0162Ed990212' # keccak(XOFUSD) 
-      ZARUSD: '0x53F7dC47aB9273C2d83c2Df557F3FcF1e6A9Ee10' # keccak(ZARUSD) 
+      BRLUSD: '0xCE1213507c81576759181A2b795f3c9aE5ede6bd' # keccak(BRLUSD)
+      CADUSD: '0xc9dbD89FCe5710C91c35Ed9af1dc93fA090A28B0' # keccak(CADUSD)
+      CHFUSD: '0x4F2746E21A13Ea9A8A832D929CDBf32ffC113A2C' # keccak(CHFUSD)
+      COPUSD: '0x7149632514c5BAA315520Ab9d12556D9C67F15E0' # keccak(COPUSD)
+      EURUSD: '0x5D5a22116233BDb2a9C2977279cC348B8b8Ce917' # keccak(EURUSD)
+      GBPUSD: '0xAe5eEe6815b8529847955d19522858806Bca8217' # keccak(GBPUSD)
+      GHSUSD: '0xbB776CD80Bab1E658A6a8685580751166145121F' # keccak(GHSUSD)
+      JPYUSD: '0x403EA4186ce479fF162636c37fDf4086bD286F8c' # keccak(JPYUSD)
+      KESUSD: '0xbAcEE37d31b9f022Ef5d232B9fD53F05a531c169' # keccak(KESUSD)
+      NGNUSD: '0xe7cDDEDC3dCA1674b70c347c814c8A9fCf8F68C9' # keccak(NGNUSD)
+      PHPUSD: '0x341E2A8b5b52B54F1794DDbdD54e433746C65d60' # keccak(PHPUSD)
+      XOFUSD: '0xBBc9c6E41E2A402b12992875eDaa0162Ed990212' # keccak(XOFUSD)
+      ZARUSD: '0x53F7dC47aB9273C2d83c2Df557F3FcF1e6A9Ee10' # keccak(ZARUSD)
       # dependencies
       EURXOF: '0x40dC8528167557353fdcD98548AB2139A670Dd0b' # keccak(EURXOF)
       # celo/stable (for gas)
@@ -187,10 +187,10 @@ metrics:
       - [USDTUSD] # usdt/cUSD
       # stable/stable
       - [AUDUSD]
-      - [BRLUSD]    
-      - [CADUSD]     
-      - [CHFUSD]     
-      - [COPUSD]     
+      - [BRLUSD]
+      - [CADUSD]
+      - [CHFUSD]
+      - [COPUSD]
       - [EURUSD]
       - [EURXOF]
       - [GBPUSD]
@@ -201,7 +201,6 @@ metrics:
       - [PHPUSD]
       - [XOFUSD]
       - [ZARUSD]
-
 
   # Checks for rate feed freshness
   - source: SortedOracles.isOldestReportExpired(address rateFeed)(bool,address)
@@ -216,10 +215,10 @@ metrics:
       - [USDTUSD] # usdt/cUSD
       # stable/stable
       - [AUDUSD]
-      - [BRLUSD]    
-      - [CADUSD]     
-      - [CHFUSD]     
-      - [COPUSD]     
+      - [BRLUSD]
+      - [CADUSD]
+      - [CHFUSD]
+      - [COPUSD]
       - [EURUSD]
       - [EURXOF]
       - [GBPUSD]
@@ -232,10 +231,10 @@ metrics:
       - [ZARUSD]
       # celo/stable (for gas payments)
       - [CELOAUD]
-      - [CELOBRL]    
-      - [CELOCAD]     
-      - [CELOCHF]     
-      - [CELOCOP]     
+      - [CELOBRL]
+      - [CELOCAD]
+      - [CELOCHF]
+      - [CELOCOP]
       - [CELOEUR]
       - [CELOEUR]
       - [CELOGBP]
