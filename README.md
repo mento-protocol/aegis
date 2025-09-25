@@ -157,7 +157,7 @@ interface Chain {
 }
 ```
 
-- If the chain `id` matches an import from [viem's supported chains](https://github.com/wevm/viem/blob/main/src/chains/index.ts), we will use that import, enabling multicall and other goodness (for example, `celoAlfajores` or `celo`).
+- If the chain `id` matches an import from [viem's supported chains](https://github.com/wevm/viem/blob/main/src/chains/index.ts), we will use that import, enabling multicall and other goodness (for example, `celoSepolia` or `celo`).
   However, arbitrary values also work, and Aegis will create a custom chain instance in that case.
 - `label` will be used for segmenting in the context of Prometheus metrics `chain={label}`.
 - `contracts` should list addresses for all contracts referenced in `metrics`.
@@ -192,7 +192,6 @@ interface Metric {
   The contract name must be defined in the `chains[id].contracts` configs that the metric targets.
 
   The system currently supports various view call types, such as:
-
   - `SortedOracles.isOldestReportExpired(address rateFeed)(bool,address)`: A `bool` indicating whether the report on the given rate feed identifier has expired.
   - `BreakerBox.getRateFeedTradingMode(address rateFeed)(uint8)`: A single `uint8` indicating the trading mode of the given rate feed identifier.
   - `CELOToken.balanceOf(address owner)(uint256)`: A single `uint256` value, divided by 1e18 which must not exceed `Number.MAX_SAFE_INTEGER`.

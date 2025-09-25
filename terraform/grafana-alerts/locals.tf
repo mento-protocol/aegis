@@ -1,16 +1,16 @@
 # For shared local values that are used across multiple resources
 # See https://www.terraform.io/docs/language/values/locals.html
 locals {
-  chains = ["celo", "alfajores"]
+  chains = ["celo", "celo-sepolia"]
 
   # Weekend-disabled feeds that don't receive updates during market closing hours
   weekend_disabled_feeds = [
-    "relayed:PHPUSD",
-    "relayed:COPUSD",
-    "relayed:GHSUSD",
-    "relayed:CELOPHP",
-    "relayed:CELOCOP",
-    "relayed:CELOGHS",
+    "PHPUSD",
+    "COPUSD",
+    "GHSUSD",
+    "CELOPHP",
+    "CELOCOP",
+    "CELOGHS",
     "CELOXOF",
     "EUROCXOF",
     "EURXOF"
@@ -22,7 +22,7 @@ locals {
   alert_types = {
     oracle_stale_price = {
       names = [
-        "Oldest Report Expired [Alfajores]",
+        "Oldest Report Expired [Celo-Sepolia]",
         "Oldest Report Expired [Celo]"
       ],
       title_template   = "discord.oracle_stale_price_alert_title",
@@ -30,7 +30,7 @@ locals {
     },
     oracle_relayer_low_celo_balance = {
       names = [
-        "Low CELO Balance [Alfajores]",
+        "Low CELO Balance [Celo-Sepolia]",
         "Low CELO Balance [Celo]"
       ],
       title_template   = "discord.oracle_relayer_low_celo_balance_alert_title",
@@ -48,7 +48,7 @@ locals {
     },
     trading_halted = {
       names = [
-        "Trading Mode Alert [Alfajores]",
+        "Trading Mode Alert [Celo-Sepolia]",
         "Trading Mode Alert [Celo]"
       ],
       title_template   = "discord.trading_mode_alert_title",

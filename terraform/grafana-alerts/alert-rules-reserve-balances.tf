@@ -1,5 +1,3 @@
-# NOTE: Reserve balance alerts are CELO-only because we don't have an actively maintained
-# Reserve on Alfajores and some tokens (i.e. USDT) don't even exist there.
 resource "grafana_rule_group" "reserve_balances" {
   name             = "Reserve Balance Alerts"
   folder_uid       = var.reserve_folder.uid
