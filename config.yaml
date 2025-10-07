@@ -19,6 +19,7 @@ global:
     RelayerSignerCELOZAR: '0x17C8c519CD32abDE464D4FA19c7461A399eE2c5a'
     RelayerSignerCHFUSD: '0x75bB7BC38Bb886D86B6cBaBfC334B807F6926b7d'
     RelayerSignerCOPUSD: '0x95C365fBE39d9b8002f4683b0Bb6020680D9C4E0'
+    RelayerSignerEUROCEUR: '0xb0491394B775AE9BCf85Fb3835d232cEBe514Cf5'
     RelayerSignerEURUSD: '0x7973B53c09Ec35cdCa71D46b98801ddeD856BB20'
     RelayerSignerEURXOF: '0xDE96A69fAba07A8dfF8Bd9309c245bDf4175d3E7'
     RelayerSignerGBPUSD: '0x8103bE713aa149928D26c1b3873Ee240F8F7429E'
@@ -200,44 +201,80 @@ metrics:
       - [CELOPHP]
       - [CELOXOF]
       - [CELOZAR]
+
   # Checks if wallets or contracts of interest have enough CELO to pay for transactions
   - source: CELOToken.balanceOf(address owner)(uint256)
     schedule: 0/10 * * * * *
     type: gauge
-    chains: all
+    chains: [celo]
     variants:
       # Do signer wallets have enough CELO to pay for relay() transactions?
-      - [RelayerSignerPHPUSD]
-      - [RelayerSignerCOPUSD]
-      - [RelayerSignerGHSUSD]
-      - [RelayerSignerGBPUSD]
-      - [RelayerSignerZARUSD]
-      - [RelayerSignerCHFUSD]
-      - [RelayerSignerCADUSD]
-      - [RelayerSignerAUDUSD]
-      - [RelayerSignerJPYUSD]
-      - [RelayerSignerNGNUSD]
-      - [RelayerSignerEURUSD]
-      - [RelayerSignerBRLUSD]
-      - [RelayerSignerXOFUSD]
-      - [RelayerSignerCELOPHP]
-      - [RelayerSignerCELOCOP]
-      - [RelayerSignerCELOGHS]
-      - [RelayerSignerCELOGBP]
-      - [RelayerSignerCELOZAR]
-      - [RelayerSignerCELOCHF]
-      - [RelayerSignerCELOCAD]
-      - [RelayerSignerCELOAUD]
-      - [RelayerSignerCELOJPY]
-      - [RelayerSignerCELONGN]
-      - [RelayerSignerCELOXOF]
-      - [RelayerSignerCELOKES]
-      - [RelayerSignerEURXOF]
-      - [RelayerSignerKESUSD]
-      - [RelayerSignerUSDTUSD]
-
       # Does the reserve have enough CELO for swap operations?
+      - [RelayerSignerAUDUSD]
+      - [RelayerSignerBRLUSD]
+      - [RelayerSignerCADUSD]
+      - [RelayerSignerCELOAUD]
+      - [RelayerSignerCELOCAD]
+      - [RelayerSignerCELOCHF]
+      - [RelayerSignerCELOCOP]
+      - [RelayerSignerCELOGBP]
+      - [RelayerSignerCELOGHS]
+      - [RelayerSignerCELOJPY]
+      - [RelayerSignerCELOKES]
+      - [RelayerSignerCELONGN]
+      - [RelayerSignerCELOPHP]
+      - [RelayerSignerCELOXOF]
+      - [RelayerSignerCELOZAR]
+      - [RelayerSignerCHFUSD]
+      - [RelayerSignerCOPUSD]
+      - [RelayerSignerEURUSD]
+      - [RelayerSignerEURXOF]
+      - [RelayerSignerGBPUSD]
+      - [RelayerSignerGHSUSD]
+      - [RelayerSignerJPYUSD]
+      - [RelayerSignerKESUSD]
+      - [RelayerSignerNGNUSD]
+      - [RelayerSignerPHPUSD]
+      - [RelayerSignerUSDTUSD]
+      - [RelayerSignerXOFUSD]
+      - [RelayerSignerZARUSD]
       - [Reserve]
+
+  # We disabled the Mainnet EUROCEUR feed, hence sepolia only
+  - source: CELOToken.balanceOf(address owner)(uint256)
+    schedule: 0/10 * * * * *
+    type: gauge
+    chains: [celoSepolia]
+    variants:
+      - [RelayerSignerAUDUSD]
+      - [RelayerSignerBRLUSD]
+      - [RelayerSignerCADUSD]
+      - [RelayerSignerCELOAUD]
+      - [RelayerSignerCELOCAD]
+      - [RelayerSignerCELOCHF]
+      - [RelayerSignerCELOCOP]
+      - [RelayerSignerCELOGBP]
+      - [RelayerSignerCELOGHS]
+      - [RelayerSignerCELOJPY]
+      - [RelayerSignerCELOKES]
+      - [RelayerSignerCELONGN]
+      - [RelayerSignerCELOPHP]
+      - [RelayerSignerCELOXOF]
+      - [RelayerSignerCELOZAR]
+      - [RelayerSignerCHFUSD]
+      - [RelayerSignerCOPUSD]
+      - [RelayerSignerEUROCEUR]
+      - [RelayerSignerEURUSD]
+      - [RelayerSignerEURXOF]
+      - [RelayerSignerGBPUSD]
+      - [RelayerSignerGHSUSD]
+      - [RelayerSignerJPYUSD]
+      - [RelayerSignerKESUSD]
+      - [RelayerSignerNGNUSD]
+      - [RelayerSignerPHPUSD]
+      - [RelayerSignerUSDTUSD]
+      - [RelayerSignerXOFUSD]
+      - [RelayerSignerZARUSD]
 
   # Does the reserve have enough USDC for swap operations?
   - source: USDC.balanceOf(address owner)(uint256)
