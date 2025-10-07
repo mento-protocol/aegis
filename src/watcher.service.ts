@@ -1,9 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { SchedulerRegistry } from '@nestjs/schedule';
-import { MetricTemplate } from './config';
 import { ConfigService } from '@nestjs/config';
-import { MetricsService } from './metrics.service';
+import { SchedulerRegistry } from '@nestjs/schedule';
 import { CronJob } from 'cron';
+import { MetricTemplate } from './config';
+import { MetricsService } from './metrics.service';
 
 @Injectable()
 export class WatcherService {
@@ -22,7 +22,7 @@ export class WatcherService {
       this.logger.debug(
         `Adding cron job: ${metric.source.raw}: ${metric.schedule}`,
       );
-      this.schedulerRegistry.addCronJob(metric.source.raw, job);
+      this.schedulerRegistry.addCronJob(metric.id, job);
       job.start();
     });
   }
