@@ -53,6 +53,14 @@ locals {
       ],
       title_template   = "discord.trading_mode_alert_title",
       message_template = "discord.trading_mode_alert_message"
+    },
+    aegis_service_issues = {
+      names = [
+        "Number of failed rpc calls",
+        "Aegis does not report new data"
+      ],
+      title_template   = "discord.aegis_service_alert_title",
+      message_template = "discord.aegis_service_alert_message"
     }
   }
   alert_config = {

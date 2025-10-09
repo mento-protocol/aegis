@@ -40,6 +40,12 @@ variable "discord_alerts_webhook_url_catch_all" {
   sensitive   = true
 }
 
+variable "discord_alerts_webhook_url_aegis" {
+  description = "Webhook URL for the Discord channel where Aegis service alerts are sent"
+  type        = string
+  sensitive   = true
+}
+
 variable "splunk_on_call_alerts_webhook_url" {
   description = "Webhook URL for triggering on-call alerts"
   type        = string
