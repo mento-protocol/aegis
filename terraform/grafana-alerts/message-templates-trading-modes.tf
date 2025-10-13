@@ -14,15 +14,17 @@ resource "grafana_message_template" "trading_mode_alert_message" {
   template = <<EOT
 {{ define "discord.trading_mode_alert_message" }}
 {{ range .Alerts.Firing -}}
-{{ $rateFeed := .Labels.rateFeed -}}
+{{ $rateFeedWithHyphen := reReplaceAll "([A-Z]{4,})([A-Z]{3})" "$1-$2" .Labels.rateFeed -}}
 {{ $chain := .Labels.chain | title -}}
-- **🚨 Trading halted for [{{ $rateFeed }}]({{ .GeneratorURL }}&tab=instances) on {{ $chain }}**{{ if eq $chain "Celo" }} - Check the [Circuit Breaker Dashboard](https://dune.com/mento-labs-eng/circuit-breakers) for tripped breakers{{ end }}
+**🚨 Trading halted for [{{ .Labels.rateFeed }}]({{ .GeneratorURL }}&tab=instances) on {{ $chain }}**{{ if eq $chain "Celo" }}
+- Check the [Circuit Breaker Dashboard](https://dune.com/mento-labs-eng/circuit-breakers) for tripped breakers
+- Check the [Chainlink feed](https://data.chain.link/feeds/celo/mainnet/{{ $rateFeedWithHyphen }}) for volatility around the alert time{{ end }}
 {{ end -}}
 
 {{ range .Alerts.Resolved -}}
-{{ $rateFeed := .Labels.rateFeed -}}
+{{ $rateFeedWithSlash := reReplaceAll "([A-Z]{4,})([A-Z]{3})" "$1/$2" .Labels.rateFeed -}}
 {{ $chain := .Labels.chain | title -}}
-- **✅ Trading resumed for {{ $rateFeed }} on {{ $chain }}**
+- **✅ Trading resumed for {{ $rateFeedWithSlash }} on {{ $chain }}**
 {{ end -}}
 {{ end -}}
 
