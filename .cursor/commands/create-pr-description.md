@@ -1,13 +1,12 @@
-# Create PR
+# Create PR Description
 
 ## Overview
 
-Create a well-structured pull request with a proper description and instructions on how to review it.
+Create a well-structured pull request description and instructions on how to review the PR.
 
 ## Steps
 
 1. **Prepare branch**
-   - Ensure all changes are committed
    - Verify branch is up to date with main
 
 2. **Write PR description**
