@@ -5,7 +5,7 @@ locals {
         id      = length(local.chains) + 2
         type    = "row"
         title   = "Oracles - Chainlink Relayers"
-        gridPos = { x = 0, y = 9, h = 1, w = 24 }
+        gridPos = { x = 0, y = 13, h = 1, w = 24 }
       }
     ],
     flatten([
@@ -14,7 +14,7 @@ locals {
           id          = i + length(local.chains) + 3
           title       = "Rate Feed Freshness [${chain}]"
           description = "Shows if the oldest report in SortedOracles is expired for each relayed rate feed. 1 means expired, 0 means not expired."
-          gridPos     = { x = i * 12, y = 10, h = 20, w = 24 / length(local.chains) }
+          gridPos     = { x = i * 12, y = 14, h = 20, w = 24 / length(local.chains) }
           fieldConfig = {
             defaults = merge(local.state_timeline_config.fieldConfig.defaults, {
               decimals = 0
@@ -30,7 +30,7 @@ locals {
             })
           }
           targets = [{
-            expr         = "SortedOracles_isOldestReportExpired{chain=\"${chain}\"}"
+            expr         = "SortedOracles_isOldestReportExpired_isExpired{chain=\"${chain}\"}"
             legendFormat = "{{rateFeed}}"
           }]
         })
@@ -44,7 +44,7 @@ locals {
         description = "CELO balance of relayer signers on ${chain}. Red line indicates danger threshold."
         gridPos = {
           x = i * 12,
-          y = 14,
+          y = 34,
           h = 8,
           w = 12
         }

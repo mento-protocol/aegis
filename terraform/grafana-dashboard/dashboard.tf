@@ -7,6 +7,7 @@ resource "grafana_dashboard" "aegis" {
       local.trading_mode_panels,
       local.oracle_relayer_panels,
       local.reserve_panels,
+      local.trading_limits_panels,
       local.aegis_system_verification_panels
     )
   })
