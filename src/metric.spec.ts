@@ -62,25 +62,36 @@ describe('Metric.parse', () => {
   });
 
   describe('SortedOracles.isOldestReportExpired()', () => {
-    it('should parse and return both values', () => {
+    it('should parse and return array with isExpired (true = 1) and 0 for oracle', () => {
       const output: [boolean, bigint] = [true, BigInt(0)];
       const result = metric.parse(
         output,
         'SortedOracles',
         'isOldestReportExpired',
       );
-      expect(Array.isArray(result)).toBe(true);
       expect(result).toEqual([1, 0]);
     });
 
-    it('should handle false value', () => {
+    it('should parse and return array with isExpired (false = 0) and 0 for oracle', () => {
       const output: [boolean, bigint] = [false, BigInt(123)];
       const result = metric.parse(
         output,
         'SortedOracles',
         'isOldestReportExpired',
       );
-      expect(result).toEqual([0, 123]);
+      expect(result).toEqual([0, 0]);
+    });
+
+    it('should not overflow with large oracle address (oracle address not tracked)', () => {
+      // Test that large oracle addresses don't cause issues (they're not tracked)
+      const largeAddress = BigInt('0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF');
+      const output: [boolean, bigint] = [true, largeAddress];
+      const result = metric.parse(
+        output,
+        'SortedOracles',
+        'isOldestReportExpired',
+      );
+      expect(result).toEqual([1, 0]);
     });
   });
 
@@ -424,6 +435,122 @@ describe('Metric.parse', () => {
       expect(() =>
         metric.parse(output, 'Broker', 'tradingLimitsConfig'),
       ).toThrow('uint8');
+    });
+  });
+
+  describe('Parse return type tests', () => {
+    it('should return single number for single-output functions', () => {
+      const output = BigInt(2);
+      const result = metric.parse(
+        output,
+        'BreakerBox',
+        'getRateFeedTradingMode',
+      );
+      expect(typeof result).toBe('number');
+      expect(Array.isArray(result)).toBe(false);
+      expect(result).toBe(2);
+    });
+
+    it('should return array for SortedOracles.isOldestReportExpired', () => {
+      const output: [boolean, bigint] = [true, BigInt(0)];
+      const result = metric.parse(
+        output,
+        'SortedOracles',
+        'isOldestReportExpired',
+      );
+      expect(Array.isArray(result)).toBe(true);
+      expect(result).toHaveLength(2);
+      expect(result).toEqual([1, 0]);
+    });
+
+    it('should return array for Broker.tradingLimitsState', () => {
+      const output: [bigint, bigint, bigint, bigint, bigint] = [
+        BigInt(1234567890),
+        BigInt(1234567891),
+        BigInt(100),
+        BigInt(500),
+        BigInt(1000),
+      ];
+      const result = metric.parse(output, 'Broker', 'tradingLimitsState');
+      expect(Array.isArray(result)).toBe(true);
+      expect(result).toHaveLength(5);
+    });
+
+    it('should return array for Broker.tradingLimitsConfig', () => {
+      const output: [bigint, bigint, bigint, bigint, bigint, bigint] = [
+        BigInt(300),
+        BigInt(86400),
+        BigInt(100000),
+        BigInt(500000),
+        BigInt(1000000),
+        BigInt(3),
+      ];
+      const result = metric.parse(output, 'Broker', 'tradingLimitsConfig');
+      expect(Array.isArray(result)).toBe(true);
+      expect(result).toHaveLength(6);
+    });
+  });
+
+  describe('Update array length validation tests', () => {
+    it('should throw error when updating with wrong array length', () => {
+      const source: MetricSource = {
+        contract: 'Broker',
+        functionAbi: {
+          type: 'function',
+          name: 'tradingLimitsState',
+          stateMutability: 'view',
+          inputs: [{ type: 'bytes32', name: 'limitId' }],
+          outputs: [
+            { type: 'uint32', name: 'lastUpdated0' },
+            { type: 'uint32', name: 'lastUpdated1' },
+            { type: 'int48', name: 'netflow0' },
+          ],
+        },
+        raw: 'Broker.tradingLimitsState(bytes32 limitId)(uint32 lastUpdated0, uint32 lastUpdated1, int48 netflow0)',
+      };
+
+      const multiGaugeMetric = new Metric(
+        source,
+        ['0x123'],
+        'celo',
+        'celo',
+        'gauge',
+        mockConfigService,
+      );
+
+      // Try to update with wrong number of values
+      expect(() => multiGaugeMetric.update([1, 2])).toThrow(
+        'Value array length mismatch: expected 3 values, got 2',
+      );
+    });
+
+    it('should not throw when updating with correct array length', () => {
+      const source: MetricSource = {
+        contract: 'Broker',
+        functionAbi: {
+          type: 'function',
+          name: 'tradingLimitsState',
+          stateMutability: 'view',
+          inputs: [{ type: 'bytes32', name: 'limitId' }],
+          outputs: [
+            { type: 'uint32', name: 'lastUpdated0' },
+            { type: 'uint32', name: 'lastUpdated1' },
+            { type: 'int48', name: 'netflow0' },
+          ],
+        },
+        raw: 'Broker.tradingLimitsState(bytes32 limitId)(uint32 lastUpdated0, uint32 lastUpdated1, int48 netflow0)',
+      };
+
+      const multiGaugeMetric = new Metric(
+        source,
+        ['0x123'],
+        'celo',
+        'celo',
+        'gauge',
+        mockConfigService,
+      );
+
+      expect(() => multiGaugeMetric.update([1, 2, 3])).not.toThrow();
     });
   });
 });

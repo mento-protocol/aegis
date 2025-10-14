@@ -2,19 +2,19 @@ locals {
   oracle_relayer_panels = concat(
     [
       {
-        id      = length(local.chains) + 2
+        id      = local.oracle_relayer_id_start
         type    = "row"
         title   = "Oracles - Chainlink Relayers"
-        gridPos = { x = 0, y = 13, h = 1, w = 24 }
+        gridPos = { x = 0, y = local.oracle_relayer_y_start, h = 1, w = 24 }
       }
     ],
     flatten([
       for i, chain in local.chains : [
         merge(local.common_panel_config, local.state_timeline_config, {
-          id          = i + length(local.chains) + 3
+          id          = local.oracle_relayer_id_start + 1 + i
           title       = "Rate Feed Freshness [${chain}]"
           description = "Shows if the oldest report in SortedOracles is expired for each relayed rate feed. 1 means expired, 0 means not expired."
-          gridPos     = { x = i * 12, y = 14, h = 20, w = 24 / length(local.chains) }
+          gridPos     = { x = i * 12, y = local.oracle_relayer_y_start + 1, h = 20, w = 24 / length(local.chains) }
           fieldConfig = {
             defaults = merge(local.state_timeline_config.fieldConfig.defaults, {
               decimals = 0
@@ -38,13 +38,13 @@ locals {
     ]),
     [
       for i, chain in local.chains : merge(local.common_panel_config, {
-        id          = length(local.chains) * 2 + 3 + i
+        id          = local.oracle_relayer_id_start + 1 + length(local.chains) + i
         type        = "timeseries"
         title       = "CELO Balances of Relayer Signers [${chain}]"
         description = "CELO balance of relayer signers on ${chain}. Red line indicates danger threshold."
         gridPos = {
           x = i * 12,
-          y = 34,
+          y = local.oracle_relayer_y_start + 21,
           h = 8,
           w = 12
         }

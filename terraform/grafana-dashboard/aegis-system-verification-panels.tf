@@ -1,16 +1,16 @@
 locals {
   aegis_system_verification_row = {
-    id      = 3 * length(local.chains) + 10
+    id      = local.aegis_system_verification_id_start
     type    = "row"
     title   = "Aegis System Verification"
-    gridPos = { x = 0, y = 84, h = 1, w = 24 }
+    gridPos = { x = 0, y = local.aegis_system_verification_y_start, h = 1, w = 24 }
   }
 
   rpc_query_heatmap_panel = {
-    id             = 3 * length(local.chains) + 11
+    id             = local.aegis_system_verification_id_start + 1
     type           = "heatmap"
     title          = "RPC Query Heatmap"
-    gridPos        = { x = 0, y = 85, h = 8, w = 12 }
+    gridPos        = { x = 0, y = local.aegis_system_verification_y_start + 1, h = 8, w = 12 }
     datasource_uid = "grafanacloud-prom"
     maxDataPoints  = 100
     targets = [
@@ -29,10 +29,10 @@ locals {
   }
 
   failed_rpc_calls_panel = {
-    id      = 3 * length(local.chains) + 12
+    id      = local.aegis_system_verification_id_start + 2
     type    = "timeseries"
     title   = "Number of failed RPC calls"
-    gridPos = { x = 12, y = 85, h = 8, w = 12, }
+    gridPos = { x = 12, y = local.aegis_system_verification_y_start + 1, h = 8, w = 12, }
     fieldConfig = {
       defaults = {
         custom = {
@@ -115,11 +115,11 @@ locals {
   }
 
   time_since_last_update_panel = {
-    id          = 3 * length(local.chains) + 13
+    id          = local.aegis_system_verification_id_start + 3
     type        = "timeseries"
     title       = "Time since last update"
     description = "This is a health check for the Aegis exporter. If it starts to go up, it may mean that Aegis is down."
-    gridPos     = { x = 0, y = 93, h = 8, w = 12 }
+    gridPos     = { x = 0, y = local.aegis_system_verification_y_start + 9, h = 8, w = 12 }
     fieldConfig = {
       defaults = {
         custom = {

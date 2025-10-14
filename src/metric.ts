@@ -5,6 +5,15 @@ import type { ChainConfig } from './config';
 import { MetricSource } from './config/MetricSource';
 
 /**
+ * Solidity type bounds for validation
+ */
+const SOLIDITY_TYPE_BOUNDS = {
+  uint8: { min: 0n, max: 255n },
+  uint32: { min: 0n, max: 4294967295n },
+  int48: { min: -140737488355328n, max: 140737488355327n },
+} as const;
+
+/**
  * Metric class manages Prometheus gauges for on-chain contract queries.
  *
  * Multi-Gauge Support:
@@ -39,19 +48,16 @@ export class Metric {
   private labels: Record<string, any> = {};
 
   /**
-   * Validates that a bigint value is within the specified range and converts to number.
+   * Validates that a bigint value is within the specified Solidity type range and converts to number.
    * @param val - The bigint value to validate
-   * @param typeName - Name of the Solidity type for error messages
-   * @param min - Minimum allowed value (inclusive)
-   * @param max - Maximum allowed value (inclusive)
+   * @param typeName - Name of the Solidity type (must be a key in SOLIDITY_TYPE_BOUNDS)
    * @returns The value as a JavaScript number
    */
-  private validateContractType(
+  private validateSolidityType(
     val: bigint,
-    typeName: string,
-    min: bigint,
-    max: bigint,
+    typeName: keyof typeof SOLIDITY_TYPE_BOUNDS,
   ): number {
+    const { min, max } = SOLIDITY_TYPE_BOUNDS[typeName];
     if (val < min || val > max) {
       throw new Error(
         `Value ${val} outside ${typeName} range [${min}, ${max}]`,
@@ -84,7 +90,12 @@ export class Metric {
 
     // Support multiple return values by creating multiple gauges with suffixes
     if (source.functionAbi.outputs.length > 1) {
-      this.gauge = source.functionAbi.outputs.map((output) => {
+      this.gauge = source.functionAbi.outputs.map((output, idx) => {
+        if (!output.name || output.name.trim() === '') {
+          throw new Error(
+            `Output at index ${idx} for function ${source.functionAbi.name} must have a name for multi-gauge metrics`,
+          );
+        }
         const gaugeName = `${this.name}_${output.name}`;
         const existingMetric = register.getSingleMetric(gaugeName);
         if (existingMetric) {
@@ -130,6 +141,11 @@ export class Metric {
     if (Array.isArray(value)) {
       if (!Array.isArray(this.gauge)) {
         throw new Error('Cannot update single gauge with array of values');
+      }
+      if (value.length !== this.gauge.length) {
+        throw new Error(
+          `Value array length mismatch: expected ${this.gauge.length} values, got ${value.length}`,
+        );
       }
       value.forEach((val, idx) => {
         (this.gauge as Gauge[])[idx].labels(this.labels).set(val);
@@ -181,11 +197,11 @@ export class Metric {
         return Number(balanceInEther);
 
       case 'SortedOracles.isOldestReportExpired':
-        const [isExpired, oracleAddress] = output as [boolean, bigint];
-        // Returns array of two values for multi-gauge support:
-        // 1. isExpired converted to number (0 or 1) - used for alerting
-        // 2. oracleAddress as number - tracked but not currently used in dashboards
-        return [isExpired ? 1 : 0, Number(oracleAddress)];
+        const [isExpired] = output as [boolean, bigint];
+        // Returns array: [isExpired as number, 0 for oracle address]
+        // Oracle address is not tracked (set to 0) to avoid number overflow issues
+        // The second gauge exists but is not used in dashboards/alerts
+        return [isExpired ? 1 : 0, 0];
 
       case 'Broker.tradingLimitsState':
         // The struct is returned as: (lastUpdated0, lastUpdated1, netflow0, netflow1, netflowGlobal)
@@ -196,27 +212,12 @@ export class Metric {
 
         return [
           // uint32: 0 to 2^32 - 1
-          this.validateContractType(lastUpdated0, 'uint32', 0n, 4294967295n),
-          this.validateContractType(lastUpdated1, 'uint32', 0n, 4294967295n),
+          this.validateSolidityType(lastUpdated0, 'uint32'),
+          this.validateSolidityType(lastUpdated1, 'uint32'),
           // int48: -(2^47) to 2^47 - 1
-          this.validateContractType(
-            netflow0,
-            'int48',
-            -140737488355328n,
-            140737488355327n,
-          ),
-          this.validateContractType(
-            netflow1,
-            'int48',
-            -140737488355328n,
-            140737488355327n,
-          ),
-          this.validateContractType(
-            netflowGlobal,
-            'int48',
-            -140737488355328n,
-            140737488355327n,
-          ),
+          this.validateSolidityType(netflow0, 'int48'),
+          this.validateSolidityType(netflow1, 'int48'),
+          this.validateSolidityType(netflowGlobal, 'int48'),
         ];
 
       case 'Broker.tradingLimitsConfig':
@@ -229,29 +230,14 @@ export class Metric {
 
         return [
           // uint32: 0 to 2^32 - 1
-          this.validateContractType(timestep0, 'uint32', 0n, 4294967295n),
-          this.validateContractType(timestep1, 'uint32', 0n, 4294967295n),
+          this.validateSolidityType(timestep0, 'uint32'),
+          this.validateSolidityType(timestep1, 'uint32'),
           // int48: -(2^47) to 2^47 - 1
-          this.validateContractType(
-            limit0,
-            'int48',
-            -140737488355328n,
-            140737488355327n,
-          ),
-          this.validateContractType(
-            limit1,
-            'int48',
-            -140737488355328n,
-            140737488355327n,
-          ),
-          this.validateContractType(
-            limitGlobal,
-            'int48',
-            -140737488355328n,
-            140737488355327n,
-          ),
+          this.validateSolidityType(limit0, 'int48'),
+          this.validateSolidityType(limit1, 'int48'),
+          this.validateSolidityType(limitGlobal, 'int48'),
           // uint8: 0 to 2^8 - 1
-          this.validateContractType(flags, 'uint8', 0n, 255n),
+          this.validateSolidityType(flags, 'uint8'),
         ];
 
       default:

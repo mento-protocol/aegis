@@ -1,19 +1,19 @@
 locals {
   trading_limits_panels = [
     {
-      id      = 3 * length(local.chains) + 14
+      id      = local.trading_limits_id_start
       type    = "row"
       title   = "Trading Limits"
-      gridPos = { x = 0, y = 59, h = 1, w = 24 }
+      gridPos = { x = 0, y = local.trading_limits_y_start, h = 1, w = 24 }
     },
     merge(local.common_panel_config, {
-      id          = 3 * length(local.chains) + 15
+      id          = local.trading_limits_id_start + 1
       type        = "timeseries"
       title       = "L0 Short-term Limit Utilization [celo]"
       description = "Percentage utilization of short-term (L0) trading limits. Shows how close each limit is to being hit. Red indicates 90%+ utilization (critical)."
       gridPos = {
         x = 0,
-        y = 60,
+        y = local.trading_limits_y_start + 1,
         h = 12,
         w = 12
       }
@@ -87,13 +87,13 @@ locals {
       }]
     }),
     merge(local.common_panel_config, {
-      id          = 3 * length(local.chains) + 16
+      id          = local.trading_limits_id_start + 2
       type        = "timeseries"
       title       = "L1 Medium-term Limit Utilization [celo]"
       description = "Percentage utilization of medium-term (L1) trading limits. Shows how close each limit is to being hit. Red indicates 90%+ utilization (critical)."
       gridPos = {
         x = 12,
-        y = 60,
+        y = local.trading_limits_y_start + 1,
         h = 12,
         w = 12
       }
@@ -167,13 +167,13 @@ locals {
       }]
     }),
     merge(local.common_panel_config, {
-      id          = 3 * length(local.chains) + 17
+      id          = local.trading_limits_id_start + 3
       type        = "timeseries"
       title       = "Global Lifetime Limit Utilization [celo]"
       description = "Percentage utilization of lifetime (Global) trading limits. Shows how close each limit is to being hit. Red indicates 90%+ utilization (critical)."
       gridPos = {
         x = 0,
-        y = 72,
+        y = local.trading_limits_y_start + 13,
         h = 12,
         w = 24
       }
