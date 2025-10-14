@@ -17,7 +17,7 @@ Create a well-structured pull request description and instructions on how to rev
    - Add a "How to review" section that details what reviewers should run or check to see the changes in this PR working in action
 
 3. **Set up PR**
-   - Print PR title and description in raw markdown for easy copy/paste into github
+   - Print PR title and description in a code block as raw markdown for easy copy/paste into github
 
 ## PR Template
 

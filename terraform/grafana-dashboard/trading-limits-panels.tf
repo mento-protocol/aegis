@@ -72,6 +72,8 @@ locals {
           displayMode = "table"
           placement   = "bottom"
           calcs       = ["lastNotNull", "max", "min"]
+          sortBy      = "max"
+          sortDesc    = true
         }
       }
       targets = [{
@@ -152,6 +154,8 @@ locals {
           displayMode = "table"
           placement   = "bottom"
           calcs       = ["lastNotNull", "max", "min"]
+          sortBy      = "max"
+          sortDesc    = true
         }
       }
       targets = [{
@@ -232,6 +236,8 @@ locals {
           displayMode = "table"
           placement   = "bottom"
           calcs       = ["lastNotNull", "max", "min"]
+          sortBy      = "max"
+          sortDesc    = true
         }
       }
       targets = [{
