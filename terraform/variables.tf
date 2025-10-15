@@ -46,6 +46,12 @@ variable "discord_alerts_webhook_url_aegis" {
   sensitive   = true
 }
 
+variable "discord_alerts_webhook_url_trading_limits" {
+  description = "Webhook URL for the Discord channel where trading limits alerts are sent"
+  type        = string
+  sensitive   = true
+}
+
 variable "splunk_on_call_alerts_webhook_url" {
   description = "Webhook URL for triggering on-call alerts"
   type        = string

@@ -13,3 +13,7 @@ data "grafana_folder" "reserve" {
 resource "grafana_folder" "trading_modes" {
   title = "Trading Modes"
 }
+
+resource "grafana_folder" "trading_limits" {
+  title = "Trading Limits"
+}

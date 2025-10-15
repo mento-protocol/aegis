@@ -304,6 +304,18 @@ We use Terraform to deploy Grafana Dashboards and Grafana Alerts. The end-to-end
    # Get this from the Discord channel integration settings of #🏦︱reserve-alerts
    discord_alerts_webhook_url_reserve =
 
+   # Get this from the Discord channel integration settings of #🚨︱trading-modes-sepolia
+   discord_alerts_webhook_url_trading_modes_staging =
+
+   # Get this from the Discord channel integration settings of #🚨︱trading-modes-celo
+   discord_alerts_webhook_url_trading_modes_prod =
+
+   # Get this from the Discord channel integration settings of #🚨︱trading-limits-celo
+   discord_alerts_webhook_url_trading_limits =
+
+   # Get this from the Discord channel integration settings of #🚨︱aegis
+   discord_alerts_webhook_url_aegis =
+
    # Get this from the Discord channel integration settings of #alerts-catch-all
    discord_alerts_webhook_url_catch_all =
 
@@ -340,6 +352,37 @@ Grafana uses the following concepts for managing alerts:
 - [**Alert Rules**](https://grafana.com/docs/grafana/latest/alerting/fundamentals/alert-rules/): A set of evaluation criteria for when an alert should trigger
 - [**Contact Points**](https://grafana.com/docs/grafana/latest/alerting/fundamentals/notifications/contact-points/): Alert channels like Discord, Splunk/VictorOps, Email etc.
 - [**Notification Policies**](https://grafana.com/docs/grafana/latest/alerting/fundamentals/notifications/notification-policies/): Routing rules to determine which alerts get routed to what contact points.
+
+#### Current Alerts
+
+**Oracle Relayer Alerts** (`service=oracle-relayers`):
+
+- Stale price feeds (oldest report expired)
+- Low CELO balance for relayer wallets
+- Routed to: Discord channels (`#🚨︱stg-oracle-relayers`, `#🚨︱prod-oracle-relayers`) + VictorOps/Splunk (mainnet only)
+
+**Reserve Balance Alerts** (`service=reserve`):
+
+- Low reserve balances for CELO, USDC, USDT, EUROC
+- Routed to: Discord channel (`#🚨︱reserve`)
+
+**Trading Mode Alerts** (`service=exchanges`):
+
+- Trading halted (circuit breakers tripped)
+- Routed to: Discord channels (`#🚨︱stg-trading-modes`, `#🚨︱prod-trading-modes`)
+
+**Trading Limits Alerts** (`service=trading-limits`):
+
+- **L0 Short-term Limits** (5-minute window): Alerts at 90% utilization → Discord only
+- **L1 Medium-term Limits** (daily window): Alerts at 90% utilization → Discord + VictorOps/Splunk
+- **LG Global Lifetime Limits**: Alerts at 90% utilization → Discord + VictorOps/Splunk
+- Routed to: Discord channel (`#🚨︱trading-limits-celo`) + VictorOps/Splunk (L1 & LG only)
+
+**Aegis Service Alerts** (`service=aegis`):
+
+- Failed RPC calls
+- Service not reporting new data
+- Routed to: Discord channel (`#🚨︱aegis`) + VictorOps/Splunk
 
 ### Terraform Troubleshooting
 

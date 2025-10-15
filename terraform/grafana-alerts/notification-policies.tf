@@ -246,5 +246,37 @@ resource "grafana_notification_policy" "all" {
 
       continue = true
     }
+
+    # Trading Limits Alerts - Splunk On-Call (L1 and LG only)
+    policy {
+      contact_point = grafana_contact_point.splunk_on_call.name
+
+      matcher {
+        label = "service"
+        match = "="
+        value = "trading-limits"
+      }
+
+      matcher {
+        label = "severity"
+        match = "="
+        value = "page"
+      }
+
+      continue = true
+    }
+
+    # Trading Limits Alerts - Discord
+    policy {
+      contact_point = grafana_contact_point.discord_channel_trading_limits.name
+
+      matcher {
+        label = "service"
+        match = "="
+        value = "trading-limits"
+      }
+
+      continue = true
+    }
   }
 }

@@ -61,6 +61,15 @@ locals {
       ],
       title_template   = "discord.aegis_service_alert_title",
       message_template = "discord.aegis_service_alert_message"
+    },
+    trading_limits = {
+      names = [
+        "L0 Trading Limit Alert [Celo]",
+        "L1 Trading Limit Alert [Celo]",
+        "LG Trading Limit Alert [Celo]"
+      ],
+      title_template   = "discord.trading_limits_alert_title",
+      message_template = "discord.trading_limits_alert_message"
     }
   }
   alert_config = {
