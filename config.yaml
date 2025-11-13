@@ -326,7 +326,7 @@ metrics:
       - [XOFUSD]
       - [ZARUSD]
 
-      # # celo/stable (for gas payments)
+      # celo/stable (for gas payments)
       - [CELOAUD]
       - [CELOBRL]
       - [CELOCAD]
@@ -404,7 +404,6 @@ metrics:
       - [RelayerSignerCELOZAR]
       - [RelayerSignerCHFUSD]
       - [RelayerSignerCOPUSD]
-      # We disabled the Mainnet EUROCEUR feed, hence sepolia only has EURUSD
       - [RelayerSignerEUROCEUR]
       - [RelayerSignerEURUSD]
       - [RelayerSignerEURXOF]
