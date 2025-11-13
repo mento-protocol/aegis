@@ -26,6 +26,13 @@ variable "trading_modes_folder" {
   })
 }
 
+variable "aegis_folder" {
+  description = "The Aegis folder in which to create the Aegis service alerts"
+  type = object({
+    uid = string
+  })
+}
+
 variable "discord_alerts_webhook_url_staging" {
   description = "Webhook URL for the Discord channel where alerts for staging oracle relayers are sent"
   type        = string
@@ -58,6 +65,12 @@ variable "discord_alerts_webhook_url_trading_modes_prod" {
 
 variable "discord_alerts_webhook_url_catch_all" {
   description = "Catch-all Webhook URL for the Discord channel where alerts without a configured contact point are sent"
+  type        = string
+  sensitive   = true
+}
+
+variable "discord_alerts_webhook_url_aegis" {
+  description = "Webhook URL for the Discord channel where Aegis service alerts are sent"
   type        = string
   sensitive   = true
 }

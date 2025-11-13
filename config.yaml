@@ -8,6 +8,7 @@ global:
     RelayerSignerCELOAUD: '0x2821d073C30876187198f573Bf544200ff95bf7e'
     RelayerSignerCELOCAD: '0x0faBAd32E6cb81CC20756E65b4df7B2553CFf4eE'
     RelayerSignerCELOCHF: '0x658f09B516801Eb390d150EB601dD11428A03028'
+    RelayerSignerCELOETH: '0x55A93586a5535d1B8E10f2eB5C76b33E558F19e3'
     RelayerSignerCELOCOP: '0xd8dfB551157B0B80D41787C08885e09F994B7cC5'
     RelayerSignerCELOGBP: '0x7924EaC31d10682aa3049E957E3bB72bA3FF4730'
     RelayerSignerCELOGHS: '0x43C9190F712C1f3c923f02073499A97cf8a9348b'
@@ -19,6 +20,7 @@ global:
     RelayerSignerCELOZAR: '0x17C8c519CD32abDE464D4FA19c7461A399eE2c5a'
     RelayerSignerCHFUSD: '0x75bB7BC38Bb886D86B6cBaBfC334B807F6926b7d'
     RelayerSignerCOPUSD: '0x95C365fBE39d9b8002f4683b0Bb6020680D9C4E0'
+    RelayerSignerEUROCEUR: '0xb0491394B775AE9BCf85Fb3835d232cEBe514Cf5'
     RelayerSignerEURUSD: '0x7973B53c09Ec35cdCa71D46b98801ddeD856BB20'
     RelayerSignerEURXOF: '0xDE96A69fAba07A8dfF8Bd9309c245bDf4175d3E7'
     RelayerSignerGBPUSD: '0x8103bE713aa149928D26c1b3873Ee240F8F7429E'
@@ -66,12 +68,14 @@ chains:
       ZARUSD: '0x17ef04Af0c52465694a841552fc2415169b1114c' # keccak(relayed:ZARUSD)
       # dependencies
       EURXOF: '0x40dC8528167557353fdcD98548AB2139A670Dd0b' # keccak(EURXOF)
+
       # celo/stable (for gas)
       CELOAUD: '0x1aA86eAd81936a1E9707c6B4A7AEfb2B4A538B58' # keccak(relayed:CELOAUD)
       CELOBRL: '0xe8537a3d056DA446677B9E9d6c5dB704EaAb4787' # cBRL address
       CELOCAD: '0x15339E57E761F006834893CD5134138339e7bfCb' # keccak(relayed:CELOCAD)
       CELOCHF: '0xD808031cC050CFC81e7609156002361af6a579A6' # keccak(relayed:CELOCHF)
       CELOCOP: '0x32ABF1cBdFdcD56790f427694be2658d4B1A83bC' # keccak(relayed:CELOCOP)
+      CELOETH: '0xF3CAaE71EAc2DA8D78372A62DDb3acdDaf3Df416' # keccack(relayed:CELOETH)
       CELOEUR: '0xD8763CBa276a3738E6DE85b4b3bF5FDed6D6cA73' # cEUR address
       CELOGBP: '0x6732fEF1b6EE8003A06a3D7eECFF1a36550CFDF5' # keccak(relayed:CELOGBP)
       CELOGHS: '0x5AD3817fE11971c1fd79c7D88485af560eD5470C' # keccak(relayed:CELOGHS)
@@ -81,51 +85,7 @@ chains:
       CELOPHP: '0xaFc02368A174Cd08e01c373de6D0B537CECF43C8' # keccak(relayed:CELOPHP)
       CELOXOF: '0x73F93dcc49cB8A239e2032663e9475dd5ef29A08' # eXOF address
       CELOZAR: '0xD064b6CcFF2AE8968bA6725e9A92f3F0431bf5D0' # keccak(relayed:CELOZAR)
-  - id: celoAlfajores
-    label: alfajores
-    httpRpcUrl: https://alfajores-forno.celo-testnet.org
-    contracts:
-      SortedOracles: '0xfdd8bd58115ffbf04e47411c1d228ecc45e93075'
-      BreakerBox: '0xC76BDf0AFb654888728003683cf748A8B1b4f5fD'
-      # trunk-ignore(gitleaks/generic-api-key,checkov/CKV_SECRET_6)
-      CELOToken: '0xF194afDf50B03e69Bd7D057c1Aa9e10c9954E4C9'
-    vars:
-      EUROCEUR: '0x26076B9702885d475ac8c3dB3Bd9F250Dc5A318B' # keccak(EUROCEUR)
-      CELOUSD: '0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1' # cUSD address
-      USDCUSD: '0xA1A8003936862E7a15092A91898D69fa8bCE290c' # keccack(USDCUSD)
-      USDTUSD: '0xE06C10C63377cD098b589c0b90314bFb55751558' # keccack(USDTUSD)
-      # stable/stable
-      AUDUSD: '0x646bD504C3864Ea5b8A6B6D25743721f61864A07' # keccak(relayed:AUDUSD)
-      BRLUSD: '0x9dB83bE97C82912cB342407dd7b880983052B9c1' # keccak(relayed:BRLUSD)
-      CADUSD: '0x20869cF54Ead821C45DFb2aB0C23d2e10Fbb65A4' # keccak(relayed:CADUSD)
-      CHFUSD: '0x0f61BA9c30ef7CaEE7E5CC1F96BFFCb0f52ccD64' # keccak(relayed:CHFUSD)
-      COPUSD: '0x0196D1F4FdA21fA442e53EaF18Bf31282F6139F1' # keccak(relayed:COPUSD)
-      EURUSD: '0xF4f9bBdA9CD6841fCB9b1510f9269E2dB42a6e3a' # keccak(relayed:EURUSD)
-      GBPUSD: '0xf590b62f9cfcc6409075b1ecAc8176fe25744B88' # keccak(relayed:GBPUSD)
-      GHSUSD: '0x44D99a013a0DAdbB4C06F9Cc9397BFd3AC12b017' # keccak(relayed:GHSUSD)
-      JPYUSD: '0xFDE35B45cBd2504FB5dC514F007bC2DE27034274' # keccak(relayed:JPYUSD)
-      KESUSD: '0xbAcEE37d31b9f022Ef5d232B9fD53F05a531c169' # keccak(relayed:KESUSD)
-      NGNUSD: '0xC13D42556f1baeab4a8600C735afcd5344048d3C' # keccak(relayed:NGNUSD)
-      PHPUSD: '0xab921d6ab1057601A9ae19879b111fC381a2a8E9' # keccak(relayed:PHPUSD)
-      XOFUSD: '0x43620310c2FEADbFEcFd71b5A93E6e28946d64a5' # keccak(relayed:XOFUSD)
-      ZARUSD: '0x17ef04Af0c52465694a841552fc2415169b1114c' # keccak(relayed:ZARUSD)
-      # dependencies
-      EURXOF: '0x40dC8528167557353fdcD98548AB2139A670Dd0b' # keccak(EURXOF)
-      # celo/stable (for gas)
-      CELOAUD: '0x1aA86eAd81936a1E9707c6B4A7AEfb2B4A538B58' # keccak(relayed:CELOAUD)
-      CELOBRL: '0xE4D517785D091D3c54818832dB6094bcc2744545' # cREAL address
-      CELOCAD: '0x15339E57E761F006834893CD5134138339e7bfCb' # keccak(relayed:CELOCAD)
-      CELOCHF: '0xD808031cC050CFC81e7609156002361af6a579A6' # keccak(relayed:CELOCHF)
-      CELOCOP: '0x32ABF1cBdFdcD56790f427694be2658d4B1A83bC' # keccak(relayed:CELOCOP)
-      CELOEUR: '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F' # cEUR address
-      CELOGBP: '0x6732fEF1b6EE8003A06a3D7eECFF1a36550CFDF5' # keccak(relayed:CELOGBP)
-      CELOGHS: '0x5AD3817fE11971c1fd79c7D88485af560eD5470C' # keccak(relayed:CELOGHS)
-      CELOJPY: '0xd5800BbeC4Fb58b549C8de50635654E919c3Cd5D' # keccak(relayed:CELOJPY)
-      CELOKES: '0x1E0433C1769271ECcF4CFF9FDdD515eefE6CdF92' # cKES address
-      CELONGN: '0xd9D1A7FAA5deFe7E0301Ac5363E6ca18eB78c9D7' # keccak(relayed:CELONGN)
-      CELOPHP: '0xaFc02368A174Cd08e01c373de6D0B537CECF43C8' # keccak(relayed:CELOPHP)
-      CELOXOF: '0xB0FA15e002516d0301884059c0aaC0F0C72b019D' # eXOF address
-      CELOZAR: '0xD064b6CcFF2AE8968bA6725e9A92f3F0431bf5D0' # keccak(relayed:CELOZAR)
+
   - id: celoSepolia
     label: celo-sepolia
     httpRpcUrl: https://forno.celo-sepolia.celo-testnet.org
@@ -139,6 +99,7 @@ chains:
       CELOUSD: '0xC443D8C40D321B34f815eaC76a7620FB06F9E8a4' # keccak(CELOUSD)
       USDCUSD: '0xA1A8003936862E7a15092A91898D69fa8bCE290c' # keccack(USDCUSD)
       USDTUSD: '0xE06C10C63377cD098b589c0b90314bFb55751558' # keccack(USDTUSD)
+
       # stable/stable
       AUDUSD: '0x864Ea534d6992F3721000cdB6585b11E7046D5ec' # keccak(AUDUSD)
       BRLUSD: '0xCE1213507c81576759181A2b795f3c9aE5ede6bd' # keccak(BRLUSD)
@@ -154,14 +115,17 @@ chains:
       PHPUSD: '0x341E2A8b5b52B54F1794DDbdD54e433746C65d60' # keccak(PHPUSD)
       XOFUSD: '0xBBc9c6E41E2A402b12992875eDaa0162Ed990212' # keccak(XOFUSD)
       ZARUSD: '0x53F7dC47aB9273C2d83c2Df557F3FcF1e6A9Ee10' # keccak(ZARUSD)
+
       # dependencies
       EURXOF: '0x40dC8528167557353fdcD98548AB2139A670Dd0b' # keccak(EURXOF)
+
       # celo/stable (for gas)
       CELOAUD: '0x13E0145cE3ec72b50b2F5B3E8FACED719941976d' # keccak(CELOAUD)
       CELOBRL: '0x5C1EFDf739883E4B97D879ac149CC0B6FB6978d1' # keccak(CELOBRL)
       CELOCAD: '0x0e51743ccED754f4e718945E524Faf21bb53902C' # keccak(CELOCAD)
       CELOCHF: '0xb2c0010688BC18e10Bea9c68d83309AaB686515A' # keccak(CELOCHF)
       CELOCOP: '0xbEa1FEDf828261cC79ea68f22f7A0A60107498DB' # keccak(CELOCOP)
+      CELOETH: '0x30290065b35ae3cA10DD4e1D2801823d47220128' # keccack(CELOETH)
       CELOEUR: '0x6bAAd73587935d51B14EBB668AC61e562320cBbc' # keccak(CELOEUR)
       CELOGBP: '0x57D8B6da3057Ce2a40f9501f9891BB7388048D98' # keccak(CELOGBP)
       CELOGHS: '0x663F1D38e2c176Ae5A72677E7A36c983321a0595' # keccak(CELOGHS)
@@ -212,6 +176,7 @@ metrics:
       - [CELOUSD] # celo/cUSD
       - [USDCUSD] # usdc/cUSD, axlUSDC/cUSD
       - [USDTUSD] # usdt/cUSD
+
       # stable/stable
       - [AUDUSD]
       - [BRLUSD]
@@ -228,13 +193,14 @@ metrics:
       - [PHPUSD]
       - [XOFUSD]
       - [ZARUSD]
+
       # celo/stable (for gas payments)
       - [CELOAUD]
       - [CELOBRL]
       - [CELOCAD]
       - [CELOCHF]
       - [CELOCOP]
-      - [CELOEUR]
+      - [CELOETH]
       - [CELOEUR]
       - [CELOGBP]
       - [CELOGHS]
@@ -244,44 +210,81 @@ metrics:
       - [CELOPHP]
       - [CELOXOF]
       - [CELOZAR]
+
   # Checks if wallets or contracts of interest have enough CELO to pay for transactions
   - source: CELOToken.balanceOf(address owner)(uint256)
     schedule: 0/10 * * * * *
     type: gauge
-    chains: all
+    chains: [celo]
     variants:
       # Do signer wallets have enough CELO to pay for relay() transactions?
-      - [RelayerSignerPHPUSD]
-      - [RelayerSignerCOPUSD]
-      - [RelayerSignerGHSUSD]
-      - [RelayerSignerGBPUSD]
-      - [RelayerSignerZARUSD]
-      - [RelayerSignerCHFUSD]
-      - [RelayerSignerCADUSD]
-      - [RelayerSignerAUDUSD]
-      - [RelayerSignerJPYUSD]
-      - [RelayerSignerNGNUSD]
-      - [RelayerSignerEURUSD]
-      - [RelayerSignerBRLUSD]
-      - [RelayerSignerXOFUSD]
-      - [RelayerSignerCELOPHP]
-      - [RelayerSignerCELOCOP]
-      - [RelayerSignerCELOGHS]
-      - [RelayerSignerCELOGBP]
-      - [RelayerSignerCELOZAR]
-      - [RelayerSignerCELOCHF]
-      - [RelayerSignerCELOCAD]
-      - [RelayerSignerCELOAUD]
-      - [RelayerSignerCELOJPY]
-      - [RelayerSignerCELONGN]
-      - [RelayerSignerCELOXOF]
-      - [RelayerSignerCELOKES]
-      - [RelayerSignerEURXOF]
-      - [RelayerSignerKESUSD]
-      - [RelayerSignerUSDTUSD]
-
       # Does the reserve have enough CELO for swap operations?
+      - [RelayerSignerAUDUSD]
+      - [RelayerSignerBRLUSD]
+      - [RelayerSignerCADUSD]
+      - [RelayerSignerCELOAUD]
+      - [RelayerSignerCELOCAD]
+      - [RelayerSignerCELOCHF]
+      - [RelayerSignerCELOETH]
+      - [RelayerSignerCELOCOP]
+      - [RelayerSignerCELOGBP]
+      - [RelayerSignerCELOGHS]
+      - [RelayerSignerCELOJPY]
+      - [RelayerSignerCELOKES]
+      - [RelayerSignerCELONGN]
+      - [RelayerSignerCELOPHP]
+      - [RelayerSignerCELOXOF]
+      - [RelayerSignerCELOZAR]
+      - [RelayerSignerCHFUSD]
+      - [RelayerSignerCOPUSD]
+      - [RelayerSignerEURUSD]
+      - [RelayerSignerEURXOF]
+      - [RelayerSignerGBPUSD]
+      - [RelayerSignerGHSUSD]
+      - [RelayerSignerJPYUSD]
+      - [RelayerSignerKESUSD]
+      - [RelayerSignerNGNUSD]
+      - [RelayerSignerPHPUSD]
+      - [RelayerSignerUSDTUSD]
+      - [RelayerSignerXOFUSD]
+      - [RelayerSignerZARUSD]
       - [Reserve]
+
+  # We disabled the Mainnet EUROCEUR feed, hence sepolia only
+  - source: CELOToken.balanceOf(address owner)(uint256)
+    schedule: 0/10 * * * * *
+    type: gauge
+    chains: [celoSepolia]
+    variants:
+      - [RelayerSignerAUDUSD]
+      - [RelayerSignerBRLUSD]
+      - [RelayerSignerCADUSD]
+      - [RelayerSignerCELOAUD]
+      - [RelayerSignerCELOCAD]
+      - [RelayerSignerCELOCHF]
+      - [RelayerSignerCELOCOP]
+      - [RelayerSignerCELOGBP]
+      - [RelayerSignerCELOGHS]
+      - [RelayerSignerCELOJPY]
+      - [RelayerSignerCELOKES]
+      - [RelayerSignerCELONGN]
+      - [RelayerSignerCELOPHP]
+      - [RelayerSignerCELOXOF]
+      - [RelayerSignerCELOZAR]
+      - [RelayerSignerCHFUSD]
+      - [RelayerSignerCOPUSD]
+      - [RelayerSignerEUROCEUR]
+      - [RelayerSignerEURUSD]
+      - [RelayerSignerEURXOF]
+      - [RelayerSignerGBPUSD]
+      - [RelayerSignerGHSUSD]
+      - [RelayerSignerJPYUSD]
+      - [RelayerSignerKESUSD]
+      - [RelayerSignerNGNUSD]
+      - [RelayerSignerPHPUSD]
+      - [RelayerSignerUSDTUSD]
+      - [RelayerSignerXOFUSD]
+      - [RelayerSignerZARUSD]
 
   # Does the reserve have enough USDC for swap operations?
   - source: USDC.balanceOf(address owner)(uint256)
