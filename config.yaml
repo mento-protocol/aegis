@@ -40,6 +40,7 @@ chains:
     contracts:
       SortedOracles: '0xefb84935239dacdecf7c5ba76d8de40b077b7b33'
       BreakerBox: '0x303ED1df62Fa067659B586EbEe8De0EcE824Ab39'
+      Broker: '0x777A8255cA72412f0d706dc03C9D1987306B4CaD'
       # trunk-ignore(gitleaks/generic-api-key,checkov/CKV_SECRET_6)
       CELOToken: '0x471ece3750da237f93b8e339c536989b8978a438'
       USDT: '0x48065fbbe25f71c9282ddf5e1cd6d6a887483d5e' # https://tether.to/en/supported-protocols
@@ -86,12 +87,50 @@ chains:
       CELOXOF: '0x73F93dcc49cB8A239e2032663e9475dd5ef29A08' # eXOF address
       CELOZAR: '0xD064b6CcFF2AE8968bA6725e9A92f3F0431bf5D0' # keccak(relayed:CELOZAR)
 
+      # Trading Limit IDs (for Broker.tradingLimitsState)
+      # Format: [POOL]_POOL_[TOKEN]_LIMIT
+      CUSD_CGHS_POOL_CUSD_LIMIT: '0x3562f9d29eba092b857480a85d5edf4ebd9f33d331bb423287c1d0bca883a9ad'
+      CUSD_CGHS_POOL_CGHS_LIMIT: '0x3562f9d29eba092b857480a8d1e9686c3d7cf039575c465715d230d14a0ef294'
+      CUSD_CGBP_POOL_CUSD_LIMIT: '0x6c369bfb1598b2f7718671226d98ccdecc2cccf98d9ffe07339a8f38df93cae4'
+      CUSD_CGBP_POOL_CGBP_LIMIT: '0x6c369bfb1598b2f771867122d7334779b765af91dca3072b1e5a80e06386e588'
+      CUSD_CZAR_POOL_CUSD_LIMIT: '0x4206e101b13bf29e40b2bfed3aac8f31981906907ad712d9487ad7c6427029e1'
+      CUSD_CZAR_POOL_CZAR_LIMIT: '0x4206e101b13bf29e40b2bfed00c4e21d270f0308f2941aa60d4c73d116800a3d'
+      CUSD_CAUD_POOL_CUSD_LIMIT: '0xd580d237231109e6a96d67d8520d890ae552e1bd7c43f0310aa0b49468fbbded'
+      CUSD_CAUD_POOL_CAUD_LIMIT: '0xd580d237231109e6a96d67d855253150245af6ab7a62ae692295e92e51be073e'
+      CUSD_CELO_POOL_CUSD_LIMIT: '0x3135b662c38265d06551770969468c6dcbb730f659f590a04c469913fe222506'
+      AXLEUROC_CEUR_POOL_CEUR_LIMIT: '0xfca6d94b46122eb9a4b86cf90b97d4ecd9c29f1e3622a371094e239d2d79c53b'
+      AXLEUROC_CEUR_POOL_AXLEUROC_LIMIT: '0xfca6d94b46122eb9a4b86cf9d5fd2df436cb48e71bbc66c36fa8a75b58e37965'
+      CUSD_CCHF_POOL_CUSD_LIMIT: '0x3ddbc61433314a4b7d3cbb56d65c145a44a9b4ca3e167f97f74960a2e0bdccd6'
+      CUSD_CCHF_POOL_CCHF_LIMIT: '0x3ddbc61433314a4b7d3cbb56155b85bf58168cc958a63a4fc3cd38d6dfe2f7e1'
+      CUSD_CNGN_POOL_CUSD_LIMIT: '0x67a5122dab72931be57196e0dde7697f803992c0e6450739e8c587927d382ee6'
+      CUSD_CNGN_POOL_CNGN_LIMIT: '0x67a5122dab72931be57196e049caaab07a82cfaf749602b569c9dc6a4f2e69bd'
+      CUSD_CKES_POOL_CUSD_LIMIT: '0x89de88b8eb790de26f4649f5359680855d6e5420728979de2b9d80da43bc01a1'
+      CUSD_CKES_POOL_CKES_LIMIT: '0x89de88b8eb790de26f4649f506a15597f53b88fa9d91d1f6e0ab13417e5e995b'
+      CUSD_USDC_POOL_CUSD_LIMIT: '0xacc988382b66ee5456086643aaa0724a2065b91372d313837286e318ab0dd7fd'
+      CUSD_AXLUSDC_POOL_CUSD_LIMIT: '0x0d739efbfc30f303e8d1976c5766a85601557b135532b3e04b032e6e458c070a'
+      CUSD_USDT_POOL_CUSD_LIMIT: '0x773bcec109cee923b5e04706721231c0214a7afd3069f93d1446d6c33cec66b1'
+      CUSD_CCAD_POOL_CUSD_LIMIT: '0x517ccc3bcab9f35e2e24143a7a45e1100aa405782e2dba6e941aade88f84e9c4'
+      CUSD_CCAD_POOL_CCAD_LIMIT: '0x517ccc3bcab9f35e2e24143af352b8951f534093451412efbce8e743321ea2cb'
+      CUSD_CPHP_POOL_CUSD_LIMIT: '0x7952984d7278ca3417febf52f701da0f00f450a094f73c8a941b43937201ac39'
+      CUSD_CPHP_POOL_CPHP_LIMIT: '0x7952984d7278ca3417febf529101788a827ed41dbf002bbe0eb578a5d7728968'
+      CUSD_CJPY_POOL_CUSD_LIMIT: '0x7c3b41fbd140c6fb54ff9f8f0d26e483c25e09ca1ec8a2f792b367d8421e4d06'
+      CUSD_CJPY_POOL_CJPY_LIMIT: '0x7c3b41fbd140c6fb54ff9f8fbf25c3b5b5cbee667634271bdf7e8e0a12264b0c'
+      CUSD_CCOP_POOL_CUSD_LIMIT: '0x1c9378bd0973ff313a599d3e899bbcacf1c7ed2bfc7057cc4e5ed5a11aa3bc11'
+      CUSD_CCOP_POOL_CCOP_LIMIT: '0x1c9378bd0973ff313a599d3e75902a9092032a5e1b2121d55eeda17c7c52d5d1'
+      CUSD_CEUR_POOL_CUSD_LIMIT: '0x746455363e8f55d04e0a2cc0368c5b5e229850546c9f96578c2a39c4a1f801e2'
+      CUSD_CEUR_POOL_CEUR_LIMIT: '0x746455363e8f55d04e0a2cc098a78ff281aa068bd064ef421d2e0e82cf9fe3bb'
+      CUSD_CBRL_POOL_CUSD_LIMIT: '0xd11d52b973ddbb983cc2087add971587db9b75eba3bc960de4a6d1e9b5aaf62f'
+      CUSD_CBRL_POOL_CBRL_LIMIT: '0xd11d52b973ddbb983cc2087a439987ac5aaeb04a9ee2f431aa400e75e7b09982'
+      CUSD_EXOF_POOL_CUSD_LIMIT: '0xc9664df358594c5eaf2f410ac52c0ac83ced532d7c33d18ae1d6f12069c57e51'
+      CUSD_EXOF_POOL_EXOF_LIMIT: '0xc9664df358594c5eaf2f410ac088df12f17eb8e9b8361f4dfdf9ec658f86cc73'
+
   - id: celoSepolia
     label: celo-sepolia
     httpRpcUrl: https://forno.celo-sepolia.celo-testnet.org
     contracts:
       SortedOracles: '0xfaa7Ca2B056E60F6733aE75AA0709140a6eAfD20'
       BreakerBox: '0x578bD46003B9D3fd4c3C3f47c98B329562a6a1dE'
+      Broker: '0xB9Ae2065142EB79b6c5EB1E8778F883fad6B07Ba'
       # trunk-ignore(gitleaks/generic-api-key,checkov/CKV_SECRET_6)
       CELOToken: '0x019E1E529200fEf594A93A261141dDDeef92F855'
     vars:
@@ -165,8 +204,101 @@ metrics:
       - [XOFUSD]
       - [ZARUSD]
 
+  # Trading limits state - tracks all three netflow limits
+  # Netflow represents the net amount traded in/out, used to prevent price manipulation
+  # netflow0: short-term L0 limit, netflow1: medium-term L1 limit, netflowGlobal: lifetime limit
+  - source: Broker.tradingLimitsState(bytes32 limitId)(uint32 lastUpdated0,uint32 lastUpdated1,int48 netflow0,int48 netflow1,int48 netflowGlobal)
+    schedule: 0/10 * * * * *
+    type: gauge
+    chains: [celo]
+    variants:
+      # cUSD limits
+      - [CUSD_CAUD_POOL_CUSD_LIMIT]
+      - [CUSD_CBRL_POOL_CUSD_LIMIT]
+      - [CUSD_CCAD_POOL_CUSD_LIMIT]
+      - [CUSD_CCHF_POOL_CUSD_LIMIT]
+      - [CUSD_CCOP_POOL_CUSD_LIMIT]
+      - [CUSD_CEUR_POOL_CUSD_LIMIT]
+      - [CUSD_CGBP_POOL_CUSD_LIMIT]
+      - [CUSD_CGHS_POOL_CUSD_LIMIT]
+      - [CUSD_CJPY_POOL_CUSD_LIMIT]
+      - [CUSD_CKES_POOL_CUSD_LIMIT]
+      - [CUSD_CNGN_POOL_CUSD_LIMIT]
+      - [CUSD_CPHP_POOL_CUSD_LIMIT]
+      - [CUSD_EXOF_POOL_CUSD_LIMIT]
+      - [CUSD_CZAR_POOL_CUSD_LIMIT]
+      - [CUSD_CELO_POOL_CUSD_LIMIT]
+      - [CUSD_USDC_POOL_CUSD_LIMIT]
+      - [CUSD_AXLUSDC_POOL_CUSD_LIMIT]
+      - [CUSD_USDT_POOL_CUSD_LIMIT]
+      # Non-cUSD limits
+      - [CUSD_CAUD_POOL_CAUD_LIMIT]
+      - [CUSD_CBRL_POOL_CBRL_LIMIT]
+      - [CUSD_CCAD_POOL_CCAD_LIMIT]
+      - [CUSD_CCHF_POOL_CCHF_LIMIT]
+      - [CUSD_CCOP_POOL_CCOP_LIMIT]
+      - [CUSD_CEUR_POOL_CEUR_LIMIT]
+      - [CUSD_CGBP_POOL_CGBP_LIMIT]
+      - [CUSD_CGHS_POOL_CGHS_LIMIT]
+      - [CUSD_CJPY_POOL_CJPY_LIMIT]
+      - [CUSD_CKES_POOL_CKES_LIMIT]
+      - [CUSD_CNGN_POOL_CNGN_LIMIT]
+      - [CUSD_CPHP_POOL_CPHP_LIMIT]
+      - [CUSD_EXOF_POOL_EXOF_LIMIT]
+      - [CUSD_CZAR_POOL_CZAR_LIMIT]
+      # axlEUROC/cEUR pool
+      - [AXLEUROC_CEUR_POOL_CEUR_LIMIT]
+      - [AXLEUROC_CEUR_POOL_AXLEUROC_LIMIT]
+
+  # Trading limits configuration - defines the trading limit thresholds
+  # The config changes rarely, so we poll hourly
+  # Returns: timestep0, timestep1 (time windows), limit0, limit1, limitGlobal (thresholds), flags (enabled status)
+  - source: Broker.tradingLimitsConfig(bytes32 limitId)(uint32 timestep0,uint32 timestep1,int48 limit0,int48 limit1,int48 limitGlobal,uint8 flags)
+    schedule: 0 0 * * * *
+    type: gauge
+    chains: [celo]
+    variants:
+      # cUSD limits
+      - [CUSD_CAUD_POOL_CUSD_LIMIT]
+      - [CUSD_CBRL_POOL_CUSD_LIMIT]
+      - [CUSD_CCAD_POOL_CUSD_LIMIT]
+      - [CUSD_CCHF_POOL_CUSD_LIMIT]
+      - [CUSD_CCOP_POOL_CUSD_LIMIT]
+      - [CUSD_CEUR_POOL_CUSD_LIMIT]
+      - [CUSD_CGBP_POOL_CUSD_LIMIT]
+      - [CUSD_CGHS_POOL_CUSD_LIMIT]
+      - [CUSD_CJPY_POOL_CUSD_LIMIT]
+      - [CUSD_CKES_POOL_CUSD_LIMIT]
+      - [CUSD_CNGN_POOL_CUSD_LIMIT]
+      - [CUSD_CPHP_POOL_CUSD_LIMIT]
+      - [CUSD_EXOF_POOL_CUSD_LIMIT]
+      - [CUSD_CZAR_POOL_CUSD_LIMIT]
+      - [CUSD_CELO_POOL_CUSD_LIMIT]
+      - [CUSD_USDC_POOL_CUSD_LIMIT]
+      - [CUSD_AXLUSDC_POOL_CUSD_LIMIT]
+      - [CUSD_USDT_POOL_CUSD_LIMIT]
+      # Non-cUSD limits
+      - [CUSD_CAUD_POOL_CAUD_LIMIT]
+      - [CUSD_CBRL_POOL_CBRL_LIMIT]
+      - [CUSD_CCAD_POOL_CCAD_LIMIT]
+      - [CUSD_CCHF_POOL_CCHF_LIMIT]
+      - [CUSD_CCOP_POOL_CCOP_LIMIT]
+      - [CUSD_CEUR_POOL_CEUR_LIMIT]
+      - [CUSD_CGBP_POOL_CGBP_LIMIT]
+      - [CUSD_CGHS_POOL_CGHS_LIMIT]
+      - [CUSD_CJPY_POOL_CJPY_LIMIT]
+      - [CUSD_CKES_POOL_CKES_LIMIT]
+      - [CUSD_CNGN_POOL_CNGN_LIMIT]
+      - [CUSD_CPHP_POOL_CPHP_LIMIT]
+      - [CUSD_EXOF_POOL_EXOF_LIMIT]
+      - [CUSD_CZAR_POOL_CZAR_LIMIT]
+      # axlEUROC/cEUR pool
+      - [AXLEUROC_CEUR_POOL_CEUR_LIMIT]
+      - [AXLEUROC_CEUR_POOL_AXLEUROC_LIMIT]
+
   # Checks for rate feed freshness
-  - source: SortedOracles.isOldestReportExpired(address rateFeed)(bool,address)
+  # Note: We only care about isExpired in Grafana, but must declare both for proper ABI decoding
+  - source: SortedOracles.isOldestReportExpired(address rateFeed)(bool isExpired,address oracle)
     schedule: 0/10 * * * * *
     type: gauge
     chains: all
@@ -213,7 +345,7 @@ metrics:
 
   # Checks if wallets or contracts of interest have enough CELO to pay for transactions
   - source: CELOToken.balanceOf(address owner)(uint256)
-    schedule: 0/10 * * * * *
+    schedule: 0 * * * * *
     type: gauge
     chains: [celo]
     variants:
@@ -250,9 +382,8 @@ metrics:
       - [RelayerSignerZARUSD]
       - [Reserve]
 
-  # We disabled the Mainnet EUROCEUR feed, hence sepolia only
   - source: CELOToken.balanceOf(address owner)(uint256)
-    schedule: 0/10 * * * * *
+    schedule: 0 * * * * *
     type: gauge
     chains: [celoSepolia]
     variants:

@@ -58,6 +58,16 @@ resource "grafana_contact_point" "discord_channel_aegis" {
   }
 }
 
+resource "grafana_contact_point" "discord_channel_trading_limits" {
+  name = "Discord #🚨|trading-limits-celo"
+
+  discord {
+    url     = var.discord_alerts_webhook_url_trading_limits
+    title   = local.alert_config.title
+    message = local.alert_config.message
+  }
+}
+
 
 # A catch all channel for all alerts and notification policies that don't have a specific contact point defined
 resource "grafana_contact_point" "discord_channel_catch_all" {

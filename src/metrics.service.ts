@@ -60,7 +60,7 @@ export class MetricsService {
     const template = this.templates[templateID];
     const metrics = this.metrics[templateID];
     this.logger.debug(
-      `Refreshing ${metrics.length} metricts for ${template.source.raw}`,
+      `Refreshing ${metrics.length} metrics for ${template.source.raw}`,
     );
     const now = performance.now();
     await Promise.all(metrics.map(this.refreshMetric));
@@ -72,13 +72,11 @@ export class MetricsService {
 
   refreshMetric = async (metric: Metric) => {
     this.logger.debug(`Refreshing metrics ${metric.nameWithLabels}`);
-    let value = await this.queryService.query(metric);
+    const value = await this.queryService.query(metric);
     if (value !== undefined) {
-      // TODO: Add logic for scaling bignumbers
-      value = Number(value);
       metric.update(value);
       this.lastUpdatedAt.setToCurrentTime();
-      this.logger.debug(`${metric.nameWithLabels} = ${value}`);
+      this.logger.debug(`${metric.nameWithLabels} = ${JSON.stringify(value)}`);
     } else {
       this.logger.warn(`${metric.nameWithLabels} could not be refreshed.`);
     }

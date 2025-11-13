@@ -26,6 +26,13 @@ variable "trading_modes_folder" {
   })
 }
 
+variable "trading_limits_folder" {
+  description = "The Trading Limits folder in which to create the Trading Limits alerts"
+  type = object({
+    uid = string
+  })
+}
+
 variable "aegis_folder" {
   description = "The Aegis folder in which to create the Aegis service alerts"
   type = object({
@@ -71,6 +78,12 @@ variable "discord_alerts_webhook_url_catch_all" {
 
 variable "discord_alerts_webhook_url_aegis" {
   description = "Webhook URL for the Discord channel where Aegis service alerts are sent"
+  type        = string
+  sensitive   = true
+}
+
+variable "discord_alerts_webhook_url_trading_limits" {
+  description = "Webhook URL for the Discord channel where trading limits alerts are sent"
   type        = string
   sensitive   = true
 }

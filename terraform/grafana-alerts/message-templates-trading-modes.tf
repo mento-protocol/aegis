@@ -14,7 +14,7 @@ resource "grafana_message_template" "trading_mode_alert_message" {
   template = <<EOT
 {{ define "discord.trading_mode_alert_message" }}
 {{ range .Alerts.Firing -}}
-{{ $rateFeedWithHyphen := reReplaceAll "([A-Z]{4,})([A-Z]{3})" "$1-$2" .Labels.rateFeed -}}
+{{ $rateFeedWithHyphen := reReplaceAll "([A-Z]{3,}?)([A-Z]{3})$" "$1-$2" .Labels.rateFeed -}}
 {{ $chain := .Labels.chain | title -}}
 **🚨 Trading halted for [{{ .Labels.rateFeed }}]({{ .GeneratorURL }}&tab=instances) on {{ $chain }}**{{ if eq $chain "Celo" }}
 - Check the [Circuit Breaker Dashboard](https://dune.com/mento-labs-eng/circuit-breakers) for tripped breakers
@@ -22,7 +22,7 @@ resource "grafana_message_template" "trading_mode_alert_message" {
 {{ end -}}
 
 {{ range .Alerts.Resolved -}}
-{{ $rateFeedWithSlash := reReplaceAll "([A-Z]{4,})([A-Z]{3})" "$1/$2" .Labels.rateFeed -}}
+{{ $rateFeedWithSlash := reReplaceAll "([A-Z]{3,}?)([A-Z]{3})$" "$1/$2" .Labels.rateFeed -}}
 {{ $chain := .Labels.chain | title -}}
 - **✅ Trading resumed for {{ $rateFeedWithSlash }} on {{ $chain }}**
 {{ end -}}

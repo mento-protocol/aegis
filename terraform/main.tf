@@ -32,6 +32,7 @@ module "grafana_alerts" {
   oracle_relayers_folder                           = grafana_folder.oracle_relayers
   reserve_folder                                   = data.grafana_folder.reserve
   trading_modes_folder                             = grafana_folder.trading_modes
+  trading_limits_folder                            = grafana_folder.trading_limits
   aegis_folder                                     = grafana_folder.aegis
   splunk_on_call_alerts_webhook_url                = var.splunk_on_call_alerts_webhook_url
   discord_alerts_webhook_url_staging               = var.discord_alerts_webhook_url_staging
@@ -39,6 +40,7 @@ module "grafana_alerts" {
   discord_alerts_webhook_url_reserve               = var.discord_alerts_webhook_url_reserve
   discord_alerts_webhook_url_trading_modes_staging = var.discord_alerts_webhook_url_trading_modes_staging
   discord_alerts_webhook_url_trading_modes_prod    = var.discord_alerts_webhook_url_trading_modes_prod
+  discord_alerts_webhook_url_trading_limits        = var.discord_alerts_webhook_url_trading_limits
   discord_alerts_webhook_url_catch_all             = var.discord_alerts_webhook_url_catch_all
   discord_alerts_webhook_url_aegis                 = var.discord_alerts_webhook_url_aegis
 }

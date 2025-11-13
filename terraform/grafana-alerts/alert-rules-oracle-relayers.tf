@@ -33,7 +33,7 @@ resource "grafana_rule_group" "oracle_relayers" {
 
         model = jsonencode({
           refId   = "oldestReportStatus"
-          expr    = "SortedOracles_isOldestReportExpired{chain=\"${rule.value}\"}"
+          expr    = "SortedOracles_isOldestReportExpired_isExpired{chain=\"${rule.value}\"}"
           instant = true
         })
       }

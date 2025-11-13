@@ -1,19 +1,19 @@
 locals {
   reserve_panels = [
     {
-      id      = 3 * length(local.chains) + 8
+      id      = local.reserve_id_start
       type    = "row"
       title   = "Reserve"
-      gridPos = { x = 0, y = 57, h = 1, w = 24 }
+      gridPos = { x = 0, y = local.reserve_y_start, h = 1, w = 24 }
     },
     merge(local.common_panel_config, {
-      id          = 3 * length(local.chains) + 9
+      id          = local.reserve_id_start + 1
       type        = "timeseries"
       title       = "Reserve Token Balances [celo]"
       description = "USDC, USDT, axlUSDC, and CELO balances of the Reserve (0x9380fA34Fd9e4Fd14c06305fd7B6199089eD4eb9)."
       gridPos = {
         x = 0,
-        y = 58,
+        y = local.reserve_y_start + 1,
         h = 16,
         w = 24
       }
