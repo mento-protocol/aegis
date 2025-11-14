@@ -196,6 +196,20 @@ export class Metric {
         }
         return Number(balanceInEther);
 
+      case 'SortedOracles.medianRate':
+        // Returns (rate, denominator) from SortedOracles
+        // rate is typically multiplied by denominator (usually 1e24)
+        // We need to return rate / denominator to get the actual exchange rate
+        const [rate, denominator] = output as [bigint, bigint];
+        if (denominator === 0n) {
+          throw new Error('medianRate denominator is zero');
+        }
+        // Calculate the actual rate as a decimal
+        // For safety, we convert to number after division to maintain precision
+        const actualRate = Number(rate) / Number(denominator);
+        // Return rate and denominator separately for flexibility in Grafana
+        return [actualRate, Number(denominator)];
+
       case 'SortedOracles.isOldestReportExpired':
         const [isExpired] = output as [boolean, bigint];
         // Returns array: [isExpired as number, 0 for oracle address]
@@ -239,6 +253,32 @@ export class Metric {
           // uint8: 0 to 2^8 - 1
           this.validateSolidityType(flags, 'uint8'),
         ];
+
+      case 'cUSD.totalSupply':
+      case 'cEUR.totalSupply':
+      case 'cREAL.totalSupply':
+      case 'eXOF.totalSupply':
+      case 'cKES.totalSupply':
+      case 'PUSO.totalSupply':
+      case 'cCOP.totalSupply':
+      case 'cGHS.totalSupply':
+      case 'cGBP.totalSupply':
+      case 'cZAR.totalSupply':
+      case 'cCAD.totalSupply':
+      case 'cAUD.totalSupply':
+      case 'cCHF.totalSupply':
+      case 'cNGN.totalSupply':
+      case 'cJPY.totalSupply':
+        // All stable tokens have 18 decimals
+        const decimals18 = 1e18;
+        const totalSupply = output as bigint;
+        const totalSupplyInEther = totalSupply / BigInt(decimals18);
+        if (totalSupplyInEther > Number.MAX_SAFE_INTEGER) {
+          throw new Error(
+            `Value ${totalSupplyInEther} is too large to be a safe integer`,
+          );
+        }
+        return Number(totalSupplyInEther);
 
       default:
         throw new Error(

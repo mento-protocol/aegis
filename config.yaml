@@ -46,6 +46,22 @@ chains:
       USDT: '0x48065fbbe25f71c9282ddf5e1cd6d6a887483d5e' # https://tether.to/en/supported-protocols
       USDC: '0xceba9300f2b948710d2653dd7b07f33a8b32118c' # https://www.circle.com/en/multi-chain-usdc/celo
       axlUSDC: '0xeb466342c4d449bc9f53a865d5cb90586f405215'
+      # Stable tokens for totalSupply tracking
+      cUSD: '0x765DE816845861e75A25fCA122bb6898B8B1282a'
+      cEUR: '0xD8763CBa276a3738E6DE85b4b3bF5FDed6D6cA73'
+      cREAL: '0xe8537a3d056DA446677B9E9d6c5dB704EaAb4787'
+      eXOF: '0x73F93dcc49cB8A239e2032663e9475dd5ef29A08'
+      cKES: '0x456a3D042C0DbD3db53D5489e98dFb038553B0d0'
+      PUSO: '0x105d4A9306D2E55a71d2Eb95B81553AE1dC20d7B'
+      cCOP: '0x8A567e2aE79CA692Bd748aB832081C45de4041eA'
+      cGHS: '0xfAeA5F3404bbA20D3cc2f8C4B0A888F55a3c7313'
+      cGBP: '0xCCF663b1fF11028f0b19058d0f7B674004a40746'
+      cZAR: '0x4c35853A3B4e647fD266f4de678dCc8fEC410BF6'
+      cCAD: '0xff4Ab19391af240c311c54200a492233052B6325'
+      cAUD: '0x7175504C455076F15c04A2F90a8e352281F492F9'
+      cCHF: '0xb55a79F398E759E43C95b979163f30eC87Ee131D'
+      cNGN: '0xE2702Bd97ee33c88c8f6f92DA3B733608aa76F71'
+      cJPY: '0xc45eCF20f3CD864B32D9794d6f76814aE8892e20'
     vars:
       # collateral/stable
       EUROCEUR: '0x26076B9702885d475ac8c3dB3Bd9F250Dc5A318B' # keccak(EUROCEUR)
@@ -296,6 +312,29 @@ metrics:
       - [AXLEUROC_CEUR_POOL_CEUR_LIMIT]
       - [AXLEUROC_CEUR_POOL_AXLEUROC_LIMIT]
 
+  # Fetch actual median exchange rates from oracles
+  # Returns (rate, denominator) - rate is the exchange rate multiplied by denominator (usually 1e24)
+  - source: SortedOracles.medianRate(address token)(uint256 rate,uint256 denominator)
+    schedule: 0 * * * * *
+    type: gauge
+    chains: [celo]
+    variants:
+      # stable/stable rate feeds for USD conversion
+      - [AUDUSD]
+      - [BRLUSD]
+      - [CADUSD]
+      - [CHFUSD]
+      - [COPUSD]
+      - [EURUSD]
+      - [GBPUSD]
+      - [GHSUSD]
+      - [JPYUSD]
+      - [KESUSD]
+      - [NGNUSD]
+      - [PHPUSD]
+      - [XOFUSD]
+      - [ZARUSD]
+
   # Checks for rate feed freshness
   # Note: We only care about isExpired in Grafana, but must declare both for proper ABI decoding
   - source: SortedOracles.isOldestReportExpired(address rateFeed)(bool isExpired,address oracle)
@@ -440,3 +479,109 @@ metrics:
     chains: [celo]
     variants:
       - [Reserve]
+
+  # Track total supply of all stable tokens (once per minute for cost efficiency)
+  - source: cUSD.totalSupply()(uint256)
+    schedule: 0 * * * * *
+    type: gauge
+    chains: [celo]
+    variants:
+      - []
+
+  - source: cEUR.totalSupply()(uint256)
+    schedule: 0 * * * * *
+    type: gauge
+    chains: [celo]
+    variants:
+      - []
+
+  - source: cREAL.totalSupply()(uint256)
+    schedule: 0 * * * * *
+    type: gauge
+    chains: [celo]
+    variants:
+      - []
+
+  - source: eXOF.totalSupply()(uint256)
+    schedule: 0 * * * * *
+    type: gauge
+    chains: [celo]
+    variants:
+      - []
+
+  - source: cKES.totalSupply()(uint256)
+    schedule: 0 * * * * *
+    type: gauge
+    chains: [celo]
+    variants:
+      - []
+
+  - source: PUSO.totalSupply()(uint256)
+    schedule: 0 * * * * *
+    type: gauge
+    chains: [celo]
+    variants:
+      - []
+
+  - source: cCOP.totalSupply()(uint256)
+    schedule: 0 * * * * *
+    type: gauge
+    chains: [celo]
+    variants:
+      - []
+
+  - source: cGHS.totalSupply()(uint256)
+    schedule: 0 * * * * *
+    type: gauge
+    chains: [celo]
+    variants:
+      - []
+
+  - source: cGBP.totalSupply()(uint256)
+    schedule: 0 * * * * *
+    type: gauge
+    chains: [celo]
+    variants:
+      - []
+
+  - source: cZAR.totalSupply()(uint256)
+    schedule: 0 * * * * *
+    type: gauge
+    chains: [celo]
+    variants:
+      - []
+
+  - source: cCAD.totalSupply()(uint256)
+    schedule: 0 * * * * *
+    type: gauge
+    chains: [celo]
+    variants:
+      - []
+
+  - source: cAUD.totalSupply()(uint256)
+    schedule: 0 * * * * *
+    type: gauge
+    chains: [celo]
+    variants:
+      - []
+
+  - source: cCHF.totalSupply()(uint256)
+    schedule: 0 * * * * *
+    type: gauge
+    chains: [celo]
+    variants:
+      - []
+
+  - source: cNGN.totalSupply()(uint256)
+    schedule: 0 * * * * *
+    type: gauge
+    chains: [celo]
+    variants:
+      - []
+
+  - source: cJPY.totalSupply()(uint256)
+    schedule: 0 * * * * *
+    type: gauge
+    chains: [celo]
+    variants:
+      - []
