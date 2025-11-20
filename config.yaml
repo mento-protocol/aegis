@@ -480,107 +480,109 @@ metrics:
     variants:
       - [Reserve]
 
-  # Track total supply of all stable tokens (once per minute for cost efficiency)
+  ################################
+  # Stable token supply tracking #
+  ################################
   - source: cUSD.totalSupply()(uint256)
-    schedule: 0 * * * * *
+    schedule: 0 0 * * * *
     type: gauge
     chains: [celo]
     variants:
       - []
 
   - source: cEUR.totalSupply()(uint256)
-    schedule: 0 * * * * *
+    schedule: 0 0 * * * *
     type: gauge
     chains: [celo]
     variants:
       - []
 
   - source: cREAL.totalSupply()(uint256)
-    schedule: 0 * * * * *
+    schedule: 0 0 * * * *
     type: gauge
     chains: [celo]
     variants:
       - []
 
   - source: eXOF.totalSupply()(uint256)
-    schedule: 0 * * * * *
+    schedule: 0 0 * * * *
     type: gauge
     chains: [celo]
     variants:
       - []
 
   - source: cKES.totalSupply()(uint256)
-    schedule: 0 * * * * *
+    schedule: 0 0 * * * *
     type: gauge
     chains: [celo]
     variants:
       - []
 
   - source: PUSO.totalSupply()(uint256)
-    schedule: 0 * * * * *
+    schedule: 0 0 * * * *
     type: gauge
     chains: [celo]
     variants:
       - []
 
   - source: cCOP.totalSupply()(uint256)
-    schedule: 0 * * * * *
+    schedule: 0 0 * * * *
     type: gauge
     chains: [celo]
     variants:
       - []
 
   - source: cGHS.totalSupply()(uint256)
-    schedule: 0 * * * * *
+    schedule: 0 0 * * * *
     type: gauge
     chains: [celo]
     variants:
       - []
 
   - source: cGBP.totalSupply()(uint256)
-    schedule: 0 * * * * *
+    schedule: 0 0 * * * *
     type: gauge
     chains: [celo]
     variants:
       - []
 
   - source: cZAR.totalSupply()(uint256)
-    schedule: 0 * * * * *
+    schedule: 0 0 * * * *
     type: gauge
     chains: [celo]
     variants:
       - []
 
   - source: cCAD.totalSupply()(uint256)
-    schedule: 0 * * * * *
+    schedule: 0 0 * * * *
     type: gauge
     chains: [celo]
     variants:
       - []
 
   - source: cAUD.totalSupply()(uint256)
-    schedule: 0 * * * * *
+    schedule: 0 0 * * * *
     type: gauge
     chains: [celo]
     variants:
       - []
 
   - source: cCHF.totalSupply()(uint256)
-    schedule: 0 * * * * *
+    schedule: 0 0 * * * *
     type: gauge
     chains: [celo]
     variants:
       - []
 
   - source: cNGN.totalSupply()(uint256)
-    schedule: 0 * * * * *
+    schedule: 0 0 * * * *
     type: gauge
     chains: [celo]
     variants:
       - []
 
   - source: cJPY.totalSupply()(uint256)
-    schedule: 0 * * * * *
+    schedule: 0 0 * * * *
     type: gauge
     chains: [celo]
     variants:
