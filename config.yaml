@@ -223,7 +223,14 @@ metrics:
   # Trading limits state - tracks all three netflow limits
   # Netflow represents the net amount traded in/out, used to prevent price manipulation
   # netflow0: short-term L0 limit, netflow1: medium-term L1 limit, netflowGlobal: lifetime limit
-  - source: Broker.tradingLimitsState(bytes32 limitId)(uint32 lastUpdated0,uint32 lastUpdated1,int48 netflow0,int48 netflow1,int48 netflowGlobal)
+  - source: >-
+      Broker.tradingLimitsState(bytes32 limitId)(
+        uint32 lastUpdated0,
+        uint32 lastUpdated1,
+        int48 netflow0,
+        int48 netflow1,
+        int48 netflowGlobal
+      )
     schedule: 0/10 * * * * *
     type: gauge
     chains: [celo]
@@ -269,7 +276,15 @@ metrics:
   # Trading limits configuration - defines the trading limit thresholds
   # The config changes rarely, so we poll hourly
   # Returns: timestep0, timestep1 (time windows), limit0, limit1, limitGlobal (thresholds), flags (enabled status)
-  - source: Broker.tradingLimitsConfig(bytes32 limitId)(uint32 timestep0,uint32 timestep1,int48 limit0,int48 limit1,int48 limitGlobal,uint8 flags)
+  - source: >-
+      Broker.tradingLimitsConfig(bytes32 limitId)(
+        uint32 timestep0,
+        uint32 timestep1,
+        int48 limit0,
+        int48 limit1,
+        int48 limitGlobal,
+        uint8 flags
+      )
     schedule: 0 0 * * * *
     type: gauge
     chains: [celo]

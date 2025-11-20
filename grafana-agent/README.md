@@ -1,8 +1,10 @@
-### Grafana agent
+# Grafana Agent
+
+## Overview
 
 The grafana agent pushes the prometheus metrics to grafana. This folder contains the deployment logic for the grafana-agent as an app engine service.
 
-### Deployment
+## Deployment
 
 - agent.yaml.tml - Template of the agent.yaml configuration file for the grafana-agent, it contains variables that need to be replaced with secrets during deployment.
 - template-agent.sh - Script that turns agent.yaml.tml into agent.yaml, replacing variables with values from the environment.
@@ -10,7 +12,7 @@ The grafana agent pushes the prometheus metrics to grafana. This folder contains
 - cloudbuild.yaml - Google Cloud Build Configuration that prepares and executs the deployment.
 - grafana-agent.yaml - The runtime configuration of the app engine service
 
-#### Deployment flow
+### Deployment flow
 
 Requirements: `gcloud` is setup locally and pointing to the `mento-prod` project.
 

@@ -54,7 +54,7 @@ pnpm install
 pnpm start
 
 # run a dev server with hot reload
-pnpm run start:dev
+pnpm dev
 
 # run in prod mode
 pnpm run start:prod
