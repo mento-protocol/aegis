@@ -52,6 +52,7 @@ lint:
         config_path: .trunk/configs/.yamllint.yaml
 actions:
   enabled:
+    - test-pre-push
     - commitlint
     - trunk-announce
     - trunk-check-pre-push
