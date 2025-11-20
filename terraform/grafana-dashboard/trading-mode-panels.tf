@@ -3,6 +3,7 @@ locals {
   trading_mode_id_start              = 1
   oracle_relayer_id_start            = 100
   reserve_id_start                   = 200
+  stable_token_supply_id_start       = 250
   trading_limits_id_start            = 300
   aegis_system_verification_id_start = 400
 
@@ -13,7 +14,9 @@ locals {
   oracle_relayer_height             = 29 # 1 (row) + 20 (freshness) + 8 (balances)
   reserve_y_start                   = local.oracle_relayer_y_start + local.oracle_relayer_height
   reserve_height                    = 17 # 1 (row) + 16 (panel)
-  trading_limits_y_start            = local.reserve_y_start + local.reserve_height
+  stable_token_supply_y_start       = local.reserve_y_start + local.reserve_height
+  stable_token_supply_height        = 17 # 1 (row) + 16 (both panels side-by-side)
+  trading_limits_y_start            = local.stable_token_supply_y_start + local.stable_token_supply_height
   trading_limits_height             = 25 # 1 (row) + 12 (L0) + 12 (Global)
   aegis_system_verification_y_start = local.trading_limits_y_start + local.trading_limits_height
 

@@ -17,20 +17,26 @@ export const MetricSource = z.string().transform((signature, ctx) => {
     type: 'function',
     name: functionName,
     stateMutability: 'view',
-    inputs: inputs.split(',').map((input, index) => {
-      const [type, name] = input.split(' ');
-      return {
-        type,
-        name: name ? name : `in${index}`,
-      };
-    }),
-    outputs: outputs.split(',').map((output, index) => {
-      const [type, name] = output.split(' ');
-      return {
-        type,
-        name: name ? name : `out${index}`,
-      };
-    }),
+    inputs:
+      inputs.trim() === ''
+        ? []
+        : inputs.split(',').map((input, index) => {
+            const [type, name] = input.split(' ');
+            return {
+              type,
+              name: name ? name : `in${index}`,
+            };
+          }),
+    outputs:
+      outputs.trim() === ''
+        ? []
+        : outputs.split(',').map((output, index) => {
+            const [type, name] = output.split(' ');
+            return {
+              type,
+              name: name ? name : `out${index}`,
+            };
+          }),
   };
   return { contract, functionAbi, raw: signature };
 });
