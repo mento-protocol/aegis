@@ -9,9 +9,9 @@
     "build": "nest build",
     "deploy": "./bin/deploy.sh",
     "dev": "nest start --watch",
-    "format": "prettier --write \"src/**/*\"",
+    "format": "trunk fmt",
     "grafana": "open $(terraform -chdir=terraform state show module.grafana_dashboard.grafana_dashboard.aegis | grep 'url' | awk -F '\"' '{print $2}')",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "lint": "trunk check --all",
     "logs": "./bin/logs.sh",
     "start": "nest start",
     "start:debug": "nest start --debug --watch",
@@ -22,7 +22,8 @@
     "test:watch": "jest --watch",
     "tf:deploy": "terraform -chdir=terraform apply",
     "tf:destroy": "terraform -chdir=terraform destroy",
-    "tf:init": "terraform -chdir=terraform init"
+    "tf:init": "terraform -chdir=terraform init",
+    "trunk": "trunk"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -61,6 +62,7 @@
     "@nestjs/cli": "^11.0.12",
     "@nestjs/schematics": "^11.0.9",
     "@nestjs/testing": "^11.1.9",
+    "@trunkio/launcher": "^1.0.0",
     "@types/express": "^5.0.5",
     "@types/jest": "^30.0.0",
     "@types/node": "^24.10.1",
