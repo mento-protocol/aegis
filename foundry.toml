@@ -4,4 +4,7 @@ out = "out"
 test = "contracts"
 libs = ["node_modules", "lib"]
 
+[rpc_endpoints]
+celo = "https://forno.celo.org"
+
 # See more config options https://github.com/foundry-rs/foundry/tree/master/config

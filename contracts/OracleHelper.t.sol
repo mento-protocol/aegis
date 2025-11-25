@@ -10,11 +10,12 @@ contract OracleHelperTest is Test {
   address CELOUSD = 0x765DE816845861e75A25fCA122bb6898B8B1282a;
 
   function setUp() public {
+    vm.createSelectFork("celo");
     oracleHelper = new OracleHelper(sortedOracles);
   }
 
   function testDeviation() public {
-    (uint256 deviation, uint256 max) = OracleHelper(oracleHelper).deviation(CELOUSD);
+    (uint256 deviation, uint256 max) = oracleHelper.deviation(CELOUSD);
     assertTrue(deviation < max);
   }
 }
