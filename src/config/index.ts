@@ -9,7 +9,7 @@ import { MetricSource } from './MetricSource';
 const YAML_CONFIG_FILENAME = 'config.yaml';
 
 export const GlobalConfig = z.object({
-  vars: z.record(z.string()),
+  vars: z.record(z.string(), z.string()),
 });
 export type GlobalConfig = z.infer<typeof GlobalConfig>;
 
@@ -18,8 +18,8 @@ export const ChainConfig = z
     id: z.string(),
     label: z.string(),
     httpRpcUrl: z.string(),
-    contracts: z.record(z.string()),
-    vars: z.record(z.string()),
+    contracts: z.record(z.string(), z.string()),
+    vars: z.record(z.string(), z.string()),
   })
   .brand('ChainConfig');
 export type ChainConfig = z.infer<typeof ChainConfig>;

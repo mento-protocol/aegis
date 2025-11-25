@@ -9,7 +9,6 @@ import { Metric } from './metric';
 const makeChain = (chain: ChainConfig): chains.Chain => ({
   id: 0,
   name: chain.id,
-  network: chain.id,
   nativeCurrency: {
     name: chain.id,
     symbol: chain.id,
@@ -30,8 +29,8 @@ export class QueryService {
   queryTime: Histogram;
 
   constructor(configService: ConfigService) {
-    const chains = configService.get<ChainConfig[]>('chains');
-    chains.forEach((chain) => {
+    const chainConfigs = configService.get<ChainConfig[]>('chains');
+    chainConfigs.forEach((chain) => {
       this.chains[chain.id] = chain;
       this.clients[chain.id] = createPublicClient({
         chain: chains[chain.id] || makeChain(chain),

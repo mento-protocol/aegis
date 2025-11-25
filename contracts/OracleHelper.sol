@@ -32,11 +32,7 @@ contract OracleHelper {
      * @param token The rate feed ID for which to calculate the deviation
      */
     function deviation(address token) external view returns (uint256, uint256) {
-        (
-            address[] memory tokens,
-            uint256[] memory rates,
-            ISortedOracles.MedianRelation[] memory medianRelation
-        ) = ISortedOracles(sortedOracles).getRates(token);
+        (,uint256[] memory rates,) = ISortedOracles(sortedOracles).getRates(token);
         if (rates.length == 0) {
             return (0, 0);
         }

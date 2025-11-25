@@ -1,0 +1,8 @@
+{
+  "lib/forge-std": {
+    "rev": "74cfb77e308dd188d2f58864aaf44963ae6b88b1"
+  },
+  "lib/prb-math": {
+    "rev": "77fa88eda4a4a91b3f3e9431df291292c26b6c71"
+  }
+}

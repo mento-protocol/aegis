@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Sometimes Terraform fails to delete Grafana resources. This script offers a workaround to delete them manually via the Grafana API.
-GRAFANA_SERVICE_ACCOUNT_TOKEN=$(grep "grafana_service_account_token" terraform/terraform.tfvars | awk -F'"' '{print $2}')
+GRAFANA_SERVICE_ACCOUNT_TOKEN=$(grep "grafana_service_account_token" terraform/terraform.tfvars | awk -F'"' '{print $2}') || true
 
 if [[ -z ${GRAFANA_SERVICE_ACCOUNT_TOKEN} ]]; then
 	echo "Error: Grafana service account token is empty. This script is trying to load it dynamically from terraform.tfvars file. Please make sure that the token is defined in the file."

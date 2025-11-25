@@ -1,3 +1,5 @@
+<!-- trunk-ignore-all(markdownlint/MD041) -->
+
 ### Description
 
 _A few sentences describing the overall effects and goals of the pull request's commits.
