@@ -4,10 +4,11 @@ FROM grafana/agent:v0.35.0
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 CMD wget --no-verbose --tries=1 --spider http://localhost:12345/-/healthy || exit 1
 
 # Create a non-root user for security.
-# `grafana/agent:v0.35.0` is Debian-based, so BusyBox-style `addgroup`/
-# `adduser -D` aren't available — use groupadd/useradd instead.
-RUN groupadd -g 1000 agent && \
-    useradd -u 1000 -g agent -M -s /usr/sbin/nologin agent
+# `grafana/agent:v0.35.0` is Debian-based (BusyBox `addgroup`/`adduser -D`
+# aren't available) AND already uses GID/UID 1000 for its built-in `grafana`
+# account, so we pick 10001 to avoid the collision.
+RUN groupadd -g 10001 agent && \
+    useradd -u 10001 -g agent -M -s /usr/sbin/nologin agent
 
 COPY agent.yaml /etc/agent/agent.yaml
 
