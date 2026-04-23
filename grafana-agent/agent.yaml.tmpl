@@ -20,13 +20,14 @@ metrics:
         # Mento v3 pool metrics exported by the metrics-bridge Cloud Run
         # service (monitoring-monorepo / mento-monitoring GCP project). Polls
         # the Envio indexer every 30s and exports `mento_pool_*` gauges.
-        # `service=v3-pools` label drives the Slack alert-routing policy in
-        # monitoring-monorepo terraform/alerts/.
+        # Producer identity comes from `job="metrics-bridge"` automatically;
+        # no extra labels here. Alert rules in monitoring-monorepo
+        # terraform/alerts/ attach their own `service` label (matching the
+        # existing Aegis alert convention of service = monitored-domain) to
+        # drive Slack routing.
         - job_name: metrics-bridge
           scrape_interval: 30s
           scheme: https
           metrics_path: /metrics
           static_configs:
             - targets: ['metrics-bridge-pxlhqhqvxq-ew.a.run.app']
-              labels:
-                service: v3-pools
