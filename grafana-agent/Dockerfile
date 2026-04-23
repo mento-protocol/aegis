@@ -1,4 +1,3 @@
-# trunk-ignore-all(terrascan/AC_DOCKER_0047)
 FROM grafana/agent:v0.35.0
 
 # Add healthcheck
