@@ -1,6 +1,8 @@
-server:
-  log_level: info
-  http_listen_port: 12345
+# `server` block used to carry `log_level` + `http_listen_port` here; those
+# fields were removed from the static-mode schema in v0.26.0. The image's
+# default CMD already passes `-server.http.address=0.0.0.0:12345` + the
+# log level flags, so the block is unnecessary — and an empty `server:`
+# would fail validation on startup.
 
 metrics:
   wal_directory: /etc/agent/data
