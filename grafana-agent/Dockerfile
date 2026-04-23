@@ -10,7 +10,12 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 CMD wget 
 RUN groupadd -g 10001 agent && \
     useradd -u 10001 -g agent -M -s /usr/sbin/nologin agent
 
-COPY agent.yaml /etc/agent/agent.yaml
+# Prometheus WAL directory (configured in agent.yaml as `wal_directory`).
+# /etc is owned by root, so the non-root `agent` user can't `mkdir` at
+# runtime — pre-create and chown here.
+RUN mkdir -p /etc/agent/data && chown -R agent:agent /etc/agent
+
+COPY --chown=agent:agent agent.yaml /etc/agent/agent.yaml
 
 # Switch to non-root user
 USER agent
