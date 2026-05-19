@@ -3,8 +3,8 @@
 > **Deprecated standalone repository.** Aegis now lives in
 > [`mento-protocol/monitoring-monorepo/aegis`](https://github.com/mento-protocol/monitoring-monorepo/tree/main/aegis).
 > Do not deploy from this repository. Use the monitoring monorepo root commands
-> instead: `pnpm aegis:deploy`, `pnpm aegis:agent:deploy`, and
-> `pnpm aegis:tf:*`.
+> instead: `pnpm aegis:deploy`, `pnpm aegis:agent:deploy`,
+> `pnpm aegis:tf:init`, `pnpm aegis:tf:plan`, and `pnpm aegis:tf:apply`.
 
 > The modern concept of doing something "under someone's aegis" means doing something under the protection of a powerful, knowledgeable, or benevolent source. The word Aegis is identified with protection by a strong force rooted in Greek mythology and adopted by the Romans.
 
@@ -88,20 +88,27 @@ There are three main components you have to think about:
    b. A Prometheus server that ingests the metrics.
 3. (Optional) Helper smart contracts, which do any transformations needed to on-chain data for ingestion by `aegis.`
 
-Deploying `aegis` is done by running
+Do not deploy `aegis` from this standalone repository. Deploy from the
+monitoring monorepo root instead:
 
 ```sh
-pnpm run deploy
+pnpm aegis:deploy
 ```
 
-To deploy the `grafana-agent` follow the instructions in [grafana-agent/README.md](./grafana-agent/README.md)
+Deploy the `grafana-agent` from the monitoring monorepo root as well:
+
+```sh
+pnpm aegis:agent:deploy
+```
 
 ### Deploying Grafana Resources
 
 The [Grafana Dashboard](#grafana-dashboard) and [Grafana Alerts](#grafana-alerts) are managed via Terraform and can be deployed via:
 
 ```sh
-pnpm run tf:deploy
+pnpm aegis:tf:init
+pnpm aegis:tf:plan
+pnpm aegis:tf:apply
 ```
 
 ### How to deploy a new rate feed
@@ -113,10 +120,10 @@ pnpm run tf:deploy
    - Add the new relayer signer as variants to the `CELOToken.balanceOf()` metric
 1. [optional] If it's an FX rate feed with disabled trading on weekends because we don't get new price data on weekends:
    - Add the rate feed name to the `weekend_disabled_feeds` array in [grafana-alerts/locals.tf](./terraform/grafana-alerts/locals.tf#L7)
-1. Test the new config locally by running `pnpm start` and checking for any errors in the logs
-1. After code review, deploy the new config via `pnpm run deploy`
-1. After successful deployment, check the logs for any errors via `pnpm run logs`
-1. Check that the new metrics appear in the Grafana Dashboard: `pnpm run grafana`
+1. Test the new config locally from the monitoring monorepo by running `pnpm aegis:dev` and checking for any errors in the logs
+1. After code review, deploy the new config from the monitoring monorepo via `pnpm aegis:deploy`
+1. After successful deployment, check the logs from the monitoring monorepo via `pnpm aegis:logs`
+1. Check that the new metrics appear in the Grafana Dashboard
    - New rate feeds should be picked up automatically, it might take a few minutes after they show up
 1. Check that new [Oracle Relayer Grafana Alerts](https://clabsmento.grafana.net/alerting/list) have been added for the new Relayer Signer Wallets' CELO Balance
 
@@ -124,7 +131,7 @@ pnpm run tf:deploy
 
 ```bash
 # Tails the logs of the prod aegis app
-pnpm run logs
+pnpm aegis:logs
 ```
 
 ## Configuration
@@ -244,9 +251,9 @@ SortedOracles_isOldestReportExpired{rateFeed="CELOBRL",rateFeedValue="0xe8537a3d
 1. Extend the `switch` statement in the [Metric.parse()](./src/metric.ts) function with the appropriate logic for your view call's contract & function name.
    1. If you already see another `case` for an existing view call using the same logic (i.e. another call returning a simple `uint256`), you can add the function name of your view call to that `case`
    1. If your view call requires new or adjusted logic, add a new `case` for your function name with the appropriate logic
-1. Try out your changes locally by running `npm run dev` and see if the logs output the values you expect
-1. If everything works locally, deploy your changes via `npm run deploy`
-1. After successful deployment, check if everything works as expected by monitoring the logs via `npm run logs`
+1. Try out your changes locally from the monitoring monorepo by running `pnpm aegis:dev` and see if the logs output the values you expect
+1. If everything works locally, deploy your changes from the monitoring monorepo via `pnpm aegis:deploy`
+1. After successful deployment, check if everything works as expected by monitoring the logs from the monitoring monorepo via `pnpm aegis:logs`
 1. Create a new Grafana visualization consuming your newly added metric
    1. If you're not a Grafana expert, the easiest would be to create a new empty dashboard and manually compose your query via the UI. You can also take inspiration from viewing the configuration of existing queries on other dashboards.
 1. Export your new Grafana visualization to Terraform format
@@ -254,7 +261,7 @@ SortedOracles_isOldestReportExpired{rateFeed="CELOBRL",rateFeedValue="0xe8537a3d
    1. From there, it should have the option to export as `JSON`, `YAML`, or `Terraform (HCL)` — pick **Terraform (HCL)**
 1. Add your export to [./terraform/grafana-dashboard/dashboard.tf](./terraform/grafana-dashboard/dashboard.tf) to the appropriate section
    1. Finding the right place can be a bit annoying as the exported config is quite verbose. AI is your friend here. You can copy/paste the existing `dashboard.tf` into your LLM of choice and then ask it to insert your newly exported visualization into the right place.
-1. Deploy your new Grafana visualization into the main Aegis dashboard via `cd terraform && terraform apply`
+1. Deploy your new Grafana visualization from the monitoring monorepo root via `pnpm aegis:tf:plan`, then `pnpm aegis:tf:apply` after review
 1. Ensure that it worked by reviewing the main Aegis dashboard in Grafana
 1. If anything went wrong, roll back your changes to `dashboard.tf` and keep editing until you get it right :)
 
@@ -332,26 +339,25 @@ We use Terraform to deploy Grafana Dashboards and Grafana Alerts. The end-to-end
 1. Check that it's set up correctly
 
    ```sh
-   # You must be inside the ./terraform folder for this command
-   terraform plan
+   pnpm aegis:tf:plan
    ```
 
 ### Grafana Dashboard
 
 ```bash
-# Opens the Aegis Grafana Dashboard in your default browser
-pnpm run grafana
+# Open the Aegis Grafana Dashboard from the monitoring monorepo package
+pnpm --filter @mento-protocol/aegis grafana
 ```
 
 We are using Terraform to deploy a Grafana Dashboard containing visualizations for all configured metrics.
 
-To update the dashboard, you simply make the desired changes in [./terraform/grafana-dashboard](./terraform/grafana-dashboard) and then run `cd terraform && terraform apply` to deploy them.
+To update the dashboard, make the desired changes in `monitoring-monorepo/aegis/terraform/grafana-dashboard`, run `pnpm aegis:tf:plan` from the monitoring monorepo root, then apply with `pnpm aegis:tf:apply` after review.
 
 ### Grafana Alerts
 
 We are using Terraform to deploy Discord and On-Call Alerts based on the Aegis metrics.
 
-To update the alerts, you simply make the desired changes in [./terraform/grafana-alerts](./terraform/grafana-alerts) and then run `cd terraform && terraform apply` to deploy them.
+To update the alerts, make the desired changes in `monitoring-monorepo/aegis/terraform/grafana-alerts`, run `pnpm aegis:tf:plan` from the monitoring monorepo root, then apply with `pnpm aegis:tf:apply` after review.
 
 Grafana uses the following concepts for managing alerts:
 
@@ -398,5 +404,5 @@ At times, we've seen Terraform throw 409s when trying to delete old Grafana Reso
 
 You have two choices when this happens:
 
-1. Nuke everything via `terraform destroy` and re-deploy everything from a clean slate via `terraform apply`
+1. Do not run destructive Terraform commands from this standalone repository. Use the monitoring monorepo Terraform runbook and review a saved plan before any apply.
 2. OR try to manually delete the resources terraform is struggling with via the Grafana API. There is a little helper script that has some example API calls that you can use locally: [grafana-api-interactions.sh](./bin/grafana-api-interactions.sh)
