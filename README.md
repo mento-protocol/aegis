@@ -1,5 +1,11 @@
 # Aegis
 
+> **Deprecated standalone repository.** Aegis now lives in
+> [`mento-protocol/monitoring-monorepo/aegis`](https://github.com/mento-protocol/monitoring-monorepo/tree/main/aegis).
+> Do not deploy from this repository. Use the monitoring monorepo root commands
+> instead: `pnpm aegis:deploy`, `pnpm aegis:agent:deploy`, and
+> `pnpm aegis:tf:*`.
+
 > The modern concept of doing something "under someone's aegis" means doing something under the protection of a powerful, knowledgeable, or benevolent source. The word Aegis is identified with protection by a strong force rooted in Greek mythology and adopted by the Romans.
 
 Aegis is a monitoring tool that exposes the result of on-chain view calls as Prometheus metrics that get ingested into Grafana.
